@@ -18,3 +18,4 @@ schema:
   settings: str
   presets: str
   loglevel: list(INFO|DEBUG|ERROR)
+host_network: true
