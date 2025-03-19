@@ -2,7 +2,7 @@ FROM node:22.14.0-alpine@sha256:9bef0ef1e268f60627da9ba7d7605e8831d5b56ad07487d2
 
 WORKDIR /app
 
-COPY node-sonos /app
+COPY node-sonos-http-api /app
 
 RUN apk add --no-cache curl && \
   mkdir cache && \
