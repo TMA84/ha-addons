@@ -1,0 +1,24 @@
+name: "SONOS KIDS CONTROLLER"
+description: "Container based SONOS kidx controller"
+version: "0.1"
+slug: "sonos_kids_1"
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+url: "hhttps://github.com/TMA84/ha-addons"
+startup: services
+init: false
+options:
+  config: /config/sonos_kids/1/server/config/
+  presets: 502
+  loglevel: "INFO"
+schema:
+  settings: str
+  loglevel: list(INFO|DEBUG|ERROR)
+#host_network: true
+map:
+  - type: homeassistant_config
+    read_only: False
+    path: /custom/config/path

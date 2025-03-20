@@ -10,12 +10,13 @@ arch:
 url: "hhttps://github.com/TMA84/ha-addons"
 startup: services
 init: false
+webui: http://[HOST]:[PORT:5005]/
 options:
-#  settings: "192.168.178.74"
-#  presets: 502
+  settings: /config/settings.json
+  presets: /config/presets
   loglevel: "INFO"
 schema:
-#  settings: str
-#  presets: str
+  settings: str
+  presets: str
   loglevel: list(INFO|DEBUG|ERROR)
 host_network: true
