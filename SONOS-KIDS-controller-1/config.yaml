@@ -11,7 +11,7 @@ url: "hhttps://github.com/TMA84/ha-addons"
 startup: services
 init: false
 options:
-  config: /config/sonos_kids/1/server/config/
+  externalfiles_folder: /config/addons_config/sonos_kids/1/server/config/
   presets: 502
   loglevel: "INFO"
 schema:
