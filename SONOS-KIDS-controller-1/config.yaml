@@ -1,6 +1,6 @@
 name: "SONOS KIDS CONTROLLER"
 description: "Container based SONOS kids controller"
-version: "0.5.1"
+version: "0.5.2"
 slug: "sonos_kids_1"
 arch:
   - aarch64
@@ -17,3 +17,4 @@ schema:
 map:
   - type: addon_config
     read_only: false
+    path: /sonos-kids-controller/server/config/
