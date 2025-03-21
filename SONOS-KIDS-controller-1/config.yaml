@@ -15,7 +15,7 @@ options:
 schema:
   loglevel: list(INFO|DEBUG|ERROR)
 map:
-  - type: addon_config
+  - type: addon_config:rw
     read_only: false
-    path: /sonos-kids-controller/server/config/
+    path: /sonos-kids-controller/server/
 timeout: 300
