@@ -18,3 +18,4 @@ map:
   - type: addon_config
     read_only: false
     path: /sonos-kids-controller/server/config/
+timeout: 300
