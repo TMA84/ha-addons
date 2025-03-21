@@ -14,7 +14,7 @@ RUN npm install
 
 ## Copy source code
 COPY src /sonos-kids-controller
-CMD /bin/ln /config /sonos-kids-controller/server/config
+CMD /bin/ln -s /config /sonos-kids-controller/server/config
 
 ## Build Sonos Kids Controller
 RUN ionic build --prod
@@ -35,7 +35,7 @@ COPY src /sonos-kids-controller
 COPY --from=build /sonos-kids-controller/www/ /sonos-kids-controller/www/
 
 ## Config directory should be stored in a volume
-#VOLUME /sonos-kids-controller/server/config
+VOLUME /sonos-kids-controller/server/config
 
 ## Expose service on port 8200
 EXPOSE 8200
