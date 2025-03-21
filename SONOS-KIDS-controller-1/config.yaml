@@ -19,8 +19,5 @@ schema:
   loglevel: list(INFO|DEBUG|ERROR)
 #host_network: true
 map:
-  - type: homeassistant_config
-    read_only: False
-    path: /custom/config/path
   - name: addon_config:rw
     target: /server/config/
