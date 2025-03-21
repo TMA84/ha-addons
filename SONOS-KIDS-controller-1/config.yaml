@@ -11,13 +11,9 @@ url: "hhttps://github.com/TMA84/ha-addons"
 startup: services
 init: false
 options:
-  externalfiles_folder: /config/addons_config/
-  presets: 502
   loglevel: "INFO"
 schema:
-  settings: str
   loglevel: list(INFO|DEBUG|ERROR)
-#host_network: true
 map:
   - name: addon_config:rw
     target: /server/config/
