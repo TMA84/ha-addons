@@ -1,6 +1,6 @@
 name: "SONOS API"
 description: "Container based SONOS http api"
-version: "0.4"
+version: "0.5"
 slug: "sonos_api"
 arch:
   - aarch64
@@ -20,6 +20,3 @@ schema:
   presets: str
   loglevel: list(INFO|DEBUG|ERROR)
 host_network: true
-map:
-  - addon_config:rw
-  - homeassistant_config:rw
