@@ -1,0 +1,19 @@
+name: "SONOS KIDS CONTROLLER"
+description: "Container based SONOS kids controller"
+version: "0.3"
+slug: "sonos_kids_1"
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+url: "hhttps://github.com/TMA84/ha-addons"
+startup: services
+init: false
+options:
+  loglevel: "INFO"
+schema:
+  loglevel: list(INFO|DEBUG|ERROR)
+#map:
+#  - name: addon_config:rw
+#    target: /server/config/
