@@ -16,4 +16,4 @@ schema:
   loglevel: list(INFO|DEBUG|ERROR)
 map:
   - type: addon_config
-    path: /server/config
+    path: /
