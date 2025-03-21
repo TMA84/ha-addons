@@ -1,5 +1,5 @@
 name: "SONOS KIDS CONTROLLER"
-description: "Container based SONOS kidx controller"
+description: "Container based SONOS kids controller"
 version: "0.3"
 slug: "sonos_kids_1"
 arch:
