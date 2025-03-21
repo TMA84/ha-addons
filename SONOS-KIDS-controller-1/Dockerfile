@@ -1,47 +1,20 @@
-#####
-# Stage 1: Build ionic
-#####
-FROM node:16 as build
+FROM node:22.14.0-alpine@sha256:9bef0ef1e268f60627da9ba7d7605e8831d5b56ad07487d24d1aa386336d1944
 
-WORKDIR /sonos-kids-controller
+WORKDIR /app
 
-## Install ionic
-RUN npm install -g @ionic/cli
+COPY node-sonos-http-api /app
 
-## Install dependencies
-COPY src/package.json /sonos-kids-controller/package.json
-#RUN npm install 
+RUN apk add --no-cache curl && \
+  mkdir cache && \
+  chown -R node:node static cache && \
+  npm install --production && \
+  rm -rf /tmp/* /root/.npm
 
-## Copy source code
-COPY src /sonos-kids-controller
-#CMD /bin/ln -s /config /sonos-kids-controller/server/config
+EXPOSE 5005
 
-## Build Sonos Kids Controller
-#RUN ionic build --prod
+USER node
 
-#####
-# Stage 2: package
-#####
-#FROM node:16-alpine 
+HEALTHCHECK --interval=1m --timeout=2s \
+  CMD curl -LSfs http://localhost:5005/zones || exit 1
 
-#WORKDIR /sonos-kids-controller
-
-## Install dependencies
-COPY src/package.json /sonos-kids-controller/package.json
-#RUN npm install --production
-
-## Copy source code
-COPY src /sonos-kids-controller
-COPY --from=build /sonos-kids-controller/www/ /sonos-kids-controller/www/
-
-## Config directory should be stored in a volume
-#VOLUME /sonos-kids-controller/server/config
-
-## Expose service on port 8200
-#EXPOSE 8200
-
-## Do not run as root user
-#USER node
-
-## Start 
-#CMD npm start
+CMD npm start
