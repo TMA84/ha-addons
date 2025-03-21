@@ -10,38 +10,38 @@ RUN npm install -g @ionic/cli
 
 ## Install dependencies
 COPY src/package.json /sonos-kids-controller/package.json
-RUN npm install 
+#RUN npm install 
 
 ## Copy source code
 COPY src /sonos-kids-controller
-CMD /bin/ln -s /config /sonos-kids-controller/server/config
+#CMD /bin/ln -s /config /sonos-kids-controller/server/config
 
 ## Build Sonos Kids Controller
-RUN ionic build --prod
+#RUN ionic build --prod
 
 #####
 # Stage 2: package
 #####
-FROM node:16-alpine 
+#FROM node:16-alpine 
 
-WORKDIR /sonos-kids-controller
+#WORKDIR /sonos-kids-controller
 
 ## Install dependencies
 COPY src/package.json /sonos-kids-controller/package.json
-RUN npm install --production
+#RUN npm install --production
 
 ## Copy source code
 COPY src /sonos-kids-controller
 COPY --from=build /sonos-kids-controller/www/ /sonos-kids-controller/www/
 
 ## Config directory should be stored in a volume
-VOLUME /sonos-kids-controller/server/config
+#VOLUME /sonos-kids-controller/server/config
 
 ## Expose service on port 8200
-EXPOSE 8200
+#EXPOSE 8200
 
 ## Do not run as root user
-USER node
+#USER node
 
 ## Start 
-CMD npm start
+#CMD npm start
