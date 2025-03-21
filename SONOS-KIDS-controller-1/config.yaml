@@ -15,5 +15,5 @@ options:
 schema:
   loglevel: list(INFO|DEBUG|ERROR)
 map:
-  - type: addon_config:rw
+  - type: addon_config
 #    target: /server/config/
