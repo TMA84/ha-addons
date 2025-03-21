@@ -1,6 +1,6 @@
 name: "SONOS API"
 description: "Container based SONOS http api"
-version: "0.5.1"
+version: "0.5.2"
 slug: "sonos_api"
 arch:
   - aarch64
@@ -20,7 +20,3 @@ schema:
   presets: str
   loglevel: list(INFO|DEBUG|ERROR)
 host_network: true
-map:
-  - type: addon_config
-    read_only: false
-    path: /sonos-kids-controller/server/
