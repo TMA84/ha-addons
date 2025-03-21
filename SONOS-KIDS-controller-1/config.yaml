@@ -1,6 +1,6 @@
 name: "SONOS KIDS CONTROLLER"
 description: "Container based SONOS kids controller"
-version: "0.5.3"
+version: "0.5.4"
 slug: "sonos_kids_1"
 arch:
   - aarch64
