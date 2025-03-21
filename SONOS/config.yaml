@@ -1,6 +1,6 @@
 name: "SONOS API"
 description: "Container based SONOS http api"
-version: "0.3
+version: "0.4"
 slug: "sonos_api"
 arch:
   - aarch64
