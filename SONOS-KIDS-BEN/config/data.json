@@ -1,0 +1,194 @@
+[
+    {
+        "type": "spotify",
+        "artist": "PAW Patrol",
+        "query": "artist:\"PAW Patrol\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Die Supermonster",
+        "query": "artist:\"Die Supermonster\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Peppa Pig",
+        "query": "artist:\"Peppa Pig Hörspiele\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Benjamin Blümchen",
+        "query": "artist:\"Benjamin Blümchen\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Glücksbärchis",
+        "query": "artist:\"Glücksbärchis\""
+    },
+    {
+        "type": "spotify",
+        "artist": "PJ Masks",
+        "query": "artist:\"PJ Masks\" album:\"Folge\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Kikanichen",
+        "query": "artist:\"Kikanichen\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Giraffenaffen",
+        "query": "artist:\"Giraffenaffen\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Dinotrux",
+        "query": "artist:\"Dinotrux\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Feuerwehrmann Sam",
+        "query": "artist:\"Feuerwehrmann Sam\""
+    },
+    {
+        "type": "spotify",
+        "artist": "LEGO Ninjago",
+        "query": "artist:\"LEGO Ninjago\""
+    },
+    {
+        "type": "spotify",
+        "category": "audiobook",
+        "artist": "Helden der Stadt",
+        "query": "artist:\"Helden der Stadt\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Lego City",
+        "query": "artist:\"Lego City\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Weihnachtsmann & Co.KG",
+        "query": "artist:\"Weihnachtsmann & Co.KG\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Snorri",
+        "query": "artist:\"Snorri\" album:\"Folge\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Arthur und die Minimoys",
+        "query": "artist:\"Arthur und die Minimoys\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Die Schule der magischen Tiere",
+        "query": "artist:\"Die Schule der magischen Tiere\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Gigantosaurus",
+        "query": "artist:\"Gigantosaurus\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Die drei ??? Kids",
+        "query": "artist:\"Die drei ??? Kids\""
+    },
+    {
+        "type": "spotify",
+        "artist": "SpongeBob Schwammkopf",
+        "query": "artist:\"SpongeBob Schwammkopf\""
+    },
+    {
+        "type": "spotify",
+        "artist": "LEGO DreamZzz",
+        "query": "artist:\"LEGO DreamZzz\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Axel Scheffler",
+        "query": "artist:\"Axel Scheffler\""
+    },
+    {
+        "type": "spotify",
+        "artist": "TKKG Junior",
+        "query": "artist:\"TKKG Junior\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Playmobil Novelmoe",
+        "query": "artist:\"Playmobil Novelmore\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Schleich Eldorado",
+        "query": "artist:\"Schleich Eldorado\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Mighty Express",
+        "query": "artist:\"Mighty Express\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Idefix und die Unbeugsamen",
+        "query": "artist:\"Idefix und die Unbeugsamen\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Entspannungsgeschichten",
+        "query": "artist:\"Entspannungsgeschichten\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Alvin und die Chipmunks",
+        "query": "artist:\"Alvin und die Chipmunks\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Was ist was",
+        "query": "artist:\"Was ist was\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Die Zauberkicker",
+        "query": "artist:\"Die Zauberkicker\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Dikka",
+        "query": "artist:\"Dikka\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Deine Freunde",
+        "query": "artist:\"Deine Freunde\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Imagine Dragons",
+        "query": "artist:\"Imagine Dragons\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Versengold",
+        "query": "artist:\"Versengold\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Die Prinzen",
+        "query": "artist:\"Die Prinzen\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Wieso? Weshalb? Warum?",
+        "query": "artist:\"Wieso? Weshalb? Warum?\""
+    },
+    {
+        "type": "spotify",
+        "artist": "Teufelskicker",
+        "query": "artist:\"Teufelskicker\""
+    }
+
+]
