@@ -1,6 +1,6 @@
 name: "SONOS-Kids-Controller - Child 1"
 description: "This software can be used to create a touch-based Sonos controller for your kids"
-version: "1.0"
+version: "1.0.1"
 slug: "sonos_kids_controller_1"
 init: false
 arch:
