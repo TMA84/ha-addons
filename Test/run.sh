@@ -25,4 +25,7 @@ ln -s $(bashio::config 'data') /app/Sonos-Kids-Controller/server/config/data.jso
 echo "Generated Config"
 cat /app/Sonos-Kids-Controller/server/config/config.json
 
+echo "Data"
+cat /app/Sonos-Kids-Controller/server/config/data.json
+
 npm start
