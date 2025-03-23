@@ -1,7 +1,7 @@
 {
     "node-sonos-http-api": {
-        "server": "127.0.0.1",
-        "port": "5005",
+        "server": "__SERVER__",
+        "port": "__PORT__",
         "rooms": [
             "__ROOM__"
         ],
