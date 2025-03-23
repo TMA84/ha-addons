@@ -10,3 +10,6 @@
 [submodule "SONOS-Kids-Controller-1/src"]
 	path = SONOS-Kids-Controller-1/src
 	url = https://github.com/Thyraz/Sonos-Kids-Controller.git
+[submodule "SONOS-API/node-sonos-http-api"]
+	path = SONOS-API/node-sonos-http-api
+	url = https://github.com/jishi/node-sonos-http-api.git
