@@ -1,4 +1,4 @@
-ARG BUILD_FROM=ghcr.io/hassio-addons/base-nodejs/amd64:stable
+ARG BUILD_FROM=node:16-alpine 
 FROM $BUILD_FROM
 
 # Set the working directory inside the container
