@@ -1,6 +1,6 @@
 name: "Hello world"
 description: "My first real add-on!"
-version: "1.1.22"
+version: "1.1.23"
 slug: "hello_world"
 init: false
 arch:
@@ -21,9 +21,15 @@ schema:
   room: str
   data: str
 configuration:
-  ClientId:
+  clientid:
     name: Spotify ClientID
     description: Insert your Spotify Client ID
-  ClientSecret:
+  clientsecret:
     name: Spotify Client Secret
     description: Insert your Spotify Client Secret
+  room:
+    name: Room
+    description: Name of the room
+  data:
+    name: Data
+    description: data file to send
