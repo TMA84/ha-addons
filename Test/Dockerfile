@@ -1,6 +1,9 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
+RUN apk update && \
+    apk add --no-cache nodejs npm wget unzip
+
 # Set the working directory inside the container
 WORKDIR /app
 
