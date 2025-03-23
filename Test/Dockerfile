@@ -1,5 +1,9 @@
-ARG BUILD_FROM=node:16-alpine 
+ARG BUILD_FROM
 FROM $BUILD_FROM
+
+RUN apk add --no-cache \
+    nodejs \
+    npm \
 
 # Set the working directory inside the container
 WORKDIR /app
