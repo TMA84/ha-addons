@@ -7,3 +7,6 @@
 [submodule "Test/src"]
 	path = Test/src
 	url = https://github.com/Thyraz/Sonos-Kids-Controller.git
+[submodule "SONOS-Kids-Controller-1/src"]
+	path = SONOS-Kids-Controller-1/src
+	url = https://github.com/Thyraz/Sonos-Kids-Controller.git
