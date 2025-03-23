@@ -1,22 +1,27 @@
 #####
 # Stage 1: Build ionic
 #####
-ARG BUILD_FROM
-FROM $BUILD_FROM
+FROM node:16 as build
 
 WORKDIR /sonos-kids-controller
-
-RUN apk add --update npm
 
 ## Install ionic
 RUN npm install -g @ionic/cli
 
 ## Install dependencies
 COPY src/package.json /sonos-kids-controller/package.json
-RUN npm install
- 
+RUN npm install 
+
 ## Copy source code
 COPY src /sonos-kids-controller
+
+
+RUN cd server/config
+
+RUN cp config-example.json config.json
+## Copy config files
+RUN cp config/config.json /sonos-kids-controller/server/config/config.json
+RUN cp config/data.json /sonos-kids-controller/server/config/data.json   
 
 ## Build Sonos Kids Controller
 RUN ionic build --prod
