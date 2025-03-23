@@ -1,7 +1,7 @@
-name: "SONOS-Kids-Controller - Child 1"
+name: "SONOS-Kids-Controller - Child 2"
 description: "This software can be used to create a touch-based Sonos controller for your kids"
 version: "1.0"
-slug: "sonos_kids_controller_1"
+slug: "sonos_kids_controller_2"
 init: false
 arch:
   - aarch64

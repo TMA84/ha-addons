@@ -1,21 +1,9 @@
-[submodule "SONOS/node-sonos-http-api"]
-	path = SONOS/node-sonos-http-api
-	url = https://github.com/jishi/node-sonos-http-api.git
-[submodule "SONOS-KIDS-BEN/src"]
-	path = SONOS-KIDS-BEN/src
-	url = https://github.com/Thyraz/Sonos-Kids-Controller.git
-[submodule "Test/src"]
-	path = Test/src
-	url = https://github.com/Thyraz/Sonos-Kids-Controller.git
-[submodule "SONOS-Kids-Controller-1/src"]
-	path = SONOS-Kids-Controller-1/src
-	url = https://github.com/Thyraz/Sonos-Kids-Controller.git
 [submodule "SONOS-API/node-sonos-http-api"]
 	path = SONOS-API/node-sonos-http-api
 	url = https://github.com/jishi/node-sonos-http-api.git
-[submodule "SONOS-Kids-Controller-2/ha-addons"]
-	path = SONOS-Kids-Controller-2/ha-addons
-	url = https://github.com/TMA84/ha-addons.git
+[submodule "SONOS-Kids-Controller-1/src"]
+	path = SONOS-Kids-Controller-1/src
+	url = https://github.com/Thyraz/Sonos-Kids-Controller.git
 [submodule "SONOS-Kids-Controller-2/src"]
 	path = SONOS-Kids-Controller-2/src
 	url = https://github.com/Thyraz/Sonos-Kids-Controller.git
