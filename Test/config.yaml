@@ -12,7 +12,6 @@ ports:
   8200/tcp: 8200
 map:
   - config
-    read_only: false
 options:
   clientid: ""
   clientsecret: ""
