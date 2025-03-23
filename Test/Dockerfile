@@ -10,7 +10,7 @@ WORKDIR /app
 
 # Download and unzip the Sonos-Kids-Controller repository
 COPY src /app/Sonos-Kids-Controller/
-COPY config /app/Sonos-Kids-Controller/server/config/ 
+COPY config /app/Sonos-Kids-Controller/server/config
 
 # Install Ionic globally
 RUN npm install -g @ionic/cli
@@ -25,7 +25,7 @@ RUN npm install
 RUN ionic build --prod
 
 # Create the configuration file
-RUN cd server/config && cp config-example.json config.json
+#RUN cd server/config && cp config-example.json config.json
 
 # Copy run script
 COPY run.sh /
