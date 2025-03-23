@@ -3,7 +3,7 @@ FROM $BUILD_FROM
 
 RUN apk add --no-cache \
     nodejs \
-    npm \
+    npm 
 
 # Set the working directory inside the container
 WORKDIR /app
