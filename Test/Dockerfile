@@ -14,7 +14,7 @@ COPY src /app/sonos-kids-controller/
 RUN npm install -g @ionic/cli
 
 # Change directory to the Sonos-Kids-Controller source
-WORKDIR /app/Sonos-Kids-Controller-master
+WORKDIR /app/Sonos-Kids-Controller
 
 # Install project dependencies
 RUN npm install
