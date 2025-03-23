@@ -3,7 +3,7 @@
         "server": "127.0.0.1",
         "port": "5005",
         "rooms": [
-            __ROOM__
+            "__ROOM__"
         ],
         "tts": {
             "enabled": true,
@@ -12,7 +12,7 @@
         }
     },
     "spotify": {
-        "clientId": __CLIENTID__,
-        "clientSecret": __CLIENTSECRET__
+        "clientId": "__CLIENTID__",
+        "clientSecret": "__CLIENTSECRET__"
     }
 }
