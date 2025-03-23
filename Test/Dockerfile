@@ -7,6 +7,8 @@ RUN apk update && \
 # Set the working directory inside the container
 WORKDIR /app
 
+COPY src/package.json /sonos-kids-controller/package.json
+
 # Install Ionic globally
 RUN npm install -g @ionic/cli
 
