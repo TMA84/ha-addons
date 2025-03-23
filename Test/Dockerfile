@@ -25,5 +25,8 @@ RUN ionic build --prod
 # Create the configuration file
 RUN cd server/config && cp config-example.json config.json
 
+## Expose service on port 8200
+EXPOSE 8200
+
 # Define the command to run the application
 CMD ["npm", "start"]
