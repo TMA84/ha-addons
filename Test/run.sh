@@ -22,10 +22,10 @@ sed -i "s/__PORT__/${PORT}/g" /app/Sonos-Kids-Controller/server/config/config.js
 
 ln -s $(bashio::config 'data') /app/Sonos-Kids-Controller/server/config/data.json
 
-echo "Generated Config"
+echo -n "Generated Config"
 cat /app/Sonos-Kids-Controller/server/config/config.json
 
-echo "Data"
+echo -n "Data"
 cat /app/Sonos-Kids-Controller/server/config/data.json
 
 npm start
