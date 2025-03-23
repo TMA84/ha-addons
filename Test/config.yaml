@@ -11,10 +11,10 @@ startup: services
 ports:
   8200/tcp: 8200
 options:
-  ClientId: ""
-  ClientSecret: ""
-  Room: ""
-  Data: ""
+  clientid: ""
+  clientsecret: ""
+  room: ""
+  data: ""
 schema:
   clientid: str
   clientsecret: str
