@@ -1,17 +1,26 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Install requirements for add-on
-RUN \
-  apk add --no-cache \
-    python3
+# Set the working directory inside the container
+WORKDIR /app
 
-# Python 3 HTTP Server serves the current working dir
-# So let's set it to our add-on persistent data directory.
-WORKDIR /data
+# Install Ionic globally
+RUN npm install -g @ionic/cli
 
-# Copy data for add-on
-COPY run.sh /
-RUN chmod a+x /run.sh
+# Download and unzip the Sonos-Kids-Controller repository
+COPY COPY src /sonos-kids-controller/
 
-CMD [ "/run.sh" ]
+# Change directory to the Sonos-Kids-Controller source
+WORKDIR /app/Sonos-Kids-Controller-master
+
+# Install project dependencies
+RUN npm install
+
+# Build the project using Ionic
+RUN ionic build --prod
+
+# Create the configuration file
+RUN cd server/config && cp config-example.json config.json
+
+# Define the command to run the application
+CMD ["npm", "start"]
