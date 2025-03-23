@@ -8,7 +8,7 @@ RUN apk update && \
 WORKDIR /app
 
 # Download and unzip the Sonos-Kids-Controller repository
-COPY src /app/sonos-kids-controller/
+COPY src /app/Sonos-Kids-Controller/
 
 # Install Ionic globally
 RUN npm install -g @ionic/cli
