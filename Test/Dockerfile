@@ -7,13 +7,11 @@ RUN apk update && \
 # Set the working directory inside the container
 WORKDIR /app
 
-COPY src/package.json /sonos-kids-controller/package.json
+# Download and unzip the Sonos-Kids-Controller repository
+COPY src /app/sonos-kids-controller/
 
 # Install Ionic globally
 RUN npm install -g @ionic/cli
-
-# Download and unzip the Sonos-Kids-Controller repository
-COPY src /sonos-kids-controller/
 
 # Change directory to the Sonos-Kids-Controller source
 WORKDIR /app/Sonos-Kids-Controller-master
