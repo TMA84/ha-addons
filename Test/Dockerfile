@@ -10,7 +10,8 @@ WORKDIR /app
 
 # Download and unzip the Sonos-Kids-Controller repository
 COPY src /app/Sonos-Kids-Controller/
-COPY config /app/Sonos-Kids-Controller/server/config/   
+COPY config /app/Sonos-Kids-Controller/server/config/ 
+
 # Install Ionic globally
 RUN npm install -g @ionic/cli
 
@@ -25,6 +26,8 @@ RUN ionic build --prod
 
 # Create the configuration file
 RUN cd server/config && cp config-example.json config.json
+
+COPY run.sh /app/
 
 ## Expose service on port 8200
 EXPOSE 8200
