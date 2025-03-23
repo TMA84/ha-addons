@@ -16,7 +16,8 @@ RUN npm install
 COPY src /sonos-kids-controller
 
 ## Copy config files
-COPY config /sonos-kids-controller/server/
+COPY config/config.json /sonos-kids-controller/server/config/config.json
+COPY config/data.json /sonos-kids-controller/server/config/data.json   
 
 ## Build Sonos Kids Controller
 RUN ionic build --prod
