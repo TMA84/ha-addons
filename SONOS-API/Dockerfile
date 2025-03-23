@@ -10,6 +10,9 @@ COPY node-sonos-http-api /app
 
 RUN apk add --no-cache curl && \
   mkdir cache && \
+  groupadd node && \
+  useradd node && \
+  usermod -a -G node node && \
   chown -R node:node static cache && \
   npm install --production && \
   rm -rf /tmp/* /root/.npm
