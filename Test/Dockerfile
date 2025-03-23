@@ -1,9 +1,15 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-RUN apk add --no-cache \
-    nodejs \
-    npm 
+
+# install node
+RUN apk add --no-cache nodejs npm 
+RUN apk update
+
+ENV TZ Europe/Berlin
+ENV LANG de_DE.UTF-8
+ENV LANGUAGE de_DE.UTF-8
+ENV LC_ALL de_DE.UTF-8
 
 # Set the working directory inside the container
 WORKDIR /app
