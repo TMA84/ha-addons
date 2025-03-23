@@ -33,4 +33,4 @@ COPY run.sh /app/
 EXPOSE 8200
 
 # Define the command to run the application
-CMD ["/run.sh"]
+CMD ["run.sh"]
