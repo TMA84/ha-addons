@@ -3,9 +3,9 @@
 set +x
 
 # Create main config
-CLIENTID=$(bashio::config 'upstreamhost')
-CLIENTSECRET=$(bashio::config 'upstreamport')
-ROOM=$(bashio::config 'listenport')
+CLIENTID=$(bashio::config 'clientid')
+CLIENTSECRET=$(bashio::config 'clientsecret')
+ROOM=$(bashio::config 'room')
 
 echo "Preparing to run sonos-kids"
 echo "CLIENTID: $CLIENTID"
@@ -17,6 +17,6 @@ sed -i "s/__CLIENTSECRET__/${CLIENTSECRET}/g" /app/Sonos-Kids-Controller/server/
 sed -i "s/__ROOM__/${ROOM}/g" /app/Sonos-Kids-Controller/server/config/config.json
 
 echo "Generated Config"
-cat /app/Sonos-Kids-Controller/server/config/ 
+cat /app/Sonos-Kids-Controller/server/config/config.json
 
 npm start
