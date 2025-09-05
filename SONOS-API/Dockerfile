@@ -1,17 +1,22 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# install node
-RUN apk add --no-cache nodejs npm 
-RUN apk update
+# Install dependencies in single layer
+RUN apk add --no-cache nodejs npm curl && \
+    apk update && \
+    rm -rf /var/cache/apk/*
+
 WORKDIR /app
 
-COPY node-sonos-http-api /app
+# Copy package files first for better caching
+COPY node-sonos-http-api/package*.json ./
+RUN npm ci --only=production && \
+    npm cache clean --force && \
+    rm -rf /tmp/* /root/.npm
 
-RUN apk add --no-cache curl && \
-  mkdir cache && \
-  npm install --production && \
-  rm -rf /tmp/* /root/.npm
+# Copy application code
+COPY node-sonos-http-api ./
+RUN mkdir -p cache
 
 EXPOSE 5005
 

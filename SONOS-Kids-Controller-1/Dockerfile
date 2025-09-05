@@ -1,33 +1,32 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# install node
-RUN apk add --no-cache nodejs npm 
-RUN apk update
+# Set environment variables
+ENV TZ=Europe/Berlin \
+    LANG=de_DE.UTF-8 \
+    LANGUAGE=de_DE.UTF-8 \
+    LC_ALL=de_DE.UTF-8
 
-ENV TZ Europe/Berlin
-ENV LANG de_DE.UTF-8
-ENV LANGUAGE de_DE.UTF-8
-ENV LC_ALL de_DE.UTF-8
+# Install dependencies and Ionic in single layer
+RUN apk add --no-cache nodejs npm && \
+    apk update && \
+    npm install -g @ionic/cli && \
+    rm -rf /var/cache/apk/* /root/.npm
 
-# Set the working directory inside the container
-WORKDIR /app
-
-# Download and unzip the Sonos-Kids-Controller repository
-COPY src /app/Sonos-Kids-Controller/
-COPY config /app/Sonos-Kids-Controller/server/config
-
-# Install Ionic globally
-RUN npm install -g @ionic/cli
-
-# Change directory to the Sonos-Kids-Controller source
 WORKDIR /app/Sonos-Kids-Controller
 
-# Install project dependencies
-RUN npm install
+# Copy package files first for better caching
+COPY src/package*.json ./
+RUN npm ci && npm cache clean --force
 
-# Build the project using Ionic
-RUN ionic build --prod
+# Copy source and config
+COPY src ./
+COPY config ./server/config
+
+# Build the project
+RUN ionic build --prod && \
+    rm -rf node_modules/@ionic/cli* && \
+    npm prune --production
 
 # Create the configuration file
 #RUN cd server/config && cp config-example.json config.json

@@ -7,7 +7,7 @@ arch:
   - amd64
   - armhf
   - armv7
-url: "hhttps://github.com/TMA84/ha-addons"
+url: "https://github.com/TMA84/ha-addons"
 startup: services
 init: false
 webui: http://[HOST]:[PORT:5005]/
