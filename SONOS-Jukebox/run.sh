@@ -12,11 +12,13 @@ ADMIN_PIN=$(bashio::config 'admin_pin')
 
 bashio::log.info "Starting Sonos Jukebox..."
 
-# Create config directory
-mkdir -p /app/server/config
+# Create persistent config directory
+mkdir -p /config/sonos-jukebox
 
-# Create configuration file
-cat > /app/server/config/config.json << EOF
+# Create or update configuration file
+CONFIG_FILE="/config/sonos-jukebox/config.json"
+if [[ ! -f "$CONFIG_FILE" ]]; then
+    cat > "$CONFIG_FILE" << EOF
 {
     "node-sonos-http-api": {
         "server": "${SONOS_SERVER}",
@@ -30,16 +32,36 @@ cat > /app/server/config/config.json << EOF
     "clients": {}
 }
 EOF
+else
+    # Update existing config with new values
+    jq --arg server "$SONOS_SERVER" \
+       --arg port "$SONOS_PORT" \
+       --arg room "$DEFAULT_ROOM" \
+       --arg clientId "$SPOTIFY_CLIENT_ID" \
+       --arg clientSecret "$SPOTIFY_CLIENT_SECRET" \
+       '."node-sonos-http-api".server = $server | 
+        ."node-sonos-http-api".port = $port | 
+        ."node-sonos-http-api".rooms = [$room] | 
+        .spotify.clientId = $clientId | 
+        .spotify.clientSecret = $clientSecret' \
+       "$CONFIG_FILE" > "$CONFIG_FILE.tmp" && mv "$CONFIG_FILE.tmp" "$CONFIG_FILE"
+fi
 
-# Create PIN file
-cat > /app/server/config/pin.json << EOF
+# Create PIN file if it doesn't exist
+PIN_FILE="/config/sonos-jukebox/pin.json"
+if [[ ! -f "$PIN_FILE" ]]; then
+    cat > "$PIN_FILE" << EOF
 {
     "pin": "${ADMIN_PIN}"
 }
 EOF
+fi
 
-# Create empty data file
-echo "[]" > /app/server/config/data.json
+# Create empty data file if it doesn't exist
+DATA_FILE="/config/sonos-jukebox/data.json"
+if [[ ! -f "$DATA_FILE" ]]; then
+    echo "[]" > "$DATA_FILE"
+fi
 
 bashio::log.info "Configuration created successfully"
 bashio::log.info "Sonos Server: ${SONOS_SERVER}:${SONOS_PORT}"

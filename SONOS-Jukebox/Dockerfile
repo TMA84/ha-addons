@@ -2,7 +2,7 @@ ARG BUILD_FROM
 FROM $BUILD_FROM
 
 # Install dependencies
-RUN apk add --no-cache nodejs npm git && \
+RUN apk add --no-cache nodejs npm git jq && \
     rm -rf /var/cache/apk/*
 
 WORKDIR /app
