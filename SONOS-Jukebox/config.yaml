@@ -1,6 +1,6 @@
 name: "SONOS Jukebox"
 description: "Touch-based Sonos jukebox interface for kids and families"
-version: "2.4"
+version: "2.5"
 slug: "sonos_jukebox"
 arch:
   - aarch64
@@ -16,11 +16,7 @@ ingress: true
 auth_api: true
 homeassistant_api: true
 map:
-  - type: config
-    read_only: false
-  - source: /config/sonos-jukebox
-    target: /app/server/config
-    read_only: false
+  - config
 options:
   spotify_client_id: ""
   spotify_client_secret: ""

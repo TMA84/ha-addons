@@ -15,6 +15,9 @@ bashio::log.info "Starting Sonos Jukebox..."
 # Create persistent config directory
 mkdir -p /config/sonos-jukebox
 
+# Link config directory to app
+ln -sf /config/sonos-jukebox /app/server/config
+
 # Create or update configuration file
 CONFIG_FILE="/config/sonos-jukebox/config.json"
 if [[ ! -f "$CONFIG_FILE" ]]; then
