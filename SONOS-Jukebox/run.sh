@@ -40,11 +40,28 @@ else
        --arg clientId "$SPOTIFY_CLIENT_ID" \
        --arg clientSecret "$SPOTIFY_CLIENT_SECRET" \
        '."node-sonos-http-api".server = $server | 
-        ."node-sonos-http-api".port = $port | 
+        ."node-sonos-http-api".port = ($port | tonumber) | 
         ."node-sonos-http-api".rooms = [$room] | 
         .spotify.clientId = $clientId | 
         .spotify.clientSecret = $clientSecret' \
-       "$CONFIG_FILE" > "$CONFIG_FILE.tmp" && mv "$CONFIG_FILE.tmp" "$CONFIG_FILE"
+       "$CONFIG_FILE" > "$CONFIG_FILE.tmp" && mv "$CONFIG_FILE.tmp" "$CONFIG_FILE" || {
+        bashio::log.error "Failed to update config, recreating..."
+        rm -f "$CONFIG_FILE"
+        cat > "$CONFIG_FILE" << EOF
+{
+    "node-sonos-http-api": {
+        "server": "${SONOS_SERVER}",
+        "port": ${SONOS_PORT},
+        "rooms": ["${DEFAULT_ROOM}"]
+    },
+    "spotify": {
+        "clientId": "${SPOTIFY_CLIENT_ID}",
+        "clientSecret": "${SPOTIFY_CLIENT_SECRET}"
+    },
+    "clients": {}
+}
+EOF
+    }
 fi
 
 # Create PIN file if it doesn't exist
@@ -66,6 +83,11 @@ fi
 bashio::log.info "Configuration created successfully"
 bashio::log.info "Sonos Server: ${SONOS_SERVER}:${SONOS_PORT}"
 bashio::log.info "Default Room: ${DEFAULT_ROOM}"
+bashio::log.info "Spotify Client ID: ${SPOTIFY_CLIENT_ID:0:10}..."
+
+# Show final config for debugging
+bashio::log.info "Final configuration:"
+cat "$CONFIG_FILE"
 
 # Test network connectivity
 bashio::log.info "Testing Sonos API connectivity..."
