@@ -12,14 +12,15 @@ ADMIN_PIN=$(bashio::config 'admin_pin')
 
 bashio::log.info "Starting Sonos Jukebox..."
 
-# Create persistent config directory
-mkdir -p /config/sonos-jukebox
+# Create persistent config directory in writable share
+mkdir -p /share/sonos-jukebox
 
 # Link config directory to app
-ln -sf /config/sonos-jukebox /app/server/config
+rm -rf /app/server/config
+ln -sf /share/sonos-jukebox /app/server/config
 
 # Create or update configuration file
-CONFIG_FILE="/config/sonos-jukebox/config.json"
+CONFIG_FILE="/share/sonos-jukebox/config.json"
 if [[ ! -f "$CONFIG_FILE" ]]; then
     cat > "$CONFIG_FILE" << EOF
 {
@@ -68,7 +69,7 @@ EOF
 fi
 
 # Create PIN file if it doesn't exist
-PIN_FILE="/config/sonos-jukebox/pin.json"
+PIN_FILE="/share/sonos-jukebox/pin.json"
 if [[ ! -f "$PIN_FILE" ]]; then
     cat > "$PIN_FILE" << EOF
 {
@@ -78,7 +79,7 @@ EOF
 fi
 
 # Create empty data file if it doesn't exist
-DATA_FILE="/config/sonos-jukebox/data.json"
+DATA_FILE="/share/sonos-jukebox/data.json"
 if [[ ! -f "$DATA_FILE" ]]; then
     echo "[]" > "$DATA_FILE"
 fi
