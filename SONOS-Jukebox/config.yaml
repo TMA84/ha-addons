@@ -1,0 +1,50 @@
+name: "SONOS Jukebox"
+description: "Touch-based Sonos jukebox interface for kids and families"
+version: "1.6.0"
+slug: "sonos_jukebox"
+arch:
+  - aarch64
+  - amd64
+  - armv7
+url: "https://github.com/TMA84/ha-addons"
+startup: services
+init: false
+webui: http://[HOST]:[PORT:8200]/
+ports:
+  8200/tcp: 8200
+map:
+  - type: config
+    read_only: false
+options:
+  spotify_client_id: ""
+  spotify_client_secret: ""
+  sonos_server: "127.0.0.1"
+  sonos_port: 5005
+  default_room: ""
+  admin_pin: "1234"
+schema:
+  spotify_client_id: str
+  spotify_client_secret: str
+  sonos_server: str
+  sonos_port: int
+  default_room: str
+  admin_pin: str
+configuration:
+  spotify_client_id:
+    name: Spotify Client ID
+    description: Your Spotify application client ID
+  spotify_client_secret:
+    name: Spotify Client Secret
+    description: Your Spotify application client secret
+  sonos_server:
+    name: Sonos API Server
+    description: IP address of the Sonos HTTP API server
+  sonos_port:
+    name: Sonos API Port
+    description: Port of the Sonos HTTP API server
+  default_room:
+    name: Default Room
+    description: Default Sonos room/speaker name
+  admin_pin:
+    name: Admin PIN
+    description: PIN for accessing admin functions
