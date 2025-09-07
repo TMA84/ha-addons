@@ -1,6 +1,6 @@
 name: "SONOS Jukebox"
 description: "Touch-based Sonos jukebox interface for kids and families"
-version: "2.1"
+version: "2.2"
 slug: "sonos_jukebox"
 arch:
   - aarch64
@@ -12,6 +12,8 @@ init: false
 webui: http://[HOST]:[PORT:8200]/
 ports:
   8200/tcp: 8200
+host_network: true
+ingress: true
 map:
   - type: config
     read_only: false

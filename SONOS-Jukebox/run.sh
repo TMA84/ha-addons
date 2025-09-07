@@ -67,4 +67,16 @@ bashio::log.info "Configuration created successfully"
 bashio::log.info "Sonos Server: ${SONOS_SERVER}:${SONOS_PORT}"
 bashio::log.info "Default Room: ${DEFAULT_ROOM}"
 
+# Test network connectivity
+bashio::log.info "Testing Sonos API connectivity..."
+if curl -s --connect-timeout 5 "http://${SONOS_SERVER}:${SONOS_PORT}/zones" > /dev/null; then
+    bashio::log.info "Sonos API is reachable"
+else
+    bashio::log.warning "Cannot reach Sonos API at ${SONOS_SERVER}:${SONOS_PORT}"
+fi
+
+# Set environment for server binding
+export HOST=0.0.0.0
+export PORT=8200
+
 exec npm start
