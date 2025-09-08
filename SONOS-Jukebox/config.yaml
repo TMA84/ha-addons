@@ -1,6 +1,6 @@
 name: "SONOS Jukebox"
 description: "Touch-based Sonos jukebox interface for kids and families"
-version: "2.1.3"
+version: "2.1.4"
 slug: "sonos_jukebox"
 arch:
   - aarch64
