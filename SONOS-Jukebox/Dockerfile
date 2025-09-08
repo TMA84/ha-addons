@@ -7,9 +7,9 @@ RUN apk add --no-cache nodejs npm git jq curl && \
 
 WORKDIR /app
 
-# Clone and setup Sonos-Jukebox v2.1.4
+# Clone and setup Sonos-Jukebox v2.1.5
 RUN git clone https://github.com/TMA84/Sonos-Jukebox.git . && \
-    git checkout v2.1.4 && \
+    git checkout v2.1.5 && \
     rm -f package-lock.json && \
     npm install && \
     npm run build && \
