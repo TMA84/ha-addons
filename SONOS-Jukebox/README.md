@@ -11,6 +11,28 @@ A touch-based Sonos jukebox interface designed for kids and families.
 - Album and artist browsing
 - Custom playlists and favorites
 
+## Quick Start
+
+To add files from your host, edit docker-compose.yml and uncomment/modify the volume mounts:
+
+```yaml
+volumes:
+  - /your/host/path:/app/destination:ro
+```
+
+For example, to mount music files:
+
+```yaml
+volumes:
+  - /home/user/Music:/app/media/music:ro
+```
+
+Then restart:
+
+```bash
+docker-compose down && docker-compose up -d
+```
+
 ## Configuration
 
 ### Required Settings
