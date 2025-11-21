@@ -1,9 +1,12 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Install dependencies
-RUN apk update && \
-    apk add --no-cache nodejs-current npm git jq curl && \
+# Install dependencies with retry logic
+RUN for i in 1 2 3; do \
+        apk update && \
+        apk add --no-cache nodejs-current npm git jq curl && \
+        break || sleep 5; \
+    done && \
     rm -rf /var/cache/apk/*
 
 WORKDIR /app
