@@ -1,11 +1,15 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Install dependencies with retry logic
-RUN for i in 1 2 3; do \
+# Install dependencies with alternative mirrors and retry logic
+RUN echo "https://dl-cdn.alpinelinux.org/alpine/v3.20/main" > /etc/apk/repositories && \
+    echo "https://dl-cdn.alpinelinux.org/alpine/v3.20/community" >> /etc/apk/repositories && \
+    echo "http://dl-4.alpinelinux.org/alpine/v3.20/main" >> /etc/apk/repositories && \
+    echo "http://dl-4.alpinelinux.org/alpine/v3.20/community" >> /etc/apk/repositories && \
+    for i in 1 2 3 4 5; do \
         apk update && \
         apk add --no-cache nodejs-current npm git jq curl && \
-        break || sleep 5; \
+        break || sleep 10; \
     done && \
     rm -rf /var/cache/apk/*
 
