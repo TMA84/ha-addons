@@ -13,24 +13,25 @@ A touch-based Sonos jukebox interface designed for kids and families.
 
 ## Quick Start
 
-To add files from your host, edit docker-compose.yml and uncomment/modify the volume mounts:
+### Accessing Local Music Files
 
-```yaml
-volumes:
-  - /your/host/path:/app/destination:ro
+This addon has access to your Home Assistant media folder. Your music files will be available at `/media/music` inside the addon.
+
+To add music files:
+
+1. Place your music files in Home Assistant's media folder (typically `/media` on your host)
+2. Files will be automatically accessible to the addon at `/media/music`
+3. The addon can then serve these files to your Sonos system
+
+Example folder structure:
 ```
-
-For example, to mount music files:
-
-```yaml
-volumes:
-  - /home/user/Music:/app/media/music:ro
-```
-
-Then restart:
-
-```bash
-docker-compose down && docker-compose up -d
+/media/music/
+  ├── Artist1/
+  │   └── Album1/
+  │       └── track.mp3
+  └── Artist2/
+      └── Album2/
+          └── song.mp3
 ```
 
 ## Configuration
