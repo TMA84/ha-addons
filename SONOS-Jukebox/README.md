@@ -14,6 +14,12 @@ A touch-based Sonos jukebox interface designed for kids and families with comple
 - **SQLite database** for robust data storage
 - Album, artist, podcast, and audiobook browsing
 
+## What's New in Version 2.2.8
+
+### 🐛 Bug Fixes
+- **Multi-client content sharing** - Fixed UNIQUE constraint error preventing same content from being added to different clients
+- **Database schema** - Changed primary key from single `id` to composite `(id, clientId)` to allow content sharing across clients
+
 ## What's New in Version 2.2.7
 
 ### 🐛 Bug Fixes
