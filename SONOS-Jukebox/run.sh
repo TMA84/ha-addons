@@ -15,6 +15,9 @@ bashio::log.info "Starting Sonos Jukebox..."
 # Create persistent data directory for SQLite database
 mkdir -p /share/sonos-jukebox/data
 
+# Create server directory structure
+mkdir -p /app/server
+
 # Check for legacy structure and migrate if needed
 if [[ -d "/share/sonos-jukebox/config" ]]; then
     bashio::log.info "Found legacy config directory, preparing for migration..."
