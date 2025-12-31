@@ -1,25 +1,26 @@
-// Patch server.js to bind to 0.0.0.0 and fix static serving
+// Patch server.js for Home Assistant addon compatibility
 const fs = require('fs');
 const serverFile = '/app/server.js';
 
 let content = fs.readFileSync(serverFile, 'utf8');
 
-// Replace the listen call to bind to all interfaces
+// Replace the listen call to bind to all interfaces with environment variables
 content = content.replace(
-  /app\.listen\(8200\);/,
-  'app.listen(8200, "0.0.0.0");'
+  /app\.listen\(port, \(\) => \{/,
+  'app.listen(port, process.env.HOST || "0.0.0.0", () => {'
 );
 
+// Update console log to show correct binding
 content = content.replace(
-  /console\.log\("App listening on port 8200"\);/,
-  'console.log("App listening on 0.0.0.0:8200");'
+  /console\.log\(`Server running on port \$\{port\}`\);/,
+  'console.log(`Server running on ${process.env.HOST || "0.0.0.0"}:${port}`);'
 );
 
-// Ensure static files are served correctly
+// Ensure static files are served correctly for Home Assistant ingress
 content = content.replace(
-  /app\.use\(express\.static\(path\.join\(__dirname, 'www'\)\)\);/,
-  'app.use(express.static(path.join(__dirname, "www"), { index: "index.html" }));'
+  /app\.use\(express\.static\('www'\)\);/,
+  'app.use(express.static("www", { index: "index.html" }));'
 );
 
 fs.writeFileSync(serverFile, content);
-console.log('Server patched for 0.0.0.0:8200 and static file serving');
+console.log('Server patched for Home Assistant addon compatibility');

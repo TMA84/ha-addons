@@ -12,86 +12,21 @@ ADMIN_PIN=$(bashio::config 'admin_pin')
 
 bashio::log.info "Starting Sonos Jukebox..."
 
-# Create persistent config directory in writable share
-mkdir -p /share/sonos-jukebox
+# Create persistent data directory for SQLite database
+mkdir -p /share/sonos-jukebox/data
 
-# Link config directory to app
-rm -rf /app/server/config
-ln -sf /share/sonos-jukebox /app/server/config
+# Link data directory to app for SQLite database
+rm -rf /app/server/data
+ln -sf /share/sonos-jukebox/data /app/server/data
 
-# Create or update configuration file
-CONFIG_FILE="/share/sonos-jukebox/config.json"
-if [[ ! -f "$CONFIG_FILE" ]]; then
-    cat > "$CONFIG_FILE" << EOF
-{
-    "node-sonos-http-api": {
-        "server": "${SONOS_SERVER}",
-        "port": "${SONOS_PORT}",
-        "rooms": ["${DEFAULT_ROOM}"]
-    },
-    "spotify": {
-        "clientId": "${SPOTIFY_CLIENT_ID}",
-        "clientSecret": "${SPOTIFY_CLIENT_SECRET}"
-    },
-    "clients": {}
-}
-EOF
-else
-    # Update existing config with new values
-    jq --arg server "$SONOS_SERVER" \
-       --arg port "$SONOS_PORT" \
-       --arg room "$DEFAULT_ROOM" \
-       --arg clientId "$SPOTIFY_CLIENT_ID" \
-       --arg clientSecret "$SPOTIFY_CLIENT_SECRET" \
-       '."node-sonos-http-api".server = $server | 
-        ."node-sonos-http-api".port = ($port | tonumber) | 
-        ."node-sonos-http-api".rooms = [$room] | 
-        .spotify.clientId = $clientId | 
-        .spotify.clientSecret = $clientSecret' \
-       "$CONFIG_FILE" > "$CONFIG_FILE.tmp" && mv "$CONFIG_FILE.tmp" "$CONFIG_FILE" || {
-        bashio::log.error "Failed to update config, recreating..."
-        rm -f "$CONFIG_FILE"
-        cat > "$CONFIG_FILE" << EOF
-{
-    "node-sonos-http-api": {
-        "server": "${SONOS_SERVER}",
-        "port": ${SONOS_PORT},
-        "rooms": ["${DEFAULT_ROOM}"]
-    },
-    "spotify": {
-        "clientId": "${SPOTIFY_CLIENT_ID}",
-        "clientSecret": "${SPOTIFY_CLIENT_SECRET}"
-    },
-    "clients": {}
-}
-EOF
-    }
-fi
+# Configuration will be stored in SQLite database automatically
+# No JSON config files needed - all config via database API
 
-# Create PIN file if it doesn't exist
-PIN_FILE="/share/sonos-jukebox/pin.json"
-if [[ ! -f "$PIN_FILE" ]]; then
-    cat > "$PIN_FILE" << EOF
-{
-    "pin": "${ADMIN_PIN}"
-}
-EOF
-fi
-
-# Create empty data file if it doesn't exist
-DATA_FILE="/share/sonos-jukebox/data.json"
-if [[ ! -f "$DATA_FILE" ]]; then
-    echo "[]" > "$DATA_FILE"
-fi
-
-bashio::log.info "Configuration created successfully"
+bashio::log.info "Configuration will be stored in SQLite database"
 bashio::log.info "Sonos Server: ${SONOS_SERVER}:${SONOS_PORT}"
 bashio::log.info "Default Room: ${DEFAULT_ROOM}"
 bashio::log.info "Spotify Client ID: ${SPOTIFY_CLIENT_ID:0:10}..."
-
-# Show final config for debugging
-bashio::log.info "Final configuration:"
-cat "$CONFIG_FILE"
+bashio::log.info "Database will be stored in: /share/sonos-jukebox/data/database.sqlite"
 
 # Test network connectivity
 bashio::log.info "Testing Sonos API connectivity..."
@@ -104,5 +39,13 @@ fi
 # Set environment for server binding
 export HOST=0.0.0.0
 export PORT=8200
+
+# Pass configuration as environment variables for initial setup
+export SPOTIFY_CLIENT_ID="$SPOTIFY_CLIENT_ID"
+export SPOTIFY_CLIENT_SECRET="$SPOTIFY_CLIENT_SECRET"
+export SONOS_SERVER="$SONOS_SERVER"
+export SONOS_PORT="$SONOS_PORT"
+export DEFAULT_ROOM="$DEFAULT_ROOM"
+export ADMIN_PIN="$ADMIN_PIN"
 
 exec npm start
