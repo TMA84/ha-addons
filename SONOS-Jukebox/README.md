@@ -14,6 +14,12 @@ A touch-based Sonos jukebox interface designed for kids and families with comple
 - **SQLite database** for robust data storage
 - Album, artist, podcast, and audiobook browsing
 
+## What's New in Version 2.2.6
+
+### 🐛 Bug Fixes
+- **Database schema** - Fixed remaining config table column errors for Spotify configuration
+- **Configuration API** - Removed description column references from all config operations
+
 ## What's New in Version 2.2.5
 
 ### 🐛 Bug Fixes
