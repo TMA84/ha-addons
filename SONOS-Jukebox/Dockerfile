@@ -2,7 +2,7 @@ ARG BUILD_FROM
 FROM $BUILD_FROM
 
 # Cache bust argument
-ARG CACHEBUST=20251231-1913
+ARG CACHEBUST=20251231-1914
 
 # Install dependencies
 RUN apk add --no-cache nodejs npm git jq curl && \
@@ -10,15 +10,17 @@ RUN apk add --no-cache nodejs npm git jq curl && \
 
 WORKDIR /app
 
-# Clone latest code with cache bust
-RUN echo "Cache bust: $CACHEBUST" && \
-    git clone https://github.com/TMA84/Sonos-Jukebox.git . && \
+# Force fresh clone with cache bust
+RUN echo "Force rebuild: $CACHEBUST" && \
+    rm -rf /app/* /app/.* 2>/dev/null || true && \
+    git clone --no-cache https://github.com/TMA84/Sonos-Jukebox.git . && \
     git checkout master && \
+    echo "Current version: $(cat package.json | grep version)" && \
     rm -f package-lock.json && \
-    npm install && \
+    npm cache clean --force && \
+    npm install --no-cache && \
     npm run build && \
-    npm prune --production && \
-    npm cache clean --force
+    npm prune --production
 
 # Copy and apply server patch for Home Assistant compatibility
 COPY server-patch.js /tmp/server-patch.js
