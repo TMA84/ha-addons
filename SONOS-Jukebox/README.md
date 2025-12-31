@@ -14,6 +14,12 @@ A touch-based Sonos jukebox interface designed for kids and families with comple
 - **SQLite database** for robust data storage
 - Album, artist, podcast, and audiobook browsing
 
+## What's New in Version 2.2.2
+
+### 🐛 Bug Fixes
+- **Home Assistant addon** - Fixed directory creation order preventing symlink errors
+- **Docker deployment** - Resolved "No such file or directory" error during container startup
+
 ## What's New in Version 2.2.1
 
 ### 🔄 Migration & Upgrade Features
