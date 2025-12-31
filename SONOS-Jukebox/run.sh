@@ -15,12 +15,20 @@ bashio::log.info "Starting Sonos Jukebox..."
 # Create persistent data directory for SQLite database
 mkdir -p /share/sonos-jukebox/data
 
+# Check for legacy structure and migrate if needed
+if [[ -d "/share/sonos-jukebox/config" ]]; then
+    bashio::log.info "Found legacy config directory, preparing for migration..."
+    # Create temporary config directory for migration
+    mkdir -p /app/server/config
+    cp -r /share/sonos-jukebox/config/* /app/server/config/ 2>/dev/null || true
+fi
+
 # Link data directory to app for SQLite database
 rm -rf /app/server/data
 ln -sf /share/sonos-jukebox/data /app/server/data
 
 # Configuration will be stored in SQLite database automatically
-# No JSON config files needed - all config via database API
+# Legacy JSON files will be migrated automatically by the server
 
 bashio::log.info "Configuration will be stored in SQLite database"
 bashio::log.info "Sonos Server: ${SONOS_SERVER}:${SONOS_PORT}"
