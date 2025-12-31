@@ -9,7 +9,7 @@ WORKDIR /app
 
 # Clone and setup Sonos-Jukebox v2.2.2
 RUN git clone https://github.com/TMA84/Sonos-Jukebox.git . && \
-    git checkout v2.2.2 && \
+    git checkout master && \
     rm -f package-lock.json && \
     npm install && \
     npm run build && \
