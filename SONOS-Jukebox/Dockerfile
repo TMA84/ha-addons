@@ -1,17 +1,19 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
+# Cache bust argument
+ARG CACHEBUST=20251231-1314
+
 # Install dependencies
 RUN apk add --no-cache nodejs npm git jq curl && \
     rm -rf /var/cache/apk/*
 
 WORKDIR /app
 
-# Force fresh clone with cache bust - v2.2.4
-RUN rm -rf /tmp/repo && \
-    git clone --no-cache --depth 1 https://github.com/TMA84/Sonos-Jukebox.git /tmp/repo && \
-    cp -r /tmp/repo/* . && \
-    rm -rf /tmp/repo && \
+# Clone latest code with cache bust
+RUN echo "Cache bust: $CACHEBUST" && \
+    git clone https://github.com/TMA84/Sonos-Jukebox.git . && \
+    git checkout master && \
     rm -f package-lock.json && \
     npm install && \
     npm run build && \
