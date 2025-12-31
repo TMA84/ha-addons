@@ -14,6 +14,14 @@ A touch-based Sonos jukebox interface designed for kids and families with comple
 - **SQLite database** for robust data storage
 - Album, artist, podcast, and audiobook browsing
 
+## What's New in Version 2.2.3
+
+### 🐛 Bug Fixes
+- **Database initialization** - Added missing users table for PIN authentication
+- **Home Assistant addon** - Fixed configuration not being saved from addon settings
+- **Environment variables** - Added proper initialization from HA addon environment
+- **Default PIN** - Ensures admin user with PIN 1234 is created on first startup
+
 ## What's New in Version 2.2.2
 
 ### 🐛 Bug Fixes
