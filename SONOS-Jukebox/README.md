@@ -14,6 +14,13 @@ A touch-based Sonos jukebox interface designed for kids and families with comple
 - **SQLite database** for robust data storage
 - Album, artist, podcast, and audiobook browsing
 
+## What's New in Version 2.2.9
+
+### 🐛 Bug Fixes
+- **Sleep timer display** - Fixed sleep timer not showing saved value in config page
+- **PIN security** - Added PIN encryption (SHA256) and fixed environment override issue
+- **PIN persistence** - Custom PINs now persist after addon rebuilds instead of reverting to default
+
 ## What's New in Version 2.2.8
 
 ### 🐛 Bug Fixes
