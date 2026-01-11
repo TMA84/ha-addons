@@ -2,7 +2,7 @@ ARG BUILD_FROM
 FROM $BUILD_FROM
 
 # Cache bust argument
-ARG CACHEBUST=20260111-1245
+ARG CACHEBUST=20260111-1300
 
 # Install dependencies
 RUN apk add --no-cache nodejs npm git jq curl && \
