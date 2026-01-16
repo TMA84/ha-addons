@@ -1,0 +1,32 @@
+name: Build SONOS Jukebox Addon
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'SONOS-Jukebox/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build addon
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push addon
+        uses: home-assistant/builder@master
+        with:
+          args: |
+            --all \
+            --target SONOS-Jukebox \
+            --docker-hub ghcr.io/${{ github.repository_owner }}
