@@ -1,8 +1,8 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Cache bust argument
-ARG CACHEBUST=20260116-2105
+# Cache bust argument - updated for client name fix
+ARG CACHEBUST=20260116-2300
 
 # Install only essential dependencies
 RUN apk add --no-cache nodejs npm git && \
