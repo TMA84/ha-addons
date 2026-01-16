@@ -1,8 +1,8 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Cache bust argument - updated for API routing fix
-ARG CACHEBUST=20260117-0000
+# Cache bust argument - updated for production build fix
+ARG CACHEBUST=20260117-0030
 
 # Install only essential dependencies
 RUN apk add --no-cache nodejs npm git && \
@@ -18,8 +18,8 @@ RUN echo "Force rebuild: $CACHEBUST" && \
 # Install all dependencies (including dev for build)
 RUN npm install --legacy-peer-deps
 
-# Build with relative base href for ingress compatibility
-RUN npm run build -- --base-href="./" && \
+# Build with production configuration and relative base href for ingress compatibility
+RUN npm run build -- --configuration production --base-href="./" && \
     npm prune --production --legacy-peer-deps
 
 # Verify base href was set correctly
