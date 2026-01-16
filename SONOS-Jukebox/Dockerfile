@@ -2,24 +2,36 @@ ARG BUILD_FROM
 FROM $BUILD_FROM
 
 # Cache bust argument
-ARG CACHEBUST=20260116-1600
+ARG CACHEBUST=20260116-1700
 
 # Install dependencies
-RUN apk add --no-cache nodejs npm git jq curl && \
-    rm -rf /var/cache/apk/*
+RUN apk add --no-cache \
+    nodejs \
+    npm \
+    git \
+    jq \
+    curl \
+    python3 \
+    make \
+    g++ \
+    && rm -rf /var/cache/apk/*
 
 WORKDIR /app
 
-# Force fresh clone with cache bust
+# Clone repository
 RUN echo "Force rebuild: $CACHEBUST" && \
-    git clone https://github.com/TMA84/Sonos-Jukebox.git . && \
-    git checkout master && \
-    echo "Current version: $(cat package.json | grep version)" && \
-    rm -f package-lock.json && \
-    npm cache clean --force && \
-    npm install && \
-    npm run build && \
-    npm prune --production
+    git clone --depth 1 https://github.com/TMA84/Sonos-Jukebox.git . && \
+    echo "Current version: $(cat package.json | grep version)"
+
+# Install dependencies with optimizations
+RUN npm ci --prefer-offline --no-audit --legacy-peer-deps || \
+    (rm -f package-lock.json && npm install --legacy-peer-deps)
+
+# Build the application
+RUN npm run build
+
+# Prune dev dependencies
+RUN npm prune --production
 
 # Fix paths for Home Assistant ingress - use relative paths
 RUN sed -i 's|<base href="/">|<base href="./">|g' /app/www/index.html && \

@@ -12,6 +12,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     strategy:
       matrix:
         arch: [amd64, aarch64, armv7]
@@ -35,3 +36,5 @@ jobs:
             --target SONOS-Jukebox \
             --image "ghcr.io/${{ github.repository_owner }}/${{ matrix.arch }}-addon-sonos-jukebox" \
             --docker-hub ghcr.io/${{ github.repository_owner }}
+        env:
+          DOCKER_BUILDKIT: 1
