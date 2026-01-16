@@ -2,7 +2,7 @@ ARG BUILD_FROM
 FROM $BUILD_FROM
 
 # Cache bust argument
-ARG CACHEBUST=20260116-1730
+ARG CACHEBUST=20260116-1800
 
 # Install only essential dependencies
 RUN apk add --no-cache nodejs npm git && \
@@ -23,6 +23,12 @@ RUN npm install --omit=dev --legacy-peer-deps && \
 
 # Fix paths for Home Assistant ingress
 RUN sed -i 's|<base href="/">|<base href="./">|g' /app/www/index.html
+
+# Fix API paths in built JavaScript files
+COPY fix-api-paths.sh /tmp/fix-api-paths.sh
+RUN chmod +x /tmp/fix-api-paths.sh && \
+    /tmp/fix-api-paths.sh && \
+    rm /tmp/fix-api-paths.sh
 
 # Apply server patch
 COPY server-patch.js /tmp/server-patch.js
