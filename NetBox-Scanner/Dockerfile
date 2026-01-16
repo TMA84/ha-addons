@@ -9,7 +9,7 @@ RUN apk add --no-cache \
     && rm -rf /var/cache/apk/*
 
 # Install netbox-scanner
-RUN pip3 install --no-cache-dir netbox-scanner
+RUN pip3 install --no-cache-dir --break-system-packages netbox-scanner
 
 # Copy run script
 COPY run.sh /run.sh
