@@ -1,8 +1,8 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Cache bust argument - updated for client name fix
-ARG CACHEBUST=20260116-2300
+# Cache bust argument - updated for ingress fix
+ARG CACHEBUST=20260116-2330
 
 # Install only essential dependencies
 RUN apk add --no-cache nodejs npm git && \
@@ -15,13 +15,15 @@ RUN echo "Force rebuild: $CACHEBUST" && \
     git clone --depth 1 https://github.com/TMA84/Sonos-Jukebox.git . && \
     echo "Current version: $(cat package.json | grep version)"
 
-# Install all dependencies (including dev for build), build, then prune
-RUN npm install --legacy-peer-deps && \
-    npm run build && \
+# Install all dependencies (including dev for build)
+RUN npm install --legacy-peer-deps
+
+# Build with relative base href for ingress compatibility
+RUN npm run build -- --base-href="./" && \
     npm prune --production --legacy-peer-deps
 
-# Fix base href for Home Assistant ingress
-RUN sed -i 's|<base href="/">|<base href="./">|g' /app/www/index.html
+# Verify base href was set correctly
+RUN grep 'base href' /app/www/index.html
 
 # Apply server patch
 COPY server-patch.js /tmp/server-patch.js
