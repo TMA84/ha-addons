@@ -2,7 +2,7 @@ ARG BUILD_FROM
 FROM $BUILD_FROM
 
 # Cache bust argument
-ARG CACHEBUST=20260116-1530
+ARG CACHEBUST=20260116-1600
 
 # Install dependencies
 RUN apk add --no-cache nodejs npm git jq curl && \
@@ -20,6 +20,10 @@ RUN echo "Force rebuild: $CACHEBUST" && \
     npm install && \
     npm run build && \
     npm prune --production
+
+# Fix paths for Home Assistant ingress - use relative paths
+RUN sed -i 's|<base href="/">|<base href="./">|g' /app/www/index.html && \
+    echo "Fixed base href for ingress compatibility"
 
 # Copy and apply server patch for Home Assistant compatibility
 COPY server-patch.js /tmp/server-patch.js
