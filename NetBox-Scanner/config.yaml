@@ -1,0 +1,25 @@
+name: "NetBox Scanner"
+description: "Network scanner that automatically updates NetBox with discovered devices"
+version: "1.0.0"
+slug: "netbox_scanner"
+arch:
+  - aarch64
+  - amd64
+  - armv7
+url: "https://github.com/TMA84/ha-addons"
+startup: services
+init: false
+map:
+  - config:rw
+options:
+  netbox_address: "http://netbox:8000"
+  netbox_token: ""
+  scan_interval: 3600
+  networks: "192.168.1.0/24"
+  cleanup: "yes"
+schema:
+  netbox_address: str
+  netbox_token: str
+  scan_interval: int
+  networks: str
+  cleanup: str
