@@ -16,11 +16,5 @@ content = content.replace(
   'console.log(`Server running on ${process.env.HOST || "0.0.0.0"}:${port}`);'
 );
 
-// Ensure static files are served correctly for Home Assistant ingress
-content = content.replace(
-  /app\.use\(express\.static\('www'\)\);/,
-  'app.use(express.static("www", { index: "index.html" }));'
-);
-
 fs.writeFileSync(serverFile, content);
 console.log('Server patched for Home Assistant addon compatibility');
