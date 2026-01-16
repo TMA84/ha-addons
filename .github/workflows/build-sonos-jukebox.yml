@@ -6,12 +6,16 @@ on:
       - main
     paths:
       - 'SONOS-Jukebox/**'
+      - '.github/workflows/build-sonos-jukebox.yml'
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build addon
+    strategy:
+      matrix:
+        arch: [amd64, aarch64, armv7]
+    name: Build ${{ matrix.arch }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -27,8 +31,6 @@ jobs:
         uses: home-assistant/builder@master
         with:
           args: |
-            --amd64 \
-            --aarch64 \
-            --armv7 \
+            --${{ matrix.arch }} \
             --target SONOS-Jukebox \
             --docker-hub ghcr.io/${{ github.repository_owner }}
