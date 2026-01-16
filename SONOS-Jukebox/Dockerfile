@@ -1,8 +1,8 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Cache bust argument - updated for ingress fix
-ARG CACHEBUST=20260116-2330
+# Cache bust argument - updated for API routing fix
+ARG CACHEBUST=20260117-0000
 
 # Install only essential dependencies
 RUN apk add --no-cache nodejs npm git && \
