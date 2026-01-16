@@ -19,7 +19,7 @@ RUN apk add --no-cache \
 WORKDIR /opt
 
 # Clone NetBox
-RUN git clone --depth 1 --branch master https://github.com/netbox-community/netbox-docker.git netbox
+RUN git clone --depth 1 --branch release https://github.com/netbox-community/netbox-docker.git netbox
 
 WORKDIR /opt/netbox
 
