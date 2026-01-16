@@ -6,10 +6,17 @@ RUN apk add --no-cache \
     python3 \
     py3-pip \
     nmap \
+    git \
     && rm -rf /var/cache/apk/*
 
-# Install netbox-scanner
-RUN pip3 install --no-cache-dir --break-system-packages netbox-scanner
+# Clone netbox-scanner from GitHub
+WORKDIR /opt
+RUN git clone https://github.com/lopes/netbox-scanner.git
+
+WORKDIR /opt/netbox-scanner
+
+# Install Python dependencies
+RUN pip3 install --no-cache-dir --break-system-packages -r requirements.txt
 
 # Copy run script
 COPY run.sh /run.sh

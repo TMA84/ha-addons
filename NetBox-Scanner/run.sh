@@ -36,8 +36,8 @@ bashio::log.info "Networks: ${NETWORKS}"
 while true; do
     bashio::log.info "Starting network scan..."
     
-    cd /config/netbox-scanner
-    netbox-scanner nmap
+    cd /opt/netbox-scanner
+    python3 netbox-scanner.py nmap
     
     if [ $? -eq 0 ]; then
         bashio::log.info "Scan completed successfully"
