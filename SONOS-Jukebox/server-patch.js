@@ -1,4 +1,4 @@
-// Patch server.js for Home Assistant addon compatibility
+// Patch server.js for Home Assistant addon and ingress compatibility
 const fs = require('fs');
 const serverFile = '/app/server.js';
 
@@ -12,7 +12,7 @@ content = content.replace(
 
 // Update console log to show correct binding
 content = content.replace(
-  /console\.log\(`Server running on port \$\{port\}`\);/,
+  /console\.log\(\`Server running on port \$\{port\}\`\);/,
   'console.log(`Server running on ${process.env.HOST || "0.0.0.0"}:${port}`);'
 );
 
