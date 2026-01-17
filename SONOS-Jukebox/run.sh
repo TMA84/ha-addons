@@ -8,7 +8,6 @@ SPOTIFY_CLIENT_SECRET=$(bashio::config 'spotify_client_secret')
 SONOS_SERVER=$(bashio::config 'sonos_server')
 SONOS_PORT=$(bashio::config 'sonos_port')
 DEFAULT_ROOM=$(bashio::config 'default_room')
-DEFAULT_CLIENT=$(bashio::config 'default_client')
 ADMIN_PIN=$(bashio::config 'admin_pin')
 
 bashio::log.info "Starting Sonos Jukebox..."
@@ -30,12 +29,6 @@ fi
 # Link data directory to app for SQLite database
 rm -rf /app/server/data
 ln -sf /share/sonos-jukebox/data /app/server/data
-
-# Inject default client into index.html if configured
-if [[ -n "$DEFAULT_CLIENT" ]]; then
-    bashio::log.info "Setting default client: ${DEFAULT_CLIENT}"
-    sed -i "s|<head>|<head><script>window.DEFAULT_CLIENT='${DEFAULT_CLIENT}';</script>|" /app/www/index.html
-fi
 
 # Configuration will be stored in SQLite database automatically
 # Legacy JSON files will be migrated automatically by the server

@@ -1,6 +1,6 @@
 name: "SONOS Jukebox"
 description: "Touch-based Sonos jukebox interface for kids and families"
-version: "2.2.41"
+version: "2.2.42"
 slug: "sonos_jukebox"
 arch:
   - aarch64
@@ -25,7 +25,6 @@ options:
   sonos_server: "127.0.0.1"
   sonos_port: 5005
   default_room: ""
-  default_client: ""
   admin_pin: "1234"
 schema:
   spotify_client_id: str
@@ -33,7 +32,6 @@ schema:
   sonos_server: str
   sonos_port: int
   default_room: str
-  default_client: str
   admin_pin: str
 configuration:
   spotify_client_id:
@@ -51,9 +49,6 @@ configuration:
   default_room:
     name: Default Room
     description: Default Sonos room/speaker name
-  default_client:
-    name: Default Client
-    description: Default client name to use (leave empty for auto-generated client per browser)
   admin_pin:
     name: Admin PIN
     description: PIN for accessing admin functions
