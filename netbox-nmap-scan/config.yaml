@@ -24,10 +24,10 @@ options:
 schema:
   netbox_url: str
   netbox_token: password
-  scan_interval: int(60,86400)
-  log_level: list(debug|info|warning|error)
+  scan_interval: "int(60,86400)"
+  log_level: "list(debug|info|warning|error)"
   enable_dns: bool
   add_last_scan_time: bool
   show_progress: bool
-  exclude_prefixes: [str]?
-  nmap_options: str?
+  exclude_prefixes: ["str?"]
+  nmap_options: "str?"
