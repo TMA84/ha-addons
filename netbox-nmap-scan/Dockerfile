@@ -3,8 +3,6 @@ FROM $BUILD_FROM
 
 # Install requirements
 RUN apk add --no-cache \
-    python3 \
-    py3-pip \
     nmap \
     git
 
