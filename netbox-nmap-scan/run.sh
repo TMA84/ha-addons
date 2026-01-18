@@ -32,7 +32,7 @@ SHOW_PROGRESS_PY=$([ "$SHOW_PROGRESS" = "true" ] && echo "True" || echo "False")
 # Generate var.ini from template
 bashio::log.info "Generating var.ini configuration..."
 cat > /app/var.ini << EOF
-[netbox]
+[credentials]
 url = ${NETBOX_URL}
 token = ${NETBOX_TOKEN}
 
