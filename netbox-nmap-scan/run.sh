@@ -1,5 +1,8 @@
 #!/usr/bin/with-contenv bashio
 
+# Activate virtual environment
+source /opt/venv/bin/activate
+
 # Get configuration
 NETBOX_URL=$(bashio::config 'netbox_url')
 NETBOX_TOKEN=$(bashio::config 'netbox_token')

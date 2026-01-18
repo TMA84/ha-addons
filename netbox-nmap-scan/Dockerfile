@@ -3,6 +3,8 @@ FROM $BUILD_FROM
 
 # Install requirements
 RUN apk add --no-cache \
+    python3 \
+    py3-pip \
     nmap \
     git
 
@@ -10,7 +12,9 @@ RUN apk add --no-cache \
 WORKDIR /app
 RUN git clone https://github.com/LoH-lu/netbox-nmap-scan.git .
 
-# Install Python dependencies
+# Create virtual environment and install Python dependencies
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Copy configuration template and run script
