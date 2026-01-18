@@ -1,6 +1,6 @@
 name: "Netbox Nmap Scanner"
 description: "Automatically maintain an up-to-date inventory of active IP addresses in Netbox using nmap"
-version: "1.0.0"
+version: "1.0.1"
 slug: "netbox_nmap_scan"
 arch:
   - aarch64
