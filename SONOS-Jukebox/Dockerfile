@@ -2,7 +2,7 @@ ARG BUILD_FROM
 FROM $BUILD_FROM
 
 # Cache bust argument - updated for production build fix
-ARG CACHEBUST=20260117-0100
+ARG CACHEBUST=20260117-0130
 
 # Install only essential dependencies
 RUN apk add --no-cache nodejs npm git && \
