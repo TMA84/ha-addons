@@ -1,14 +1,15 @@
-name: Netbox Nmap Scanner
+name: "Netbox Nmap Scanner"
+description: "Automatically maintain an up-to-date inventory of active IP addresses in Netbox using nmap"
 version: "1.0.0"
-slug: netbox-nmap-scan
-description: Automatically maintain an up-to-date inventory of active IP addresses in Netbox using nmap
-url: https://github.com/LoH-lu/netbox-nmap-scan
+slug: "netbox_nmap_scan"
 arch:
   - aarch64
   - amd64
   - armhf
   - armv7
   - i386
+url: "https://github.com/TMA84/ha-addons"
+startup: services
 init: false
 host_network: true
 options:
