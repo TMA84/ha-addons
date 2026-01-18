@@ -1,0 +1,33 @@
+name: Netbox Nmap Scanner
+version: "1.0.0"
+slug: netbox-nmap-scan
+description: Automatically maintain an up-to-date inventory of active IP addresses in Netbox using nmap
+url: https://github.com/LoH-lu/netbox-nmap-scan
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+init: false
+host_network: true
+options:
+  netbox_url: ""
+  netbox_token: ""
+  scan_interval: 3600
+  log_level: "info"
+  enable_dns: true
+  add_last_scan_time: true
+  show_progress: true
+  nmap_options: "-sn"
+schema:
+  netbox_url: str
+  netbox_token: password
+  scan_interval: int(60,86400)
+  log_level: list(debug|info|warning|error)
+  enable_dns: bool
+  add_last_scan_time: bool
+  show_progress: bool
+  exclude_prefixes: [str]?
+  nmap_options: str?
+image: ghcr.io/loh-lu/netbox-nmap-scan

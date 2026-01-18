@@ -1,0 +1,8 @@
+[netbox]
+url = {{NETBOX_URL}}
+token = {{NETBOX_TOKEN}}
+
+[options]
+enable_dns = {{ENABLE_DNS}}
+add_last_scan_time = {{ADD_LAST_SCAN_TIME}}
+show_progress = {{SHOW_PROGRESS}}
