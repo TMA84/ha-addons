@@ -30,4 +30,3 @@ schema:
   show_progress: bool
   exclude_prefixes: [str]?
   nmap_options: str?
-image: ghcr.io/loh-lu/netbox-nmap-scan
