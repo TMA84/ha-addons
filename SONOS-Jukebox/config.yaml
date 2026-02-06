@@ -22,8 +22,8 @@ map:
 options:
   spotify_client_id: ""
   spotify_client_secret: ""
-  sonos_server: ""
-  sonos_port: ""
+  sonos_api_host: ""
+  sonos_api_port: ""
   default_room: ""
   admin_pin: "1234"
 schema:
