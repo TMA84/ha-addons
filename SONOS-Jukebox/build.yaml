@@ -3,4 +3,4 @@ build_from:
   amd64: "ghcr.io/home-assistant/amd64-base:3.22"
   armv7: "ghcr.io/home-assistant/armv7-base:3.22"
 args:
-  CACHEBUST: 3
+  CACHEBUST: 4
