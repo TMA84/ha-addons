@@ -1,6 +1,6 @@
 name: "SONOS Jukebox"
 description: "Touch-based Sonos jukebox interface for kids and families"
-version: "2.2.68"
+version: "2.2.69"
 slug: "sonos_jukebox"
 arch:
   - aarch64
@@ -22,15 +22,11 @@ map:
 options:
   spotify_client_id: ""
   spotify_client_secret: ""
-  sonos_api_host: ""
-  sonos_api_port: ""
   default_room: ""
   admin_pin: "1234"
 schema:
   spotify_client_id: str
   spotify_client_secret: str
-  sonos_api_host: str
-  sonos_api_port: int
   default_room: str
   admin_pin: str
 configuration:
@@ -40,12 +36,6 @@ configuration:
   spotify_client_secret:
     name: Spotify Client Secret
     description: Your Spotify application client secret
-  sonos_api_host:
-    name: Sonos API Server
-    description: IP address of the Sonos HTTP API server
-  sonos_api_port:
-    name: Sonos API Port
-    description: Port of the Sonos HTTP API server
   default_room:
     name: Default Room
     description: Default Sonos room/speaker name
