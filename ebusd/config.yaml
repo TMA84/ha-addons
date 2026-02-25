@@ -27,9 +27,9 @@ ports_description:
   8888/tcp: TCP client port
   8889/tcp: HTTP client port (HTTP must be activated in config)
 options:
-  mode: "enh"
   device: ""
   network_device: ""
+  configpath: "https://ebus.github.io/"
   pollinterval: 5
   latency: 10
   http: false
