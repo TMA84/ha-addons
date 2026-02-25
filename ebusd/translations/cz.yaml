@@ -10,7 +10,7 @@ configuration:
     description: Pouze číst ze zažízení, nikdy nezapisovat
   configpath:
     name: Cesta k nastavení (/config/...)
-    description: Načíst konfigurační soubory CSV z vlastního umístění. Můžete vytvořit lokální kopii https://github.com/john30/ebusd-configuration ve vašem "/config" adresáři a změnit cestu k nastavení např. "/config/ebusd-configuration/latest/cz" [http://ebusd.eu/config/]
+    description: Načíst konfigurační soubory CSV z vlastního umístění (výchozí: https://ebus.github.io/). Můžete vytvořit lokální kopii https://github.com/eBUS/ebus.github.io ve vašem "/config" adresáři a změnit cestu k nastavení např. "/config/ebus.github.io/cz" nebo "/config/ebus.github.io/next/cz".
   scanconfig:
     name: "Hledat konfiguraci (výchozí: zapnuto)"
     description: Vybere CSV konfigurační soubor odpovídající výchozímu skenu (ADDR="none" nebo prázdné pro výchozí prohledání, "full" pro kompletní prohledání, nebo jedna hex addresa k prohledání, výchozí je odeslání "broadcast ident" zprávy).

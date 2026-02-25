@@ -27,13 +27,13 @@ For more info please see the eBUSd docs:
 **Top tips:** 
 
 - If you send an MQTT get message with payload "?1" eBUSd will automatically poll that reading every 30 seconds and publish via MQTT. For example: ```mosquitto_pub -t ebusd/bai/FlowTemp/get -m ?1```
-- Git clone the ebusd-configuration files to your /config folder and edit the config files for your heating system.  Add a number 1-9 (1 high priority, 9 low prioirty) after the r at the start of each line and eBUSd will poll that reading automatically.
+- By default, ebusd uses the online config service at https://ebus.github.io/. If you want to customize message definitions, clone https://github.com/eBUS/ebus.github.io into your /config folder and edit the CSV files for your heating system there.
 - Once your heating system has been detected change the device name from "ebusd bai" to the name of your boiler e.g. "ecoTEC pro"
 - If some polled readings do not show up in Home Assistant it might be because mqtt-hassio.cfg is configured to filter them out.  Try setting to mqttvar to ```"filter-name="``` and this will remove any filters so you can debug the issue.
 
 ## Custom CSV or MQTT cfg files:
 
-To use custom config files you can use the configpath option. You can create a local copy of https://github.com/john30/ebusd-configuration in your "/config" folder and change configpath to e.g. "/config/ebusd-configuration/latest/en".  Custom CSV files must be in the /config folder.
+To use custom config files you can use the configpath option. The default is https://ebus.github.io/. For local overrides, create a local copy of https://github.com/eBUS/ebus.github.io in your "/config" folder and set configpath to e.g. "/config/ebus.github.io/en" (or "/config/ebus.github.io/next/en" for the upcoming release).
 
 Similarly for MQTT create config file in "/config" folder and link it using the --mqttint=/config/YOUR_FILE_PATH option
 

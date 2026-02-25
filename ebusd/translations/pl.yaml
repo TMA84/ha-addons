@@ -13,7 +13,7 @@ configuration:
     description: Pokaż dane wyjściowe w dzienniku Supervisor (wymagane do dalszego działania ebusd)
   configpath:
     name: Ścieżka konfiguracji
-    description: Czytaj pliki konfiguracyjne CSV z niestandardowej ścieżki. Możesz utworzyć lokalną kopię https://github.com/john30/ebusd-configuration w Twoim folderze "/config" i zmień ścieżkę konfiguracji na np. "/config/ebusd-configuration/latest/en" [http://ebusd.eu/config/]
+    description: Czytaj pliki konfiguracyjne CSV z niestandardowej ścieżki (domyślnie: https://ebus.github.io/). Możesz utworzyć lokalną kopię https://github.com/eBUS/ebus.github.io w Twoim folderze "/config" i zmienić ścieżkę konfiguracji np. na "/config/ebus.github.io/en" lub "/config/ebus.github.io/next/en".
   scanconfig:
     name: Skanowanie konfiguracji
     description: Wybierz pliki konfiguracyjne CSV pasujące do wstępnego skanowania (ADDR="none" lub puste, jeśli nie ma początkowej wiadomości o skanowaniu "full" dla pełnego skanowania, lub pojedynczy adres szesnastkowy do skanowania, domyślnie wysyłana jest wiadomość z identyfikatorem rozgłoszeniowym).
