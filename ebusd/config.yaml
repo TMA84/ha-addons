@@ -12,6 +12,7 @@ arch:
   - aarch64
   - amd64
   - i386
+image: "ghcr.io/tma84/ha-addon-ebusd-{arch}"
 init: false
 startup: services
 services:
