@@ -1,4 +1,7 @@
 configuration:
+  mode:
+    name: Device Mode
+    description: Prefix for device setting (enh, ens, udp). Used together with network_device.
   device:
     name: USB Device
     description: Use this option for USB eBUSd adapters

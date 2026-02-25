@@ -27,6 +27,9 @@ ports_description:
   8888/tcp: TCP client port
   8889/tcp: HTTP client port (HTTP must be activated in config)
 options:
+  mode: "enh"
+  device: null
+  network_device: null
   scanconfig: true
   loglevel_all: "notice"
   mqtttopic: "ebusd"
