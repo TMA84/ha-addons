@@ -1,6 +1,7 @@
 #!/usr/bin/with-contenv bashio
 
 declare -a ebusd_args
+default_configpath="https://ebus.github.io/"
 
 #Always run in the foreground
 ebusd_args+=("--foreground")
@@ -39,8 +40,20 @@ do
     fi
 done
 
+#configpath (legacy fallback)
+if bashio::config.has_value "configpath"; then
+    configpath="$(bashio::config configpath)"
+    if [[ "${configpath}" == "/config/ebusd-configuration/latest/de" || "${configpath}" == "/config/ebusd-configuration/latest/de/" ]]; then
+        if [[ ! -d "${configpath%/}" ]]; then
+            bashio::log.warning "Configured configpath '${configpath}' is deprecated and missing. Falling back to ${default_configpath}"
+            configpath="${default_configpath}"
+        fi
+    fi
+    ebusd_args+=("--configpath=${configpath}")
+fi
+
 #String options
-declare options=( "configpath" "port" "latency" "accesslevel" "pollinterval" "mqttint" "mqttvar" "mqtttopic" "lograwdatafile" "lograwdatasize")
+declare options=( "port" "latency" "accesslevel" "pollinterval" "mqttint" "mqttvar" "mqtttopic" "lograwdatafile" "lograwdatasize")
 
 for optName in "${options[@]}"
 do
