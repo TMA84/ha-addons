@@ -1,12 +1,12 @@
-name: Build and publish ebusd addon image
+name: Build and publish SONOS-Jukebox addon image
 
 on:
   push:
     branches:
       - main
     paths:
-      - ebusd/**
-      - .github/workflows/build-ebusd-ghcr.yml
+      - SONOS-Jukebox/**
+      - .github/workflows/build-sonos-jukebox-ghcr.yml
   workflow_dispatch:
 
 permissions:
@@ -21,20 +21,14 @@ jobs:
       matrix:
         include:
           - arch: aarch64
-            build_from: ghcr.io/home-assistant/aarch64-base:3.21
+            build_from: ghcr.io/home-assistant/aarch64-base:3.22
             platform: linux/arm64
           - arch: amd64
-            build_from: ghcr.io/home-assistant/amd64-base:3.21
+            build_from: ghcr.io/home-assistant/amd64-base:3.22
             platform: linux/amd64
-          - arch: armhf
-            build_from: ghcr.io/home-assistant/armhf-base:3.21
-            platform: linux/arm/v6
           - arch: armv7
-            build_from: ghcr.io/home-assistant/armv7-base:3.21
+            build_from: ghcr.io/home-assistant/armv7-base:3.22
             platform: linux/arm/v7
-          - arch: i386
-            build_from: ghcr.io/home-assistant/i386-base:3.21
-            platform: linux/386
 
     steps:
       - name: Checkout
@@ -58,20 +52,23 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          VERSION=$(grep '^version:' ebusd/config.yaml | sed -E 's/version:[[:space:]]*"?([^" ]+)"?/\1/')
+          VERSION=$(grep '^version:' SONOS-Jukebox/config.yaml | sed -E 's/version:[[:space:]]*"?([^" ]+)"?/\1/')
+          CACHEBUST=$(grep 'CACHEBUST:' SONOS-Jukebox/build.yaml | sed -E 's/.*CACHEBUST:[[:space:]]*([0-9]+)/\1/' | head -n1)
           OWNER_LC=$(echo "${GITHUB_REPOSITORY_OWNER}" | tr '[:upper:]' '[:lower:]')
           echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+          echo "cachebust=${CACHEBUST:-1}" >> "${GITHUB_OUTPUT}"
           echo "owner_lc=${OWNER_LC}" >> "${GITHUB_OUTPUT}"
 
       - name: Build and push ${{ matrix.arch }}
         uses: docker/build-push-action@v6
         with:
-          context: ./ebusd
-          file: ./ebusd/Dockerfile
+          context: ./SONOS-Jukebox
+          file: ./SONOS-Jukebox/Dockerfile
           push: true
           platforms: ${{ matrix.platform }}
           build-args: |
             BUILD_FROM=${{ matrix.build_from }}
+            CACHEBUST=${{ steps.meta.outputs.cachebust }}
           tags: |
-            ghcr.io/${{ steps.meta.outputs.owner_lc }}/ha-addon-ebusd-${{ matrix.arch }}:${{ steps.meta.outputs.version }}
-            ghcr.io/${{ steps.meta.outputs.owner_lc }}/ha-addon-ebusd-${{ matrix.arch }}:latest
+            ghcr.io/${{ steps.meta.outputs.owner_lc }}/ha-addon-sonos-jukebox-${{ matrix.arch }}:${{ steps.meta.outputs.version }}
+            ghcr.io/${{ steps.meta.outputs.owner_lc }}/ha-addon-sonos-jukebox-${{ matrix.arch }}:latest
