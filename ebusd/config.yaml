@@ -30,11 +30,36 @@ options:
   mode: "enh"
   device: null
   network_device: null
+  latency: null
+  pollinterval: null
+  http: false
+  readonly: false
   scanconfig: true
+  configpath: null
+  commandline_options: null
+  accesslevel: null
+  logdir_name: null
+  logdir_files_number: null
+  logdir_files_size: null
   loglevel_all: "notice"
+  loglevel_network: null
+  loglevel_bus: null
+  loglevel_update: null
+  loglevel_main: null
+  loglevel_other: null
+  mqtthost: null
+  mqttport: null
+  mqttuser: null
+  mqttpass: null
   mqtttopic: "ebusd"
   mqttint: "/etc/ebusd/mqtt-hassio.cfg"
   mqttjson: true
+  mqttlog: false
+  mqttretain: false
+  mqttvar: null
+  lograwdata: false
+  lograwdatafile: null
+  lograwdatasize: null
 schema:
   mode: "list(enh|ens|udp)?"
   device: "device(subsystem=tty)?"
