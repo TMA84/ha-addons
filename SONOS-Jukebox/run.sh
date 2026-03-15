@@ -46,4 +46,5 @@ export SPOTIFY_CLIENT_SECRET="$SPOTIFY_CLIENT_SECRET"
 export DEFAULT_ROOM="$DEFAULT_ROOM"
 export ADMIN_PIN="$ADMIN_PIN"
 
-exec npm start
+cd /app
+exec node server.js
