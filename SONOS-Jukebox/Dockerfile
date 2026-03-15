@@ -1,31 +1,21 @@
 ARG BUILD_FROM
+ARG JUKEBOX_VERSION=latest
+
+# Stage 1: Get the pre-built app from GHCR
+FROM ghcr.io/tma84/sonos-jukebox:${JUKEBOX_VERSION} AS app
+
+# Stage 2: Build the HA add-on
 FROM $BUILD_FROM
 
-# Cache bust argument - updated for production build fix
-ARG CACHEBUST=1
-
-# Install only essential dependencies
-RUN apk add --no-cache nodejs npm git && \
-    rm -rf /var/cache/apk/*
+# Install Node.js runtime
+RUN apk add --no-cache nodejs npm
 
 WORKDIR /app
 
-# Clone repository (shallow clone for speed)
-RUN echo "Force rebuild: $CACHEBUST" && \
-    git clone --depth 1 https://github.com/TMA84/Sonos-Jukebox.git . && \
-    echo "Current version: $(cat package.json | grep version)"
+# Copy the pre-built application from the GHCR image
+COPY --from=app /app /app
 
-# Install all dependencies (including dev for build)
-RUN npm install --legacy-peer-deps
-
-# Build with production configuration and relative base href for ingress compatibility
-RUN npm run build -- --configuration production --base-href="./" && \
-    npm prune --production --legacy-peer-deps
-
-# Verify base href was set correctly
-RUN grep 'base href' /app/www/index.html
-
-# Apply server patch
+# Apply server patch for HA compatibility
 COPY server-patch.js /tmp/server-patch.js
 RUN node /tmp/server-patch.js && rm /tmp/server-patch.js
 

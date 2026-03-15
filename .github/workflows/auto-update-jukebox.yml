@@ -1,25 +1,49 @@
-name: Build and publish SONOS-Jukebox addon image
+name: Auto-update SONOS-Jukebox addon
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - SONOS-Jukebox/**
-      - .github/workflows/build-sonos-jukebox-ghcr.yml
-  workflow_dispatch:
-    inputs:
-      jukebox_version:
-        description: 'Sonos-Jukebox image version tag (e.g. 2.2.49 or latest)'
-        required: false
-        default: 'latest'
+  repository_dispatch:
+    types: [jukebox-release]
 
 permissions:
-  contents: read
+  contents: write
   packages: write
 
 jobs:
-  build-and-push:
+  update-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get new version
+        id: version
+        run: |
+          NEW_VERSION="${{ github.event.client_payload.version }}"
+          echo "new=$NEW_VERSION" >> $GITHUB_OUTPUT
+          OLD_VERSION=$(grep '^version:' SONOS-Jukebox/config.yaml | sed -E 's/version:[[:space:]]*"?([^" ]+)"?/\1/')
+          echo "old=$OLD_VERSION" >> $GITHUB_OUTPUT
+          echo "Updating from $OLD_VERSION to $NEW_VERSION"
+
+      - name: Update config.yaml version
+        run: |
+          sed -i "s/^version: .*/version: \"${{ steps.version.outputs.new }}\"/" SONOS-Jukebox/config.yaml
+
+      - name: Update build.yaml JUKEBOX_VERSION
+        run: |
+          sed -i "s/JUKEBOX_VERSION: .*/JUKEBOX_VERSION: ${{ steps.version.outputs.new }}/" SONOS-Jukebox/build.yaml
+
+      - name: Commit version update
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add SONOS-Jukebox/config.yaml SONOS-Jukebox/build.yaml
+          git commit -m "chore: update SONOS-Jukebox to v${{ steps.version.outputs.new }}"
+          git push
+
+  build:
+    needs: update-and-build
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -38,6 +62,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -54,15 +80,11 @@ jobs:
 
       - name: Resolve metadata
         id: meta
-        shell: bash
         run: |
-          set -euo pipefail
-          VERSION=$(grep '^version:' SONOS-Jukebox/config.yaml | sed -E 's/version:[[:space:]]*"?([^" ]+)"?/\1/')
+          VERSION="${{ github.event.client_payload.version }}"
           OWNER_LC=$(echo "${GITHUB_REPOSITORY_OWNER}" | tr '[:upper:]' '[:lower:]')
-          JUKEBOX_VERSION="${{ github.event.inputs.jukebox_version || 'latest' }}"
           echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
           echo "owner_lc=${OWNER_LC}" >> "${GITHUB_OUTPUT}"
-          echo "jukebox_version=${JUKEBOX_VERSION}" >> "${GITHUB_OUTPUT}"
 
       - name: Build and push ${{ matrix.arch }}
         uses: docker/build-push-action@v6
@@ -73,7 +95,7 @@ jobs:
           platforms: ${{ matrix.platform }}
           build-args: |
             BUILD_FROM=${{ matrix.build_from }}
-            JUKEBOX_VERSION=${{ steps.meta.outputs.jukebox_version }}
+            JUKEBOX_VERSION=${{ steps.meta.outputs.version }}
           tags: |
             ghcr.io/${{ steps.meta.outputs.owner_lc }}/ha-addon-sonos-jukebox-${{ matrix.arch }}:${{ steps.meta.outputs.version }}
             ghcr.io/${{ steps.meta.outputs.owner_lc }}/ha-addon-sonos-jukebox-${{ matrix.arch }}:latest
