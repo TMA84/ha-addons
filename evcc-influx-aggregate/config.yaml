@@ -1,6 +1,6 @@
 name: "EVCC Influx Aggregator"
 description: "Aggregates EVCC InfluxDB data for Grafana dashboards"
-version: "1.0.1"
+version: "1.0.2"
 slug: "evcc_influx_aggregate"
 arch:
   - aarch64
@@ -38,8 +38,8 @@ schema:
   influx_aggr_user: str
   influx_aggr_password: password
   influx_host: str
-  influx_port: "int(1,65535)"
-  peak_power_limit: "int(1,100000)"
+  influx_port: int
+  peak_power_limit: int
   home_battery: bool
   dynamic_tariff: bool
   timezone: str
