@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv bashio
 
-set -e
-
 # Get configuration
 INFLUX_EVCC_DB=$(bashio::config 'influx_evcc_db')
 INFLUX_EVCC_USER=$(bashio::config 'influx_evcc_user')
@@ -63,13 +61,15 @@ cd /app/scripts
 ./evcc-influx-aggregate.sh --detect 2>&1 || bashio::log.warning "Detection failed - will retry on next run"
 
 # Check if a one-time command should be run
-RUN_ONCE=$(bashio::config 'run_once')
-if [ -n "$RUN_ONCE" ] && [ "$RUN_ONCE" != "null" ]; then
-    bashio::log.info "Running one-time command: ./evcc-influx-aggregate.sh ${RUN_ONCE}"
-    bashio::log.info "This may take a long time depending on the date range..."
-    cd /app/scripts
-    ./evcc-influx-aggregate.sh ${RUN_ONCE} 2>&1
-    bashio::log.info "One-time command finished. Clear 'run_once' in the addon config to avoid re-running on next restart."
+if bashio::config.has_value 'run_once'; then
+    RUN_ONCE=$(bashio::config 'run_once')
+    if [ -n "$RUN_ONCE" ]; then
+        bashio::log.info "Running one-time command: ./evcc-influx-aggregate.sh ${RUN_ONCE}"
+        bashio::log.info "This may take a long time depending on the date range..."
+        cd /app/scripts
+        ./evcc-influx-aggregate.sh ${RUN_ONCE} 2>&1 || bashio::log.error "One-time command failed!"
+        bashio::log.info "One-time command finished. Clear 'run_once' in the addon config to avoid re-running on next restart."
+    fi
 fi
 
 # Generate crontab
