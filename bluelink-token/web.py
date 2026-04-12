@@ -110,7 +110,8 @@ body { font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
              border-radius: 4px; margin: 12px 0; background: #000; }
 .paste-row { display: flex; gap: 8px; margin-bottom: 4px; }
 .paste-row input { flex: 1; padding: 8px 12px; border: 1px solid var(--border);
-                   border-radius: 4px; font-size: 14px; font-family: inherit; }
+                   border-radius: 4px; font-size: 14px; font-family: inherit;
+                   -webkit-text-security: disc; }
 .paste-row input:focus { outline: none; border-color: var(--primary); }
 .paste-row button { white-space: nowrap; }
 .hint { font-size: 12px; color: var(--text-secondary); margin-top: 4px; line-height: 1.4; }
@@ -320,7 +321,7 @@ def index():
     <hr class="divider">
     <div class="section-label">Paste text into browser</div>
     <div class="paste-row">
-        <input type="text" id="paste-text" placeholder="Paste text here (e.g. password)..."
+        <input type="password" id="paste-text" placeholder="Paste text here (e.g. password)..."
                onkeydown="if(event.key==='Enter')sendClipboard()">
         <button class="btn btn-secondary" onclick="sendClipboard()">Send</button>
     </div>
