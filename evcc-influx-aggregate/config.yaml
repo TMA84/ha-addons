@@ -1,0 +1,49 @@
+name: "EVCC Influx Aggregator"
+description: "Aggregates EVCC InfluxDB data for Grafana dashboards"
+version: "1.0.0"
+slug: "evcc_influx_aggregate"
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+url: "https://github.com/TMA84/ha-addons"
+startup: services
+init: false
+options:
+  influx_evcc_db: "evcc"
+  influx_evcc_user: ""
+  influx_evcc_password: "none"
+  influx_aggr_db: "evcc_aggr"
+  influx_aggr_user: ""
+  influx_aggr_password: "none"
+  influx_host: "localhost"
+  influx_port: 8086
+  peak_power_limit: 40000
+  home_battery: true
+  dynamic_tariff: true
+  timezone: "Europe/Berlin"
+  energy_sample_interval: "60s"
+  tariff_price_interval: "15m"
+  cron_yesterday: "5 0 * * *"
+  cron_today: "0 * * * *"
+  debug: false
+schema:
+  influx_evcc_db: str
+  influx_evcc_user: str
+  influx_evcc_password: password
+  influx_aggr_db: str
+  influx_aggr_user: str
+  influx_aggr_password: password
+  influx_host: str
+  influx_port: "int(1,65535)"
+  peak_power_limit: "int(1,100000)"
+  home_battery: bool
+  dynamic_tariff: bool
+  timezone: str
+  energy_sample_interval: str
+  tariff_price_interval: str
+  cron_yesterday: str
+  cron_today: str
+  debug: bool
