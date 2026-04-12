@@ -291,13 +291,40 @@ def index():
     </p>
     <div class="log" id="log-box">{format_log()}</div>
     <hr class="divider">
+    <div style="margin-bottom: 12px;">
+        <label for="paste-text">📋 Text in Browser einfügen (z.B. Passwort):</label>
+        <div style="display: flex; gap: 8px;">
+            <input type="text" id="paste-text" placeholder="Text hier einfügen..." style="margin:0; flex:1;">
+            <button class="btn btn-blue" onclick="sendClipboard()" style="margin:0; white-space:nowrap; padding: 10px 16px;">Senden</button>
+        </div>
+        <p style="font-size: 12px; color: #999; margin-top: 4px;">
+            Klicke zuerst im noVNC-Fenster in das Eingabefeld, dann füge hier den Text ein und klicke "Senden".
+        </p>
+    </div>
     <h3 style="margin-bottom: 8px;">Browser (noVNC)</h3>
     <iframe src="/novnc" class="vnc-frame" id="vnc"></iframe>
-    <p style="font-size: 12px; color: #999; margin-top: 4px;">
-        Falls das Fenster leer ist, warte einen Moment und lade die Seite neu.
-    </p>
 </div>
 <script>
+function sendClipboard() {{
+    var text = document.getElementById('paste-text').value;
+    if (!text) return;
+    fetch('/api/type', {{
+        method: 'POST',
+        headers: {{'Content-Type': 'application/json'}},
+        body: JSON.stringify({{text: text}})
+    }}).then(r => r.json()).then(d => {{
+        if (d.ok) {{
+            document.getElementById('paste-text').value = '';
+            document.getElementById('paste-text').placeholder = '✅ Gesendet!';
+            setTimeout(function() {{
+                document.getElementById('paste-text').placeholder = 'Text hier einfügen...';
+            }}, 2000);
+        }}
+    }});
+}}
+document.getElementById('paste-text').addEventListener('keydown', function(e) {{
+    if (e.key === 'Enter') sendClipboard();
+}});
 (function poll() {{
     fetch('/api/status').then(r => r.json()).then(d => {{
         document.getElementById('log-box').innerHTML = d.log;
@@ -326,7 +353,6 @@ def index():
 
     elif s == "success":
         rt = html_lib.escape(state.get("refresh_token", ""))
-        at = html_lib.escape(state.get("access_token", ""))
         test_result = state.get("test_result", "")
         test_html = ""
         if test_result == "ok":
@@ -342,11 +368,6 @@ def index():
         <div class="token-label">Refresh Token</div>
         <div class="token-box" id="refresh">{rt}</div>
         <button class="copy-btn" data-copy="refresh" onclick="copyToken('refresh')">📋 Kopieren</button>
-    </div>
-    <div style="margin-bottom: 20px;">
-        <div class="token-label">Access Token</div>
-        <div class="token-box" id="access">{at}</div>
-        <button class="copy-btn" data-copy="access" onclick="copyToken('access')">📋 Kopieren</button>
     </div>
     <div class="alert alert-warning">⚠️ Der Refresh Token ist <strong>180 Tage</strong> gültig.</div>
     <hr class="divider">
@@ -471,6 +492,27 @@ def test_token():
 
     from flask import redirect as redir
     return redir("/")
+
+
+@app.route("/api/type", methods=["POST"])
+def api_type():
+    """Type text into the virtual display using xdotool."""
+    from flask import jsonify
+    import subprocess
+    data = request.get_json()
+    text = data.get("text", "")
+    if not text:
+        return jsonify({"ok": False, "error": "No text"})
+    try:
+        # Use xdotool to type the text character by character
+        subprocess.run(
+            ["xdotool", "type", "--clearmodifiers", "--delay", "50", text],
+            env={**os.environ, "DISPLAY": ":99"},
+            timeout=10
+        )
+        return jsonify({"ok": True})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)})
 
 
 @app.route("/api/status")

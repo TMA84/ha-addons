@@ -14,6 +14,7 @@ RUN apk add --no-cache \
     novnc \
     websockify \
     openbox \
+    xdotool \
     font-noto \
     ttf-freefont \
     dbus \
