@@ -191,7 +191,33 @@ def get_token_thread(brand):
         driver = webdriver.Chrome(service=service, options=options)
         log(f"Opening {brand.title()} login page...")
         driver.get(config["login_url"])
-        log("Waiting for login — please sign in using the browser below.", "warn")
+
+        # Auto-fill credentials if configured
+        username = os.environ.get("BLUELINK_USERNAME", "")
+        password = os.environ.get("BLUELINK_PASSWORD", "")
+        if username and password:
+            log("Auto-filling credentials...")
+            time.sleep(3)
+            try:
+                # Find and fill email/username field
+                email_field = driver.find_element(By.CSS_SELECTOR,
+                    "input[type='email'], input[type='text'][name*='mail'], "
+                    "input[type='text'][name*='user'], input[name='username'], "
+                    "input[id*='email'], input[id*='user'], input[type='text']")
+                email_field.clear()
+                email_field.send_keys(username)
+                log("Username entered.", "ok")
+
+                # Find and fill password field
+                pw_field = driver.find_element(By.CSS_SELECTOR, "input[type='password']")
+                pw_field.clear()
+                pw_field.send_keys(password)
+                log("Password entered.", "ok")
+                log("Credentials filled — please verify and click Sign In in the browser.", "warn")
+            except Exception as e:
+                log(f"Could not auto-fill: {e} — please enter manually.", "warn")
+        else:
+            log("Waiting for login — please sign in using the browser below.", "warn")
         wait = WebDriverWait(driver, 300)
         if brand == "kia":
             wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, config["success_selector"])))
@@ -255,13 +281,19 @@ def index():
     s = state["status"]
 
     if s == "idle":
+        has_creds = bool(os.environ.get("BLUELINK_USERNAME")) and bool(os.environ.get("BLUELINK_PASSWORD"))
+        creds_note = ("Credentials are configured and will be filled in automatically. "
+                      "You only need to click the Sign In button.") if has_creds else (
+                      "No credentials configured. You will need to enter them manually in the browser. "
+                      "Tip: Set username and password in the addon configuration for auto-fill.")
         return render(f"""
 <div class="card">
     <div class="card-title">Generate Refresh Token</div>
-    <p style="margin-bottom: 16px; color: var(--text-secondary); font-size: 14px;">
+    <p style="margin-bottom: 12px; color: var(--text-secondary); font-size: 14px;">
         A Chromium browser will open in the background. You can interact with it
         through the embedded viewer below to complete the {bt} Bluelink login.
     </p>
+    <div class="notice notice-info">{creds_note}</div>
     <form method="POST" action="/start">
         <button type="submit" class="btn btn-primary">Start token generation</button>
     </form>

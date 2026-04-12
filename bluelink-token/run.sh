@@ -1,11 +1,18 @@
 #!/usr/bin/with-contenv bashio
 
 BRAND=$(bashio::config 'brand')
+USERNAME=$(bashio::config 'username')
+PASSWORD=$(bashio::config 'password')
 export BRAND
+export BLUELINK_USERNAME="$USERNAME"
+export BLUELINK_PASSWORD="$PASSWORD"
 export DISPLAY=:99
 
 bashio::log.info "Starting Bluelink Token Generator..."
 bashio::log.info "Brand: ${BRAND}"
+if [ -n "$USERNAME" ]; then
+    bashio::log.info "Username configured - auto-fill enabled"
+fi
 
 # Start virtual framebuffer
 bashio::log.info "Starting Xvfb..."
