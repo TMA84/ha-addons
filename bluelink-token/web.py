@@ -60,14 +60,14 @@ body { font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
        background: var(--bg); color: var(--text); min-height: 100vh; }
 .header { background: var(--surface); border-bottom: 1px solid var(--border);
           padding: 16px 24px; margin-bottom: 24px; }
-.header-inner { max-width: 760px; margin: 0 auto; display: flex;
+.header-inner { max-width: 1100px; margin: 0 auto; display: flex;
                 align-items: center; gap: 12px; }
 .header h1 { font-size: 20px; font-weight: 500; }
 .header .brand { font-size: 12px; font-weight: 500; color: var(--text-secondary);
                  background: var(--bg); padding: 2px 10px; border-radius: 12px;
                  border: 1px solid var(--border); text-transform: uppercase;
                  letter-spacing: 0.5px; }
-.container { max-width: 760px; margin: 0 auto; padding: 0 24px 40px; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px 40px; }
 .card { background: var(--surface); border-radius: 8px; padding: 24px;
         margin-bottom: 16px; border: 1px solid var(--border); }
 .card-title { font-size: 16px; font-weight: 500; margin-bottom: 16px; }
