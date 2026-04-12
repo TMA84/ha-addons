@@ -24,6 +24,7 @@ state = {
     "refresh_token": None,
     "access_token": None,
     "error": None,
+    "test_result": "",
     "log": [],
 }
 
@@ -326,10 +327,17 @@ def index():
     elif s == "success":
         rt = html_lib.escape(state.get("refresh_token", ""))
         at = html_lib.escape(state.get("access_token", ""))
+        test_result = state.get("test_result", "")
+        test_html = ""
+        if test_result == "ok":
+            test_html = '<div class="alert alert-success">✅ Token funktioniert! API-Verbindung erfolgreich.</div>'
+        elif test_result:
+            test_html = f'<div class="alert alert-error">❌ Token-Test fehlgeschlagen: {html_lib.escape(test_result)}</div>'
         return render(f"""
 <div class="card">
     <span class="brand-badge {brand}">{brand.upper()}</span>
     <div class="alert alert-success">✅ Token erfolgreich generiert!</div>
+    {test_html}
     <div style="margin-bottom: 20px;">
         <div class="token-label">Refresh Token</div>
         <div class="token-box" id="refresh">{rt}</div>
@@ -342,15 +350,20 @@ def index():
     </div>
     <div class="alert alert-warning">⚠️ Der Refresh Token ist <strong>180 Tage</strong> gültig.</div>
     <hr class="divider">
+    <div class="actions">
+        <form method="POST" action="/test" style="margin:0;">
+            <button type="submit" class="btn btn-blue">🧪 Token testen</button>
+        </form>
+        <form method="POST" action="/reset" style="margin:0;">
+            <button type="submit" class="btn btn-outline">🔄 Neuen Token generieren</button>
+        </form>
+    </div>
+    <hr class="divider">
     <p style="font-size: 14px; color: #666;">
         Verwende den <strong>Refresh Token</strong> als Passwort zusammen mit deinem
         normalen Benutzernamen bei der Einrichtung der evcc oder Home Assistant Integration.
     </p>
     <div class="log">{format_log()}</div>
-    <hr class="divider">
-    <form method="POST" action="/reset">
-        <button type="submit" class="btn btn-outline">🔄 Neuen Token generieren</button>
-    </form>
 </div>""")
 
     elif s == "error":
@@ -392,6 +405,7 @@ def reset():
     state["refresh_token"] = None
     state["access_token"] = None
     state["error"] = None
+    state["test_result"] = ""
     state["log"] = []
     return render("""
 <div class="card"><div class="alert alert-info">Zurückgesetzt.</div></div>
@@ -405,6 +419,58 @@ def novnc():
     return f"""<!DOCTYPE html><html><head>
 <meta http-equiv="refresh" content="0;url=http://{host}:6080/vnc.html?autoconnect=true&resize=scale">
 </head><body>Redirecting to noVNC...</body></html>"""
+
+
+@app.route("/test", methods=["POST"])
+def test_token():
+    """Test the access token by calling the API status endpoint."""
+    brand = get_brand()
+    config = BRAND_CONFIG[brand]
+    access_token = state.get("access_token")
+
+    if not access_token:
+        state["test_result"] = "Kein Access Token vorhanden."
+        from flask import redirect as redir
+        return redir("/")
+
+    # Try to refresh the token using the refresh token (proves it works)
+    token_url = f"{config['base_url']}/token"
+    refresh_token = state.get("refresh_token")
+
+    try:
+        # Test 1: Use access token to check API status
+        headers = {"Authorization": f"Bearer {access_token}"}
+        if brand == "kia":
+            api_url = "https://prd.eu-ccapi.kia.com:8080/api/v1/spa/notifications"
+        else:
+            api_url = "https://prd.eu-ccapi.hyundai.com:8080/api/v1/spa/notifications"
+
+        response = req_lib.get(api_url, headers=headers, timeout=10)
+
+        if response.status_code == 200:
+            state["test_result"] = "ok"
+        elif response.status_code == 401:
+            # Access token expired, try refresh token
+            data = {
+                "grant_type": "refresh_token",
+                "refresh_token": refresh_token,
+                "client_id": config["client_id"],
+                "client_secret": config["client_secret"],
+            }
+            refresh_resp = req_lib.post(token_url, data=data, timeout=10)
+            if refresh_resp.status_code == 200:
+                new_tokens = refresh_resp.json()
+                state["access_token"] = new_tokens.get("access_token", state["access_token"])
+                state["test_result"] = "ok"
+            else:
+                state["test_result"] = f"Refresh fehlgeschlagen: {refresh_resp.status_code}"
+        else:
+            state["test_result"] = f"API Antwort: {response.status_code}"
+    except Exception as e:
+        state["test_result"] = str(e)
+
+    from flask import redirect as redir
+    return redir("/")
 
 
 @app.route("/api/status")
