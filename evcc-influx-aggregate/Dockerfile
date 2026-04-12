@@ -12,6 +12,9 @@ RUN apk add --no-cache \
     git \
     tzdata
 
+# Ensure GNU date is used instead of BusyBox date
+RUN ln -sf /usr/bin/date /bin/date
+
 # Install InfluxDB 1.8 client (multi-arch)
 RUN ARCH=$(uname -m) && \
     case "$ARCH" in \
