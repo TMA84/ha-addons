@@ -1,16 +1,21 @@
 #!/usr/bin/env python3
 """
 Bluelink Token Generator - Web Application
-Two-step OAuth2 flow for Hyundai/Kia Bluelink.
-Step 1: User logs in on the brand's consumer website
-Step 2: User opens the API authorize URL which redirects with the auth code
+OAuth2 flow for Hyundai/Kia Bluelink.
+
+The flow works like the original Selenium script but in the user's browser:
+1. User logs in on the brand's login page
+2. After login, user clicks the API authorize link (same browser session!)
+3. The redirect URL contains the auth code
+4. User pastes the URL back here to exchange for tokens
 """
 
 import os
+import re
 import requests as req_lib
-from flask import Flask, request, redirect as flask_redirect
+from flask import Flask, request
 from urllib.parse import urlencode, urlparse, parse_qs
-import html
+import html as html_lib
 
 app = Flask(__name__)
 
@@ -21,6 +26,7 @@ BRAND_CONFIG = {
         "base_url": "https://idpconnect-eu.kia.com/auth/api/v2/user/oauth2",
         "redirect_url_final": "https://prd.eu-ccapi.kia.com:8080/api/v1/user/oauth2/redirect",
         "login_url": "https://idpconnect-eu.kia.com/auth/api/v2/user/oauth2/authorize?ui_locales=de&scope=openid%20profile%20email%20phone&response_type=code&client_id=peukiaidm-online-sales&redirect_uri=https%3A%2F%2Fwww.kia.com%2Fapi%2Fbin%2Foneid%2Flogin&state=aHR0cHM6Ly93d3cua2lhLmNvbTo0NDMvZGUvP21zb2NraWQ9MjM1NDU0ODBmNmUyNjg5NDIwMmU0MDBjZjc2OTY5NWQmX3RtPTE3NTYzMTg3MjY1OTImX3RtPTE3NTYzMjQyMTcxMjY%3D_default",
+        "code_pattern": r'^https://.*:8080/api/v1/user/oauth2/redirect',
     },
     "hyundai": {
         "client_id": "6d477c38-3ca4-4cf3-9557-2a1929a94654",
@@ -28,6 +34,7 @@ BRAND_CONFIG = {
         "base_url": "https://idpconnect-eu.hyundai.com/auth/api/v2/user/oauth2",
         "redirect_url_final": "https://prd.eu-ccapi.hyundai.com:8080/api/v1/user/oauth2/token",
         "login_url": "https://idpconnect-eu.hyundai.com/auth/api/v2/user/oauth2/authorize?client_id=peuhyundaiidm-ctb&redirect_uri=https%3A%2F%2Fctbapi.hyundai-europe.com%2Fapi%2Fauth&nonce=&state=NL_&scope=openid+profile+email+phone&response_type=code&connector_client_id=peuhyundaiidm-ctb&connector_scope=&connector_session_key=&country=&captcha=1&ui_locales=en-US",
+        "code_pattern": r'^https://.*:8080/api/v1/user/oauth2/token',
     },
 }
 
@@ -50,7 +57,7 @@ h1 { font-size: 24px; margin-bottom: 8px; }
             font-weight: 700; font-size: 14px; flex-shrink: 0; }
 .step-num.done { background: #4CAF50; color: white; }
 .step-num.active { background: #1976D2; color: white; }
-.step-text { padding-top: 3px; }
+.step-text { padding-top: 3px; line-height: 1.5; }
 .btn { display: inline-block; padding: 12px 28px; border-radius: 8px; border: none;
        color: white; font-size: 15px; font-weight: 600; cursor: pointer;
        text-decoration: none; transition: background 0.2s; margin-top: 8px; }
@@ -70,6 +77,9 @@ h1 { font-size: 24px; margin-bottom: 8px; }
 .copy-btn { background: none; border: none; color: #1976D2; cursor: pointer;
             font-size: 13px; padding: 4px 0; }
 .copy-btn:hover { text-decoration: underline; }
+.url-box { background: #f0f0f0; padding: 10px 14px; border-radius: 8px;
+           word-break: break-all; font-family: monospace; font-size: 12px;
+           margin: 8px 0; border: 1px solid #ddd; user-select: all; }
 .alert { padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; }
 .alert-success { background: #e8f5e9; color: #2e7d32; }
 .alert-error { background: #fbe9e7; color: #c62828; }
@@ -81,6 +91,7 @@ input[type="text"] { width: 100%; padding: 10px 14px; border: 1px solid #ddd;
                      border-radius: 8px; font-size: 15px; margin-bottom: 12px; }
 input[type="text"]:focus { outline: none; border-color: #1976D2; }
 label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+code { background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
 """
 
 COPY_SCRIPT = """
@@ -97,22 +108,15 @@ function copyToken(id) {
 
 def render(content):
     return f"""<!DOCTYPE html>
-<html lang="de">
-<head>
+<html lang="de"><head>
 <title>Bluelink Token Generator</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>{STYLE}</style>
-</head>
-<body>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<style>{STYLE}</style></head><body>
 <div class="container">
 <h1>🔑 Bluelink Token Generator</h1>
 <p class="subtitle">Refresh Token für evcc &amp; Home Assistant</p>
 {content}
-</div>
-<script>{COPY_SCRIPT}</script>
-</body>
-</html>"""
+</div><script>{COPY_SCRIPT}</script></body></html>"""
 
 
 def get_brand():
@@ -120,84 +124,35 @@ def get_brand():
 
 
 def get_code_url(brand):
-    """Build the second URL that retrieves the auth code after login."""
     config = BRAND_CONFIG[brand]
-    params = {
-        "response_type": "code",
-        "client_id": config["client_id"],
-        "redirect_uri": config["redirect_url_final"],
-        "lang": "de",
-        "state": "ccsp",
-    }
-    return f"{config['base_url']}/authorize?" + urlencode(params)
+    return (f"{config['base_url']}/authorize?"
+            f"response_type=code&"
+            f"client_id={config['client_id']}&"
+            f"redirect_uri={config['redirect_url_final']}&"
+            f"lang=de&state=ccsp")
+
+
+def extract_code(url_str):
+    """Extract auth code from redirect URL."""
+    # Try query parameter first
+    parsed = urlparse(url_str)
+    params = parse_qs(parsed.query)
+    code = params.get("code", [None])[0]
+    if code:
+        return code
+    # Try regex pattern (code format: uuid.uuid.uuid)
+    match = re.search(r'code=([0-9a-fA-F-]{36}\.[0-9a-fA-F-]{36}\.[0-9a-fA-F-]{36})', url_str)
+    if match:
+        return match.group(1)
+    return None
 
 
 @app.route("/")
 def index():
     brand = get_brand()
     bt = brand.title()
-    return render(f"""
-<div class="card">
-    <span class="brand-badge {brand}">{brand.upper()}</span>
-    <p style="margin-bottom: 16px;">Generiere einen Refresh Token für dein {bt} Fahrzeug in 3 Schritten:</p>
-
-    <div class="step">
-        <div class="step-num active">1</div>
-        <div class="step-text">Bei {bt} Bluelink anmelden (gleiche Zugangsdaten wie in der App)</div>
-    </div>
-    <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-text">API-Autorisierung durchführen (erzeugt den Auth-Code)</div>
-    </div>
-    <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-text">URL mit Auth-Code einfügen → Token wird generiert</div>
-    </div>
-
-    <hr class="divider">
-    <a href="/step1" class="btn btn-primary">🚀 Starten</a>
-</div>
-<div class="card">
-    <div class="alert alert-info">💡 Marke ändern: Addon-Konfiguration → brand → hyundai oder kia</div>
-</div>""")
-
-
-@app.route("/step1")
-def step1():
-    brand = get_brand()
-    bt = brand.title()
     config = BRAND_CONFIG[brand]
     login_url = config["login_url"]
-
-    return render(f"""
-<div class="card">
-    <span class="brand-badge {brand}">{brand.upper()}</span>
-
-    <div class="step">
-        <div class="step-num active">1</div>
-        <div class="step-text"><strong>Bei {bt} anmelden</strong></div>
-    </div>
-
-    <p style="margin-bottom: 16px;">Klicke auf den Button um dich bei {bt} Bluelink anzumelden.
-    Verwende die gleichen Zugangsdaten wie in der {bt} App auf deinem Handy.</p>
-
-    <div class="alert alert-info">
-        Nach dem Login landest du auf der {bt} Webseite. Das ist korrekt!
-        Komm danach hierher zurück und klicke auf "Weiter zu Schritt 2".
-    </div>
-
-    <div class="actions">
-        <a href="{login_url}" target="_blank" class="btn btn-blue">🔗 Bei {bt} anmelden (neuer Tab)</a>
-    </div>
-    <hr class="divider">
-    <a href="/step2" class="btn btn-orange">Weiter zu Schritt 2 →</a>
-</div>""")
-
-
-@app.route("/step2")
-def step2():
-    brand = get_brand()
-    bt = brand.title()
     code_url = get_code_url(brand)
 
     return render(f"""
@@ -205,41 +160,57 @@ def step2():
     <span class="brand-badge {brand}">{brand.upper()}</span>
 
     <div class="step">
-        <div class="step-num done">✓</div>
-        <div class="step-text" style="color: #999;">Bei {bt} angemeldet</div>
+        <div class="step-num active">1</div>
+        <div class="step-text">
+            Öffne den Login-Link und melde dich mit deinen {bt} Bluelink-Zugangsdaten an
+            (die gleichen wie in der App).<br>
+            <a href="{login_url}" target="_blank" class="btn btn-blue" style="margin-top:12px">
+                🔗 Bei {bt} anmelden
+            </a>
+        </div>
     </div>
+
     <div class="step">
         <div class="step-num active">2</div>
-        <div class="step-text"><strong>API-Autorisierung &amp; URL kopieren</strong></div>
+        <div class="step-text">
+            <strong>Wichtig: Im gleichen Browser!</strong> Öffne nach dem Login diesen Link.
+            Du wirst auf eine Seite weitergeleitet die einen Fehler zeigt oder nicht lädt.
+            <strong>Das ist normal!</strong><br>
+            <a href="{code_url}" target="_blank" class="btn btn-orange" style="margin-top:12px">
+                🔗 API-Autorisierung öffnen
+            </a>
+        </div>
     </div>
-
-    <p style="margin-bottom: 16px;">Klicke auf den Button unten. Du wirst auf eine Seite weitergeleitet,
-    die wahrscheinlich einen <strong>Fehler oder eine leere Seite</strong> zeigt.
-    <strong>Das ist normal und gewollt!</strong></p>
-
-    <div class="alert alert-warning">
-        ⚠️ Kopiere die <strong>komplette URL</strong> aus der Adressleiste deines Browsers.
-        Sie enthält den Auth-Code den wir brauchen.
-    </div>
-
-    <a href="{code_url}" target="_blank" class="btn btn-blue">🔗 API-Autorisierung öffnen (neuer Tab)</a>
-
-    <hr class="divider">
 
     <div class="step">
         <div class="step-num active">3</div>
-        <div class="step-text"><strong>URL einfügen</strong></div>
+        <div class="step-text">
+            Kopiere die <strong>komplette URL</strong> aus der Adressleiste des Browsers
+            (die Seite die den Fehler zeigt) und füge sie unten ein.
+            Die URL enthält <code>?code=</code> - das ist der Auth-Code.
+        </div>
     </div>
 
-    <label for="redirect_url">Füge die kopierte URL hier ein:</label>
+    <hr class="divider">
+
+    <label for="redirect_url">URL aus Schritt 2 hier einfügen:</label>
     <form method="POST" action="/exchange">
         <input type="text" name="redirect_url" id="redirect_url"
                placeholder="https://prd.eu-ccapi.{brand}.com:8080/...?code=..." autofocus>
         <div class="actions">
             <button type="submit" class="btn btn-primary">🔑 Token generieren</button>
-            <a href="/" class="btn btn-outline">← Von vorne</a>
         </div>
     </form>
+</div>
+
+<div class="card">
+    <div class="alert alert-info">
+        💡 Marke ändern: Addon-Konfiguration → brand → hyundai oder kia
+    </div>
+    <div class="alert alert-warning">
+        ⚠️ Schritt 1 und 2 müssen im <strong>gleichen Browser</strong> durchgeführt werden,
+        damit die Login-Session erhalten bleibt!
+    </div>
 </div>""")
 
 
@@ -254,34 +225,24 @@ def exchange():
 <div class="card">
     <span class="brand-badge {brand}">{brand.upper()}</span>
     <div class="alert alert-error">❌ Keine URL eingegeben.</div>
-    <a href="/step2" class="btn btn-primary">← Zurück</a>
+    <a href="/" class="btn btn-primary">← Zurück</a>
 </div>""")
 
-    # Extract code from URL
-    try:
-        parsed = urlparse(redirect_url)
-        params = parse_qs(parsed.query)
-        code = params.get("code", [None])[0]
-
-        if not code and parsed.fragment:
-            frag_params = parse_qs(parsed.fragment)
-            code = frag_params.get("code", [None])[0]
-
-        if not code:
-            return render(f"""
-<div class="card">
-    <span class="brand-badge {brand}">{brand.upper()}</span>
-    <div class="alert alert-error">❌ Kein Autorisierungscode in der URL gefunden.</div>
-    <p style="margin: 12px 0; font-size: 14px;">Stelle sicher, dass du die komplette URL nach Schritt 2 kopiert hast.
-    Die URL sollte <code>?code=</code> enthalten.</p>
-    <a href="/step2" class="btn btn-primary">← Zurück zu Schritt 2</a>
-</div>""")
-    except Exception as e:
+    code = extract_code(redirect_url)
+    if not code:
         return render(f"""
 <div class="card">
     <span class="brand-badge {brand}">{brand.upper()}</span>
-    <div class="alert alert-error">❌ URL konnte nicht verarbeitet werden: {html.escape(str(e))}</div>
-    <a href="/step2" class="btn btn-primary">← Zurück</a>
+    <div class="alert alert-error">❌ Kein Autorisierungscode in der URL gefunden.</div>
+    <p style="margin: 12px 0; font-size: 14px;">
+        Die URL muss <code>?code=</code> enthalten. Stelle sicher, dass du:
+    </p>
+    <ol style="padding-left: 20px; line-height: 1.8; font-size: 14px;">
+        <li>Dich zuerst bei {brand.title()} angemeldet hast (Schritt 1)</li>
+        <li>Dann im <strong>gleichen Browser</strong> den API-Link geöffnet hast (Schritt 2)</li>
+        <li>Die <strong>komplette URL</strong> aus der Adressleiste kopiert hast</li>
+    </ol>
+    <a href="/" class="btn btn-primary" style="margin-top: 12px;">← Zurück</a>
 </div>""")
 
     # Exchange code for tokens
@@ -298,8 +259,8 @@ def exchange():
         response = req_lib.post(token_url, data=data, timeout=15)
         if response.status_code == 200:
             tokens = response.json()
-            rt = html.escape(tokens.get("refresh_token", "N/A"))
-            at = html.escape(tokens.get("access_token", "N/A"))
+            rt = html_lib.escape(tokens.get("refresh_token", "N/A"))
+            at = html_lib.escape(tokens.get("access_token", "N/A"))
             return render(f"""
 <div class="card">
     <span class="brand-badge {brand}">{brand.upper()}</span>
@@ -315,7 +276,7 @@ def exchange():
         <button class="copy-btn" data-copy="access" onclick="copyToken('access')">📋 Kopieren</button>
     </div>
     <div class="alert alert-warning">
-        ⚠️ Der Refresh Token ist <strong>180 Tage</strong> gültig. Danach muss ein neuer generiert werden.
+        ⚠️ Der Refresh Token ist <strong>180 Tage</strong> gültig.
     </div>
     <hr class="divider">
     <p style="font-size: 14px; color: #666;">
@@ -326,19 +287,19 @@ def exchange():
     <a href="/" class="btn btn-outline">🔄 Neuen Token generieren</a>
 </div>""")
         else:
-            err = html.escape(response.text[:300])
+            err = html_lib.escape(response.text[:300])
             return render(f"""
 <div class="card">
     <span class="brand-badge {brand}">{brand.upper()}</span>
     <div class="alert alert-error">❌ API Fehler {response.status_code}: {err}</div>
-    <a href="/step2" class="btn btn-primary">← Zurück</a>
+    <a href="/" class="btn btn-primary">← Zurück</a>
 </div>""")
     except Exception as e:
         return render(f"""
 <div class="card">
     <span class="brand-badge {brand}">{brand.upper()}</span>
-    <div class="alert alert-error">❌ Verbindungsfehler: {html.escape(str(e))}</div>
-    <a href="/step2" class="btn btn-primary">← Zurück</a>
+    <div class="alert alert-error">❌ Verbindungsfehler: {html_lib.escape(str(e))}</div>
+    <a href="/" class="btn btn-primary">← Zurück</a>
 </div>""")
 
 
