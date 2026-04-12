@@ -4,12 +4,15 @@ Generiert Hyundai/Kia Bluelink Refresh Tokens für die Verwendung mit evcc und H
 
 ## Funktionsweise
 
-Dieses Addon stellt eine Web-Oberfläche bereit, über die du den Bluelink Login-Prozess durchführen kannst. Es nutzt Selenium mit Chromium um den OAuth-Flow abzuwickeln.
-
 1. Öffne die Web-UI des Addons (Port 9876)
-2. Klicke auf "Token generieren"
-3. Melde dich im Browser-Fenster mit deinen Bluelink-Zugangsdaten an
-4. Der Refresh Token wird automatisch extrahiert und angezeigt
+2. Klicke auf "Login starten"
+3. Du wirst zur Bluelink-Anmeldeseite weitergeleitet - melde dich an
+4. Nach dem Login wirst du auf eine Seite weitergeleitet (evtl. mit Fehlermeldung - das ist normal!)
+5. Kopiere die komplette URL aus der Adressleiste
+6. Füge sie in das Eingabefeld ein und klicke auf "Token generieren"
+7. Dein Refresh Token wird angezeigt
+
+Kein Selenium oder Chrome nötig - alles läuft direkt in deinem Browser.
 
 ## Konfiguration
 
@@ -17,9 +20,9 @@ Dieses Addon stellt eine Web-Oberfläche bereit, über die du den Bluelink Login
 
 ## Verwendung des Tokens
 
-Verwende den Refresh Token als Passwort zusammen mit deinem normalen Benutzernamen bei der Einrichtung der Home Assistant oder evcc Integration.
+Verwende den Refresh Token als Passwort zusammen mit deinem normalen Benutzernamen bei der Einrichtung der evcc oder Home Assistant Integration.
 
-Der Refresh Token ist 180 Tage gültig. Danach muss ein neuer generiert werden.
+Der Refresh Token ist **180 Tage** gültig. Danach muss ein neuer generiert werden.
 
 ## Credits
 
