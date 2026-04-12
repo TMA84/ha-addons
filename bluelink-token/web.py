@@ -106,7 +106,7 @@ body { font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
 .log .ok { color: #4EC9B0; }
 .log .warn { color: #dcdcaa; }
 .log .err { color: #f48771; }
-.vnc-frame { width: 100%; height: 480px; border: 1px solid var(--border);
+.vnc-frame { width: 100%; height: 700px; border: 1px solid var(--border);
              border-radius: 4px; margin: 12px 0; background: #000; }
 .paste-row { display: flex; gap: 8px; margin-bottom: 4px; }
 .paste-row input { flex: 1; padding: 8px 12px; border: 1px solid var(--border);
