@@ -1,23 +1,31 @@
 #!/usr/bin/env python3
 """
-Bluelink Token Generator - Web Application
-OAuth2 flow for Hyundai/Kia Bluelink.
-
-The flow works like the original Selenium script but in the user's browser:
-1. User logs in on the brand's login page
-2. After login, user clicks the API authorize link (same browser session!)
-3. The redirect URL contains the auth code
-4. User pastes the URL back here to exchange for tokens
+Bluelink Token Generator - Web Application with Selenium + noVNC
+The user can watch and interact with the browser via noVNC.
 """
 
 import os
 import re
+import time
+import threading
 import requests as req_lib
 from flask import Flask, request
-from urllib.parse import urlencode, urlparse, parse_qs
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 import html as html_lib
 
 app = Flask(__name__)
+
+state = {
+    "status": "idle",  # idle, waiting_login, processing, success, error
+    "refresh_token": None,
+    "access_token": None,
+    "error": None,
+    "log": [],
+}
 
 BRAND_CONFIG = {
     "kia": {
@@ -26,6 +34,7 @@ BRAND_CONFIG = {
         "base_url": "https://idpconnect-eu.kia.com/auth/api/v2/user/oauth2",
         "redirect_url_final": "https://prd.eu-ccapi.kia.com:8080/api/v1/user/oauth2/redirect",
         "login_url": "https://idpconnect-eu.kia.com/auth/api/v2/user/oauth2/authorize?ui_locales=de&scope=openid%20profile%20email%20phone&response_type=code&client_id=peukiaidm-online-sales&redirect_uri=https%3A%2F%2Fwww.kia.com%2Fapi%2Fbin%2Foneid%2Flogin&state=aHR0cHM6Ly93d3cua2lhLmNvbTo0NDMvZGUvP21zb2NraWQ9MjM1NDU0ODBmNmUyNjg5NDIwMmU0MDBjZjc2OTY5NWQmX3RtPTE3NTYzMTg3MjY1OTImX3RtPTE3NTYzMjQyMTcxMjY%3D_default",
+        "success_selector": "a[class='logout user']",
         "code_pattern": r'^https://.*:8080/api/v1/user/oauth2/redirect',
     },
     "hyundai": {
@@ -34,6 +43,7 @@ BRAND_CONFIG = {
         "base_url": "https://idpconnect-eu.hyundai.com/auth/api/v2/user/oauth2",
         "redirect_url_final": "https://prd.eu-ccapi.hyundai.com:8080/api/v1/user/oauth2/token",
         "login_url": "https://idpconnect-eu.hyundai.com/auth/api/v2/user/oauth2/authorize?client_id=peuhyundaiidm-ctb&redirect_uri=https%3A%2F%2Fctbapi.hyundai-europe.com%2Fapi%2Fauth&nonce=&state=NL_&scope=openid+profile+email+phone&response_type=code&connector_client_id=peuhyundaiidm-ctb&connector_scope=&connector_session_key=&country=&captcha=1&ui_locales=en-US",
+        "success_selector": "button.mail_check",
         "code_pattern": r'^https://.*:8080/api/v1/user/oauth2/token',
     },
 }
@@ -42,7 +52,7 @@ STYLE = """
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
        background: #f0f2f5; color: #333; min-height: 100vh; padding: 20px; }
-.container { max-width: 640px; margin: 0 auto; }
+.container { max-width: 700px; margin: 0 auto; }
 h1 { font-size: 24px; margin-bottom: 8px; }
 .subtitle { color: #666; margin-bottom: 24px; }
 .card { background: white; border-radius: 12px; padding: 24px;
@@ -51,22 +61,13 @@ h1 { font-size: 24px; margin-bottom: 8px; }
                font-weight: 600; font-size: 13px; color: white; margin-bottom: 16px; }
 .brand-badge.hyundai { background: #002C5F; }
 .brand-badge.kia { background: #05141F; }
-.step { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
-.step-num { width: 28px; height: 28px; border-radius: 50%; background: #e8e8e8;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 14px; flex-shrink: 0; }
-.step-num.done { background: #4CAF50; color: white; }
-.step-num.active { background: #1976D2; color: white; }
-.step-text { padding-top: 3px; line-height: 1.5; }
 .btn { display: inline-block; padding: 12px 28px; border-radius: 8px; border: none;
        color: white; font-size: 15px; font-weight: 600; cursor: pointer;
-       text-decoration: none; transition: background 0.2s; margin-top: 8px; }
+       text-decoration: none; transition: background 0.2s; }
 .btn-primary { background: #4CAF50; }
 .btn-primary:hover { background: #43a047; }
 .btn-blue { background: #1976D2; }
 .btn-blue:hover { background: #1565C0; }
-.btn-orange { background: #F57C00; }
-.btn-orange:hover { background: #EF6C00; }
 .btn-outline { background: transparent; color: #666; border: 1px solid #ddd; }
 .btn-outline:hover { background: #f5f5f5; }
 .token-label { font-size: 13px; font-weight: 600; color: #666;
@@ -77,9 +78,6 @@ h1 { font-size: 24px; margin-bottom: 8px; }
 .copy-btn { background: none; border: none; color: #1976D2; cursor: pointer;
             font-size: 13px; padding: 4px 0; }
 .copy-btn:hover { text-decoration: underline; }
-.url-box { background: #f0f0f0; padding: 10px 14px; border-radius: 8px;
-           word-break: break-all; font-family: monospace; font-size: 12px;
-           margin: 8px 0; border: 1px solid #ddd; user-select: all; }
 .alert { padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; }
 .alert-success { background: #e8f5e9; color: #2e7d32; }
 .alert-error { background: #fbe9e7; color: #c62828; }
@@ -87,11 +85,14 @@ h1 { font-size: 24px; margin-bottom: 8px; }
 .alert-info { background: #e3f2fd; color: #1565c0; }
 .divider { border: none; border-top: 1px solid #eee; margin: 20px 0; }
 .actions { display: flex; gap: 10px; flex-wrap: wrap; }
-input[type="text"] { width: 100%; padding: 10px 14px; border: 1px solid #ddd;
-                     border-radius: 8px; font-size: 15px; margin-bottom: 12px; }
-input[type="text"]:focus { outline: none; border-color: #1976D2; }
-label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
-code { background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+.log { background: #1e1e1e; color: #d4d4d4; padding: 12px; border-radius: 8px;
+       font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto;
+       margin: 12px 0; line-height: 1.6; }
+.log .ok { color: #4EC9B0; }
+.log .warn { color: #CE9178; }
+.log .err { color: #F44747; }
+.vnc-frame { width: 100%; height: 500px; border: 1px solid #ddd; border-radius: 8px;
+             margin: 12px 0; }
 """
 
 COPY_SCRIPT = """
@@ -123,145 +124,192 @@ def get_brand():
     return os.environ.get("BRAND", "hyundai").lower()
 
 
-def get_code_url(brand):
+def log(msg, level="info"):
+    state["log"].append((level, msg))
+    print(f"[{level.upper()}] {msg}")
+
+
+def get_token_thread(brand):
+    """Run the full Selenium flow to get tokens."""
     config = BRAND_CONFIG[brand]
-    return (f"{config['base_url']}/authorize?"
-            f"response_type=code&"
-            f"client_id={config['client_id']}&"
-            f"redirect_uri={config['redirect_url_final']}&"
-            f"lang=de&state=ccsp")
+    base_url = config["base_url"]
+    token_url = f"{base_url}/token"
+    redirect_url = (f"{base_url}/authorize?"
+                    f"response_type=code&client_id={config['client_id']}"
+                    f"&redirect_uri={config['redirect_url_final']}"
+                    f"&lang=de&state=ccsp")
+
+    driver = None
+    try:
+        state["status"] = "waiting_login"
+        state["log"] = []
+        log("Starte Chromium Browser...")
+
+        options = webdriver.ChromeOptions()
+        options.binary_location = "/usr/bin/chromium-browser"
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--window-size=1280,800")
+        options.add_argument(
+            "user-agent=Mozilla/5.0 (Linux; Android 4.1.1; Galaxy Nexus "
+            "Build/JRO03C) AppleWebKit/535.19 (KHTML, like Gecko) "
+            "Chrome/18.0.1025.166 Mobile Safari/535.19_CCS_APP_AOS"
+        )
+
+        driver = webdriver.Chrome(options=options)
+
+        log(f"Öffne {brand.title()} Login-Seite...")
+        driver.get(config["login_url"])
+        log("Warte auf Login... Bitte im noVNC-Fenster anmelden!", "warn")
+
+        wait = WebDriverWait(driver, 300)
+        if brand == "kia":
+            wait.until(EC.presence_of_element_located(
+                (By.CSS_SELECTOR, config["success_selector"])))
+        else:
+            wait.until(EC.any_of(
+                EC.presence_of_element_located(
+                    (By.CSS_SELECTOR, config["success_selector"])),
+                EC.presence_of_element_located(
+                    (By.CSS_SELECTOR, "button.ctb_button"))
+            ))
+
+        log("Login erfolgreich!", "ok")
+        state["status"] = "processing"
+
+        log("Hole Autorisierungscode...")
+        driver.get(redirect_url)
+        time.sleep(3)
+
+        current_url = ""
+        for i in range(15):
+            current_url = driver.current_url
+            log(f"Warte auf Redirect... ({i+1}/15)")
+            if re.match(config["code_pattern"], current_url):
+                break
+            time.sleep(1)
+
+        code_match = re.search(
+            r'code=([0-9a-fA-F-]{36}\.[0-9a-fA-F-]{36}\.[0-9a-fA-F-]{36})',
+            current_url
+        )
+        if not code_match:
+            state["status"] = "error"
+            state["error"] = f"Kein Auth-Code in URL gefunden: {current_url[:100]}"
+            log(state["error"], "err")
+            return
+
+        code = code_match.group(1)
+        log("Auth-Code erhalten!", "ok")
+
+        log("Tausche Code gegen Token...")
+        data = {
+            "grant_type": "authorization_code",
+            "code": code,
+            "redirect_uri": config["redirect_url_final"],
+            "client_id": config["client_id"],
+            "client_secret": config["client_secret"],
+        }
+        response = req_lib.post(token_url, data=data, timeout=15)
+
+        if response.status_code == 200:
+            tokens = response.json()
+            state["refresh_token"] = tokens.get("refresh_token", "N/A")
+            state["access_token"] = tokens.get("access_token", "N/A")
+            state["status"] = "success"
+            log("Token erfolgreich generiert!", "ok")
+        else:
+            state["status"] = "error"
+            state["error"] = f"API Fehler {response.status_code}: {response.text[:200]}"
+            log(state["error"], "err")
+
+    except TimeoutException:
+        state["status"] = "error"
+        state["error"] = "Timeout nach 5 Minuten. Login wurde nicht abgeschlossen."
+        log(state["error"], "err")
+    except Exception as e:
+        state["status"] = "error"
+        state["error"] = str(e)
+        log(f"Fehler: {e}", "err")
+    finally:
+        if driver:
+            try:
+                driver.quit()
+            except Exception:
+                pass
+        log("Browser geschlossen.")
 
 
-def extract_code(url_str):
-    """Extract auth code from redirect URL."""
-    # Try query parameter first
-    parsed = urlparse(url_str)
-    params = parse_qs(parsed.query)
-    code = params.get("code", [None])[0]
-    if code:
-        return code
-    # Try regex pattern (code format: uuid.uuid.uuid)
-    match = re.search(r'code=([0-9a-fA-F-]{36}\.[0-9a-fA-F-]{36}\.[0-9a-fA-F-]{36})', url_str)
-    if match:
-        return match.group(1)
-    return None
+def format_log():
+    lines = []
+    for level, msg in state["log"]:
+        cls = {"ok": "ok", "warn": "warn", "err": "err"}.get(level, "")
+        escaped = html_lib.escape(msg)
+        if cls:
+            lines.append(f'<span class="{cls}">{escaped}</span>')
+        else:
+            lines.append(escaped)
+    return "<br>".join(lines)
 
 
 @app.route("/")
 def index():
     brand = get_brand()
     bt = brand.title()
-    config = BRAND_CONFIG[brand]
-    login_url = config["login_url"]
-    code_url = get_code_url(brand)
+    s = state["status"]
 
-    return render(f"""
+    if s == "idle":
+        return render(f"""
 <div class="card">
     <span class="brand-badge {brand}">{brand.upper()}</span>
-
-    <div class="step">
-        <div class="step-num active">1</div>
-        <div class="step-text">
-            Öffne den Login-Link und melde dich mit deinen {bt} Bluelink-Zugangsdaten an
-            (die gleichen wie in der App).<br>
-            <a href="{login_url}" target="_blank" class="btn btn-blue" style="margin-top:12px">
-                🔗 Bei {bt} anmelden
-            </a>
-        </div>
-    </div>
-
-    <div class="step">
-        <div class="step-num active">2</div>
-        <div class="step-text">
-            <strong>Wichtig: Im gleichen Browser!</strong> Öffne nach dem Login diesen Link.
-            Du wirst auf eine Seite weitergeleitet die einen Fehler zeigt oder nicht lädt.
-            <strong>Das ist normal!</strong><br>
-            <a href="{code_url}" target="_blank" class="btn btn-orange" style="margin-top:12px">
-                🔗 API-Autorisierung öffnen
-            </a>
-        </div>
-    </div>
-
-    <div class="step">
-        <div class="step-num active">3</div>
-        <div class="step-text">
-            Kopiere die <strong>komplette URL</strong> aus der Adressleiste des Browsers
-            (die Seite die den Fehler zeigt) und füge sie unten ein.
-            Die URL enthält <code>?code=</code> - das ist der Auth-Code.
-        </div>
-    </div>
-
-    <hr class="divider">
-
-    <label for="redirect_url">URL aus Schritt 2 hier einfügen:</label>
-    <form method="POST" action="/exchange">
-        <input type="text" name="redirect_url" id="redirect_url"
-               placeholder="https://prd.eu-ccapi.{brand}.com:8080/...?code=..." autofocus>
-        <div class="actions">
-            <button type="submit" class="btn btn-primary">🔑 Token generieren</button>
-        </div>
+    <p style="margin-bottom: 16px;">Generiere einen Refresh Token für dein {bt} Fahrzeug.</p>
+    <p style="margin-bottom: 16px; font-size: 14px;">
+        Nach dem Klick auf "Starten" öffnet sich ein Browser im Hintergrund.
+        Du kannst den Browser über das <strong>noVNC-Fenster</strong> unten sehen und dich dort anmelden.
+    </p>
+    <form method="POST" action="/start">
+        <button type="submit" class="btn btn-primary">🚀 Token-Generierung starten</button>
     </form>
 </div>
-
 <div class="card">
-    <div class="alert alert-info">
-        💡 Marke ändern: Addon-Konfiguration → brand → hyundai oder kia
-    </div>
+    <div class="alert alert-info">💡 Marke ändern: Addon-Konfiguration → brand → hyundai oder kia</div>
+</div>""")
+
+    elif s == "waiting_login":
+        return render(f"""
+<div class="card">
+    <span class="brand-badge {brand}">{brand.upper()}</span>
     <div class="alert alert-warning">
-        ⚠️ Schritt 1 und 2 müssen im <strong>gleichen Browser</strong> durchgeführt werden,
-        damit die Login-Session erhalten bleibt!
+        ⏳ Warte auf Login... Bitte melde dich im Browser-Fenster unten an!
     </div>
-</div>""")
-
-
-@app.route("/exchange", methods=["POST"])
-def exchange():
-    brand = get_brand()
-    config = BRAND_CONFIG[brand]
-    redirect_url = request.form.get("redirect_url", "").strip()
-
-    if not redirect_url:
-        return render(f"""
-<div class="card">
-    <span class="brand-badge {brand}">{brand.upper()}</span>
-    <div class="alert alert-error">❌ Keine URL eingegeben.</div>
-    <a href="/" class="btn btn-primary">← Zurück</a>
-</div>""")
-
-    code = extract_code(redirect_url)
-    if not code:
-        return render(f"""
-<div class="card">
-    <span class="brand-badge {brand}">{brand.upper()}</span>
-    <div class="alert alert-error">❌ Kein Autorisierungscode in der URL gefunden.</div>
-    <p style="margin: 12px 0; font-size: 14px;">
-        Die URL muss <code>?code=</code> enthalten. Stelle sicher, dass du:
+    <p style="margin-bottom: 12px; font-size: 14px;">
+        Verwende deine {bt} Bluelink-Zugangsdaten (die gleichen wie in der App).
+        Das Script wartet bis zu 5 Minuten.
     </p>
-    <ol style="padding-left: 20px; line-height: 1.8; font-size: 14px;">
-        <li>Dich zuerst bei {brand.title()} angemeldet hast (Schritt 1)</li>
-        <li>Dann im <strong>gleichen Browser</strong> den API-Link geöffnet hast (Schritt 2)</li>
-        <li>Die <strong>komplette URL</strong> aus der Adressleiste kopiert hast</li>
-    </ol>
-    <a href="/" class="btn btn-primary" style="margin-top: 12px;">← Zurück</a>
-</div>""")
+    <div class="log">{format_log()}</div>
+    <hr class="divider">
+    <h3 style="margin-bottom: 8px;">Browser (noVNC)</h3>
+    <iframe src="/novnc" class="vnc-frame"></iframe>
+    <p style="font-size: 12px; color: #999; margin-top: 4px;">
+        Falls das Fenster leer ist, warte einen Moment und lade die Seite neu.
+    </p>
+</div>
+<script>setTimeout(function(){{ location.reload(); }}, 5000);</script>""")
 
-    # Exchange code for tokens
-    token_url = f"{config['base_url']}/token"
-    data = {
-        "grant_type": "authorization_code",
-        "code": code,
-        "redirect_uri": config["redirect_url_final"],
-        "client_id": config["client_id"],
-        "client_secret": config["client_secret"],
-    }
+    elif s == "processing":
+        return render(f"""
+<div class="card">
+    <span class="brand-badge {brand}">{brand.upper()}</span>
+    <div class="alert alert-info">⚙️ Login erfolgreich! Verarbeite Token...</div>
+    <div class="log">{format_log()}</div>
+</div>
+<script>setTimeout(function(){{ location.reload(); }}, 3000);</script>""")
 
-    try:
-        response = req_lib.post(token_url, data=data, timeout=15)
-        if response.status_code == 200:
-            tokens = response.json()
-            rt = html_lib.escape(tokens.get("refresh_token", "N/A"))
-            at = html_lib.escape(tokens.get("access_token", "N/A"))
-            return render(f"""
+    elif s == "success":
+        rt = html_lib.escape(state.get("refresh_token", ""))
+        at = html_lib.escape(state.get("access_token", ""))
+        return render(f"""
 <div class="card">
     <span class="brand-badge {brand}">{brand.upper()}</span>
     <div class="alert alert-success">✅ Token erfolgreich generiert!</div>
@@ -275,32 +323,71 @@ def exchange():
         <div class="token-box" id="access">{at}</div>
         <button class="copy-btn" data-copy="access" onclick="copyToken('access')">📋 Kopieren</button>
     </div>
-    <div class="alert alert-warning">
-        ⚠️ Der Refresh Token ist <strong>180 Tage</strong> gültig.
-    </div>
+    <div class="alert alert-warning">⚠️ Der Refresh Token ist <strong>180 Tage</strong> gültig.</div>
     <hr class="divider">
     <p style="font-size: 14px; color: #666;">
         Verwende den <strong>Refresh Token</strong> als Passwort zusammen mit deinem
         normalen Benutzernamen bei der Einrichtung der evcc oder Home Assistant Integration.
     </p>
+    <div class="log">{format_log()}</div>
     <hr class="divider">
-    <a href="/" class="btn btn-outline">🔄 Neuen Token generieren</a>
+    <form method="POST" action="/reset">
+        <button type="submit" class="btn btn-outline">🔄 Neuen Token generieren</button>
+    </form>
 </div>""")
-        else:
-            err = html_lib.escape(response.text[:300])
-            return render(f"""
-<div class="card">
-    <span class="brand-badge {brand}">{brand.upper()}</span>
-    <div class="alert alert-error">❌ API Fehler {response.status_code}: {err}</div>
-    <a href="/" class="btn btn-primary">← Zurück</a>
-</div>""")
-    except Exception as e:
+
+    elif s == "error":
+        err = html_lib.escape(state.get("error", "Unbekannter Fehler"))
         return render(f"""
 <div class="card">
     <span class="brand-badge {brand}">{brand.upper()}</span>
-    <div class="alert alert-error">❌ Verbindungsfehler: {html_lib.escape(str(e))}</div>
-    <a href="/" class="btn btn-primary">← Zurück</a>
+    <div class="alert alert-error">❌ {err}</div>
+    <div class="log">{format_log()}</div>
+    <hr class="divider">
+    <form method="POST" action="/reset">
+        <button type="submit" class="btn btn-primary">🔄 Erneut versuchen</button>
+    </form>
 </div>""")
+
+    return render('<div class="card">Unbekannter Status</div>')
+
+
+@app.route("/start", methods=["POST"])
+def start():
+    brand = get_brand()
+    state["status"] = "waiting_login"
+    state["refresh_token"] = None
+    state["access_token"] = None
+    state["error"] = None
+    state["log"] = []
+    t = threading.Thread(target=get_token_thread, args=(brand,), daemon=True)
+    t.start()
+    return render(f"""
+<div class="card">
+    <div class="alert alert-info">⚙️ Browser wird gestartet... Seite lädt gleich neu.</div>
+</div>
+<script>setTimeout(function(){{ location.href = '/'; }}, 2000);</script>""")
+
+
+@app.route("/reset", methods=["POST"])
+def reset():
+    state["status"] = "idle"
+    state["refresh_token"] = None
+    state["access_token"] = None
+    state["error"] = None
+    state["log"] = []
+    return render("""
+<div class="card"><div class="alert alert-info">Zurückgesetzt.</div></div>
+<script>setTimeout(function(){ location.href = '/'; }, 1000);</script>""")
+
+
+@app.route("/novnc")
+def novnc():
+    """Redirect to noVNC client."""
+    host = request.host.split(":")[0]
+    return f"""<!DOCTYPE html><html><head>
+<meta http-equiv="refresh" content="0;url=http://{host}:6080/vnc.html?autoconnect=true&resize=scale">
+</head><body>Redirecting to noVNC...</body></html>"""
 
 
 if __name__ == "__main__":

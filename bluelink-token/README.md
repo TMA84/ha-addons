@@ -4,15 +4,18 @@ Generiert Hyundai/Kia Bluelink Refresh Tokens für die Verwendung mit evcc und H
 
 ## Funktionsweise
 
-1. Öffne die Web-UI des Addons (Port 9876)
-2. Klicke auf "Login starten"
-3. Du wirst zur Bluelink-Anmeldeseite weitergeleitet - melde dich an
-4. Nach dem Login wirst du auf eine Seite weitergeleitet (evtl. mit Fehlermeldung - das ist normal!)
-5. Kopiere die komplette URL aus der Adressleiste
-6. Füge sie in das Eingabefeld ein und klicke auf "Token generieren"
-7. Dein Refresh Token wird angezeigt
+Das Addon startet einen Chromium-Browser im Hintergrund mit dem korrekten Mobile User-Agent. Über noVNC kannst du den Browser direkt in deinem Webbrowser sehen und dich anmelden.
 
-Kein Selenium oder Chrome nötig - alles läuft direkt in deinem Browser.
+1. Öffne die Web-UI des Addons (Port 9876)
+2. Klicke auf "Token-Generierung starten"
+3. Im noVNC-Fenster siehst du den Chromium-Browser mit der Login-Seite
+4. Melde dich mit deinen Bluelink-Zugangsdaten an
+5. Das Script erkennt den erfolgreichen Login automatisch und generiert den Token
+
+## Ports
+
+- **9876**: Web-UI (Steuerung und Token-Anzeige)
+- **6080**: noVNC (Browser-Ansicht)
 
 ## Konfiguration
 
