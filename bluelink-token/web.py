@@ -281,31 +281,47 @@ def index():
         return render(f"""
 <div class="card">
     <span class="brand-badge {brand}">{brand.upper()}</span>
-    <div class="alert alert-warning">
+    <div class="alert alert-warning" id="status-alert">
         ⏳ Warte auf Login... Bitte melde dich im Browser-Fenster unten an!
     </div>
     <p style="margin-bottom: 12px; font-size: 14px;">
         Verwende deine {bt} Bluelink-Zugangsdaten (die gleichen wie in der App).
         Das Script wartet bis zu 5 Minuten.
     </p>
-    <div class="log">{format_log()}</div>
+    <div class="log" id="log-box">{format_log()}</div>
     <hr class="divider">
     <h3 style="margin-bottom: 8px;">Browser (noVNC)</h3>
-    <iframe src="/novnc" class="vnc-frame"></iframe>
+    <iframe src="/novnc" class="vnc-frame" id="vnc"></iframe>
     <p style="font-size: 12px; color: #999; margin-top: 4px;">
         Falls das Fenster leer ist, warte einen Moment und lade die Seite neu.
     </p>
 </div>
-<script>setTimeout(function(){{ location.reload(); }}, 5000);</script>""")
+<script>
+(function poll() {{
+    fetch('/api/status').then(r => r.json()).then(d => {{
+        document.getElementById('log-box').innerHTML = d.log;
+        if (d.status !== 'waiting_login') {{ location.reload(); }}
+        else {{ setTimeout(poll, 3000); }}
+    }}).catch(() => setTimeout(poll, 3000));
+}})();
+</script>""")
 
     elif s == "processing":
         return render(f"""
 <div class="card">
     <span class="brand-badge {brand}">{brand.upper()}</span>
     <div class="alert alert-info">⚙️ Login erfolgreich! Verarbeite Token...</div>
-    <div class="log">{format_log()}</div>
+    <div class="log" id="log-box">{format_log()}</div>
 </div>
-<script>setTimeout(function(){{ location.reload(); }}, 3000);</script>""")
+<script>
+(function poll() {{
+    fetch('/api/status').then(r => r.json()).then(d => {{
+        document.getElementById('log-box').innerHTML = d.log;
+        if (d.status !== 'processing') {{ location.reload(); }}
+        else {{ setTimeout(poll, 2000); }}
+    }}).catch(() => setTimeout(poll, 2000));
+}})();
+</script>""")
 
     elif s == "success":
         rt = html_lib.escape(state.get("refresh_token", ""))
@@ -389,6 +405,15 @@ def novnc():
     return f"""<!DOCTYPE html><html><head>
 <meta http-equiv="refresh" content="0;url=http://{host}:6080/vnc.html?autoconnect=true&resize=scale">
 </head><body>Redirecting to noVNC...</body></html>"""
+
+
+@app.route("/api/status")
+def api_status():
+    from flask import jsonify
+    return jsonify({
+        "status": state["status"],
+        "log": format_log(),
+    })
 
 
 if __name__ == "__main__":
