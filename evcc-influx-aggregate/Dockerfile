@@ -12,12 +12,19 @@ RUN apk add --no-cache \
     tzdata \
     supercronic
 
-# Install InfluxDB 1.8 client
-RUN apk add --no-cache influxdb-client || \
-    (wget -q https://dl.influxdata.com/influxdb/releases/influxdb-1.8.10-static_linux_$(uname -m | sed 's/aarch64/arm64/;s/x86_64/amd64/').tar.gz -O /tmp/influx.tar.gz && \
+# Install InfluxDB 1.8 client (multi-arch)
+RUN ARCH=$(uname -m) && \
+    case "$ARCH" in \
+      aarch64) INFLUX_ARCH="arm64" ;; \
+      x86_64)  INFLUX_ARCH="amd64" ;; \
+      armv7l)  INFLUX_ARCH="armhf" ;; \
+      *)       INFLUX_ARCH="amd64" ;; \
+    esac && \
+    wget -q "https://dl.influxdata.com/influxdb/releases/influxdb-1.8.10_linux_${INFLUX_ARCH}.tar.gz" -O /tmp/influx.tar.gz && \
     tar xzf /tmp/influx.tar.gz -C /tmp && \
-    cp /tmp/influxdb-*/influx /usr/local/bin/ && \
-    rm -rf /tmp/influx* )
+    cp /tmp/influxdb-1.8.10-1/usr/bin/influx /usr/local/bin/ && \
+    chmod +x /usr/local/bin/influx && \
+    rm -rf /tmp/influx*
 
 # Clone the evcc-grafana-dashboards repository
 WORKDIR /app
