@@ -12,8 +12,15 @@ RUN apk add --no-cache \
     git \
     tzdata
 
-# Ensure GNU date is used instead of BusyBox date
-RUN ln -sf /usr/bin/date /bin/date
+# Ensure GNU coreutils date is available
+# Alpine coreutils may install as 'gdate', we need it as 'date'
+RUN if [ -f /usr/bin/gdate ]; then \
+      cp /usr/bin/gdate /usr/local/bin/date; \
+    elif [ -f /usr/bin/date ] && /usr/bin/date --version 2>&1 | grep -q coreutils; then \
+      ln -sf /usr/bin/date /usr/local/bin/date; \
+    fi
+
+ENV PATH="/usr/local/bin:${PATH}"
 
 # Install InfluxDB 1.8 client (multi-arch)
 RUN ARCH=$(uname -m) && \
