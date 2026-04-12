@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
 Bluelink Token Generator - Web Application with Selenium + noVNC
-The user can watch and interact with the browser via noVNC.
 """
 
 import os
 import re
 import time
 import threading
+import subprocess
 import requests as req_lib
-from flask import Flask, request
+from flask import Flask, request, jsonify, redirect as flask_redirect
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -20,7 +20,7 @@ import html as html_lib
 app = Flask(__name__)
 
 state = {
-    "status": "idle",  # idle, waiting_login, processing, success, error
+    "status": "idle",
     "refresh_token": None,
     "access_token": None,
     "error": None,
@@ -50,75 +50,118 @@ BRAND_CONFIG = {
 }
 
 STYLE = """
+:root { --primary: #1a73e8; --primary-hover: #1557b0; --success: #188038;
+        --success-bg: #e6f4ea; --error: #c5221f; --error-bg: #fce8e6;
+        --warning: #b06000; --warning-bg: #fef7e0; --info: #1a73e8;
+        --info-bg: #e8f0fe; --text: #202124; --text-secondary: #5f6368;
+        --border: #dadce0; --surface: #fff; --bg: #f8f9fa; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-       background: #f0f2f5; color: #333; min-height: 100vh; padding: 20px; }
-.container { max-width: 700px; margin: 0 auto; }
-h1 { font-size: 24px; margin-bottom: 8px; }
-.subtitle { color: #666; margin-bottom: 24px; }
-.card { background: white; border-radius: 12px; padding: 24px;
-        margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-.brand-badge { display: inline-block; padding: 4px 14px; border-radius: 20px;
-               font-weight: 600; font-size: 13px; color: white; margin-bottom: 16px; }
-.brand-badge.hyundai { background: #002C5F; }
-.brand-badge.kia { background: #05141F; }
-.btn { display: inline-block; padding: 12px 28px; border-radius: 8px; border: none;
-       color: white; font-size: 15px; font-weight: 600; cursor: pointer;
-       text-decoration: none; transition: background 0.2s; }
-.btn-primary { background: #4CAF50; }
-.btn-primary:hover { background: #43a047; }
-.btn-blue { background: #1976D2; }
-.btn-blue:hover { background: #1565C0; }
-.btn-outline { background: transparent; color: #666; border: 1px solid #ddd; }
-.btn-outline:hover { background: #f5f5f5; }
-.token-label { font-size: 13px; font-weight: 600; color: #666;
-               text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-.token-box { background: #f8f9fa; border: 1px solid #e0e0e0; padding: 12px 14px;
-             border-radius: 8px; word-break: break-all; font-family: 'SF Mono', monospace;
-             font-size: 13px; margin-bottom: 6px; line-height: 1.5; }
-.copy-btn { background: none; border: none; color: #1976D2; cursor: pointer;
-            font-size: 13px; padding: 4px 0; }
-.copy-btn:hover { text-decoration: underline; }
-.alert { padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; }
-.alert-success { background: #e8f5e9; color: #2e7d32; }
-.alert-error { background: #fbe9e7; color: #c62828; }
-.alert-warning { background: #fff8e1; color: #f57f17; }
-.alert-info { background: #e3f2fd; color: #1565c0; }
-.divider { border: none; border-top: 1px solid #eee; margin: 20px 0; }
-.actions { display: flex; gap: 10px; flex-wrap: wrap; }
-.log { background: #1e1e1e; color: #d4d4d4; padding: 12px; border-radius: 8px;
-       font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto;
-       margin: 12px 0; line-height: 1.6; }
+body { font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+       background: var(--bg); color: var(--text); min-height: 100vh; }
+.header { background: var(--surface); border-bottom: 1px solid var(--border);
+          padding: 16px 24px; margin-bottom: 24px; }
+.header-inner { max-width: 760px; margin: 0 auto; display: flex;
+                align-items: center; gap: 12px; }
+.header h1 { font-size: 20px; font-weight: 500; }
+.header .brand { font-size: 12px; font-weight: 500; color: var(--text-secondary);
+                 background: var(--bg); padding: 2px 10px; border-radius: 12px;
+                 border: 1px solid var(--border); text-transform: uppercase;
+                 letter-spacing: 0.5px; }
+.container { max-width: 760px; margin: 0 auto; padding: 0 24px 40px; }
+.card { background: var(--surface); border-radius: 8px; padding: 24px;
+        margin-bottom: 16px; border: 1px solid var(--border); }
+.card-title { font-size: 16px; font-weight: 500; margin-bottom: 16px; }
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 24px;
+       border-radius: 4px; border: none; font-size: 14px; font-weight: 500;
+       cursor: pointer; text-decoration: none; transition: all 0.15s;
+       font-family: inherit; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-hover); box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+.btn-secondary { background: var(--surface); color: var(--primary);
+                 border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--bg); }
+.btn-danger { background: var(--surface); color: var(--error);
+              border: 1px solid var(--border); }
+.btn-danger:hover { background: var(--error-bg); }
+.token-label { font-size: 11px; font-weight: 500; color: var(--text-secondary);
+               text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+.token-box { background: var(--bg); border: 1px solid var(--border); padding: 14px 16px;
+             border-radius: 4px; word-break: break-all; font-family: 'Roboto Mono', monospace;
+             font-size: 13px; line-height: 1.6; color: var(--text); }
+.copy-link { color: var(--primary); cursor: pointer; font-size: 13px;
+             border: none; background: none; font-family: inherit;
+             margin-top: 6px; display: inline-block; }
+.copy-link:hover { text-decoration: underline; }
+.notice { padding: 12px 16px; border-radius: 4px; margin-bottom: 16px;
+          font-size: 14px; line-height: 1.5; }
+.notice-success { background: var(--success-bg); color: var(--success); }
+.notice-error { background: var(--error-bg); color: var(--error); }
+.notice-warning { background: var(--warning-bg); color: var(--warning); }
+.notice-info { background: var(--info-bg); color: var(--info); }
+.divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.log { background: #1e1e1e; color: #cccccc; padding: 14px 16px; border-radius: 4px;
+       font-family: 'Roboto Mono', monospace; font-size: 12px; max-height: 180px;
+       overflow-y: auto; margin: 12px 0; line-height: 1.7; }
 .log .ok { color: #4EC9B0; }
-.log .warn { color: #CE9178; }
-.log .err { color: #F44747; }
-.vnc-frame { width: 100%; height: 500px; border: 1px solid #ddd; border-radius: 8px;
-             margin: 12px 0; }
+.log .warn { color: #dcdcaa; }
+.log .err { color: #f48771; }
+.vnc-frame { width: 100%; height: 480px; border: 1px solid var(--border);
+             border-radius: 4px; margin: 12px 0; background: #000; }
+.paste-row { display: flex; gap: 8px; margin-bottom: 4px; }
+.paste-row input { flex: 1; padding: 8px 12px; border: 1px solid var(--border);
+                   border-radius: 4px; font-size: 14px; font-family: inherit; }
+.paste-row input:focus { outline: none; border-color: var(--primary); }
+.paste-row button { white-space: nowrap; }
+.hint { font-size: 12px; color: var(--text-secondary); margin-top: 4px; line-height: 1.4; }
+.section-label { font-size: 13px; font-weight: 500; color: var(--text-secondary);
+                 margin-bottom: 8px; }
+p { line-height: 1.6; }
 """
 
-COPY_SCRIPT = """
+SCRIPT = """
 function copyToken(id) {
     var text = document.getElementById(id).innerText;
     navigator.clipboard.writeText(text).then(function() {
         var btn = document.querySelector('[data-copy="' + id + '"]');
-        btn.textContent = '✅ Kopiert!';
-        setTimeout(function() { btn.textContent = '📋 Kopieren'; }, 2000);
+        var orig = btn.textContent;
+        btn.textContent = 'Copied';
+        setTimeout(function() { btn.textContent = orig; }, 2000);
+    });
+}
+function sendClipboard() {
+    var input = document.getElementById('paste-text');
+    var text = input.value;
+    if (!text) return;
+    fetch('/api/type', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({text: text})
+    }).then(function(r) { return r.json(); }).then(function(d) {
+        if (d.ok) {
+            input.value = '';
+            input.placeholder = 'Sent successfully';
+            setTimeout(function() { input.placeholder = 'Paste text here...'; }, 2000);
+        }
     });
 }
 """
 
 
 def render(content):
+    brand = get_brand()
     return f"""<!DOCTYPE html>
 <html lang="de"><head>
 <title>Bluelink Token Generator</title>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
 <style>{STYLE}</style></head><body>
-<div class="container">
-<h1>🔑 Bluelink Token Generator</h1>
-<p class="subtitle">Refresh Token für evcc &amp; Home Assistant</p>
-{content}
-</div><script>{COPY_SCRIPT}</script></body></html>"""
+<div class="header"><div class="header-inner">
+<h1>Bluelink Token Generator</h1>
+<span class="brand">{brand}</span>
+</div></div>
+<div class="container">{content}</div>
+<script>{SCRIPT}</script></body></html>"""
 
 
 def get_brand():
@@ -130,8 +173,16 @@ def log(msg, level="info"):
     print(f"[{level.upper()}] {msg}")
 
 
+def format_log():
+    lines = []
+    for level, msg in state["log"]:
+        cls = {"ok": "ok", "warn": "warn", "err": "err"}.get(level, "")
+        escaped = html_lib.escape(msg)
+        lines.append(f'<span class="{cls}">{escaped}</span>' if cls else escaped)
+    return "<br>".join(lines)
+
+
 def get_token_thread(brand):
-    """Run the full Selenium flow to get tokens."""
     config = BRAND_CONFIG[brand]
     base_url = config["base_url"]
     token_url = f"{base_url}/token"
@@ -139,12 +190,11 @@ def get_token_thread(brand):
                     f"response_type=code&client_id={config['client_id']}"
                     f"&redirect_uri={config['redirect_url_final']}"
                     f"&lang=de&state=ccsp")
-
     driver = None
     try:
         state["status"] = "waiting_login"
         state["log"] = []
-        log("Starte Chromium Browser...")
+        log("Starting browser...")
 
         options = webdriver.ChromeOptions()
         options.binary_location = "/usr/bin/chromium-browser"
@@ -155,15 +205,14 @@ def get_token_thread(brand):
         options.add_argument(
             "user-agent=Mozilla/5.0 (Linux; Android 4.1.1; Galaxy Nexus "
             "Build/JRO03C) AppleWebKit/535.19 (KHTML, like Gecko) "
-            "Chrome/18.0.1025.166 Mobile Safari/535.19_CCS_APP_AOS"
-        )
+            "Chrome/18.0.1025.166 Mobile Safari/535.19_CCS_APP_AOS")
 
         service = webdriver.ChromeService(executable_path="/usr/bin/chromedriver")
         driver = webdriver.Chrome(service=service, options=options)
 
-        log(f"Öffne {brand.title()} Login-Seite...")
+        log(f"Opening {brand.title()} login page...")
         driver.get(config["login_url"])
-        log("Warte auf Login... Bitte im noVNC-Fenster anmelden!", "warn")
+        log("Waiting for login — please sign in using the browser below.", "warn")
 
         wait = WebDriverWait(driver, 300)
         if brand == "kia":
@@ -174,41 +223,38 @@ def get_token_thread(brand):
                 EC.presence_of_element_located(
                     (By.CSS_SELECTOR, config["success_selector"])),
                 EC.presence_of_element_located(
-                    (By.CSS_SELECTOR, "button.ctb_button"))
-            ))
+                    (By.CSS_SELECTOR, "button.ctb_button"))))
 
-        log("Login erfolgreich!", "ok")
+        log("Login successful.", "ok")
         state["status"] = "processing"
 
-        log("Hole Autorisierungscode...")
+        log("Retrieving authorization code...")
         driver.get(redirect_url)
         time.sleep(3)
 
         current_url = ""
         for i in range(15):
             current_url = driver.current_url
-            log(f"Warte auf Redirect... ({i+1}/15)")
+            log(f"Waiting for redirect ({i+1}/15)...")
             if re.match(config["code_pattern"], current_url):
                 break
             time.sleep(1)
 
         code_match = re.search(
             r'code=([0-9a-fA-F-]{36}\.[0-9a-fA-F-]{36}\.[0-9a-fA-F-]{36})',
-            current_url
-        )
+            current_url)
         if not code_match:
             state["status"] = "error"
-            state["error"] = f"Kein Auth-Code in URL gefunden: {current_url[:100]}"
+            state["error"] = f"No auth code found in URL: {current_url[:120]}"
             log(state["error"], "err")
             return
 
         code = code_match.group(1)
-        log("Auth-Code erhalten!", "ok")
+        log("Authorization code received.", "ok")
+        log("Exchanging code for token...")
 
-        log("Tausche Code gegen Token...")
         data = {
-            "grant_type": "authorization_code",
-            "code": code,
+            "grant_type": "authorization_code", "code": code,
             "redirect_uri": config["redirect_url_final"],
             "client_id": config["client_id"],
             "client_secret": config["client_secret"],
@@ -220,40 +266,28 @@ def get_token_thread(brand):
             state["refresh_token"] = tokens.get("refresh_token", "N/A")
             state["access_token"] = tokens.get("access_token", "N/A")
             state["status"] = "success"
-            log("Token erfolgreich generiert!", "ok")
+            log("Token generated successfully.", "ok")
         else:
             state["status"] = "error"
-            state["error"] = f"API Fehler {response.status_code}: {response.text[:200]}"
+            state["error"] = f"API error {response.status_code}: {response.text[:200]}"
             log(state["error"], "err")
 
     except TimeoutException:
         state["status"] = "error"
-        state["error"] = "Timeout nach 5 Minuten. Login wurde nicht abgeschlossen."
+        state["error"] = "Timeout — login was not completed within 5 minutes."
         log(state["error"], "err")
     except Exception as e:
         state["status"] = "error"
         state["error"] = str(e)
-        log(f"Fehler: {e}", "err")
+        log(f"Error: {e}", "err")
     finally:
         if driver:
-            try:
-                driver.quit()
-            except Exception:
-                pass
-        log("Browser geschlossen.")
+            try: driver.quit()
+            except Exception: pass
+        log("Browser closed.")
 
 
-def format_log():
-    lines = []
-    for level, msg in state["log"]:
-        cls = {"ok": "ok", "warn": "warn", "err": "err"}.get(level, "")
-        escaped = html_lib.escape(msg)
-        if cls:
-            lines.append(f'<span class="{cls}">{escaped}</span>')
-        else:
-            lines.append(escaped)
-    return "<br>".join(lines)
-
+# ── Routes ──────────────────────────────────────────────────
 
 @app.route("/")
 def index():
@@ -264,252 +298,195 @@ def index():
     if s == "idle":
         return render(f"""
 <div class="card">
-    <span class="brand-badge {brand}">{brand.upper()}</span>
-    <p style="margin-bottom: 16px;">Generiere einen Refresh Token für dein {bt} Fahrzeug.</p>
-    <p style="margin-bottom: 16px; font-size: 14px;">
-        Nach dem Klick auf "Starten" öffnet sich ein Browser im Hintergrund.
-        Du kannst den Browser über das <strong>noVNC-Fenster</strong> unten sehen und dich dort anmelden.
+    <div class="card-title">Generate Refresh Token</div>
+    <p style="margin-bottom: 16px; color: var(--text-secondary); font-size: 14px;">
+        A Chromium browser will open in the background. You can interact with it
+        through the embedded viewer below to complete the {bt} Bluelink login.
     </p>
     <form method="POST" action="/start">
-        <button type="submit" class="btn btn-primary">🚀 Token-Generierung starten</button>
+        <button type="submit" class="btn btn-primary">Start token generation</button>
     </form>
-</div>
-<div class="card">
-    <div class="alert alert-info">💡 Marke ändern: Addon-Konfiguration → brand → hyundai oder kia</div>
 </div>""")
 
     elif s == "waiting_login":
         return render(f"""
 <div class="card">
-    <span class="brand-badge {brand}">{brand.upper()}</span>
-    <div class="alert alert-warning" id="status-alert">
-        ⏳ Warte auf Login... Bitte melde dich im Browser-Fenster unten an!
+    <div class="card-title">Sign in to {bt} Bluelink</div>
+    <div class="notice notice-warning">
+        Waiting for login. Use your {bt} Bluelink credentials (same as the mobile app).
+        The session will time out after 5 minutes.
     </div>
-    <p style="margin-bottom: 12px; font-size: 14px;">
-        Verwende deine {bt} Bluelink-Zugangsdaten (die gleichen wie in der App).
-        Das Script wartet bis zu 5 Minuten.
-    </p>
     <div class="log" id="log-box">{format_log()}</div>
     <hr class="divider">
-    <div style="margin-bottom: 12px;">
-        <label for="paste-text">📋 Text in Browser einfügen (z.B. Passwort):</label>
-        <div style="display: flex; gap: 8px;">
-            <input type="text" id="paste-text" placeholder="Text hier einfügen..." style="margin:0; flex:1;">
-            <button class="btn btn-blue" onclick="sendClipboard()" style="margin:0; white-space:nowrap; padding: 10px 16px;">Senden</button>
-        </div>
-        <p style="font-size: 12px; color: #999; margin-top: 4px;">
-            Klicke zuerst im noVNC-Fenster in das Eingabefeld, dann füge hier den Text ein und klicke "Senden".
-        </p>
+    <div class="section-label">Paste text into browser</div>
+    <div class="paste-row">
+        <input type="text" id="paste-text" placeholder="Paste text here (e.g. password)..."
+               onkeydown="if(event.key==='Enter')sendClipboard()">
+        <button class="btn btn-secondary" onclick="sendClipboard()">Send</button>
     </div>
-    <h3 style="margin-bottom: 8px;">Browser (noVNC)</h3>
+    <p class="hint">Click into the input field in the browser below first, then paste your text above and press Send.</p>
+    <hr class="divider">
+    <div class="section-label">Remote browser</div>
     <iframe src="/novnc" class="vnc-frame" id="vnc"></iframe>
 </div>
 <script>
-function sendClipboard() {{
-    var text = document.getElementById('paste-text').value;
-    if (!text) return;
-    fetch('/api/type', {{
-        method: 'POST',
-        headers: {{'Content-Type': 'application/json'}},
-        body: JSON.stringify({{text: text}})
-    }}).then(r => r.json()).then(d => {{
-        if (d.ok) {{
-            document.getElementById('paste-text').value = '';
-            document.getElementById('paste-text').placeholder = '✅ Gesendet!';
-            setTimeout(function() {{
-                document.getElementById('paste-text').placeholder = 'Text hier einfügen...';
-            }}, 2000);
-        }}
-    }});
-}}
-document.getElementById('paste-text').addEventListener('keydown', function(e) {{
-    if (e.key === 'Enter') sendClipboard();
-}});
 (function poll() {{
-    fetch('/api/status').then(r => r.json()).then(d => {{
+    fetch('/api/status').then(function(r){{ return r.json(); }}).then(function(d) {{
         document.getElementById('log-box').innerHTML = d.log;
-        if (d.status !== 'waiting_login') {{ location.reload(); }}
-        else {{ setTimeout(poll, 3000); }}
-    }}).catch(() => setTimeout(poll, 3000));
+        if (d.status !== 'waiting_login') location.reload();
+        else setTimeout(poll, 3000);
+    }}).catch(function(){{ setTimeout(poll, 3000); }});
 }})();
 </script>""")
 
     elif s == "processing":
         return render(f"""
 <div class="card">
-    <span class="brand-badge {brand}">{brand.upper()}</span>
-    <div class="alert alert-info">⚙️ Login erfolgreich! Verarbeite Token...</div>
+    <div class="card-title">Processing</div>
+    <div class="notice notice-info">Login successful. Retrieving token...</div>
     <div class="log" id="log-box">{format_log()}</div>
 </div>
 <script>
 (function poll() {{
-    fetch('/api/status').then(r => r.json()).then(d => {{
+    fetch('/api/status').then(function(r){{ return r.json(); }}).then(function(d) {{
         document.getElementById('log-box').innerHTML = d.log;
-        if (d.status !== 'processing') {{ location.reload(); }}
-        else {{ setTimeout(poll, 2000); }}
-    }}).catch(() => setTimeout(poll, 2000));
+        if (d.status !== 'processing') location.reload();
+        else setTimeout(poll, 2000);
+    }}).catch(function(){{ setTimeout(poll, 2000); }});
 }})();
 </script>""")
 
     elif s == "success":
         rt = html_lib.escape(state.get("refresh_token", ""))
-        test_result = state.get("test_result", "")
+        tr = state.get("test_result", "")
         test_html = ""
-        if test_result == "ok":
-            test_html = '<div class="alert alert-success">✅ Token funktioniert! API-Verbindung erfolgreich.</div>'
-        elif test_result:
-            test_html = f'<div class="alert alert-error">❌ Token-Test fehlgeschlagen: {html_lib.escape(test_result)}</div>'
+        if tr == "ok":
+            test_html = '<div class="notice notice-success">Token verified — API connection successful.</div>'
+        elif tr:
+            test_html = f'<div class="notice notice-error">Verification failed: {html_lib.escape(tr)}</div>'
         return render(f"""
 <div class="card">
-    <span class="brand-badge {brand}">{brand.upper()}</span>
-    <div class="alert alert-success">✅ Token erfolgreich generiert!</div>
+    <div class="card-title">Token generated</div>
+    <div class="notice notice-success">The refresh token was generated successfully.</div>
     {test_html}
-    <div style="margin-bottom: 20px;">
+    <div style="margin: 20px 0;">
         <div class="token-label">Refresh Token</div>
         <div class="token-box" id="refresh">{rt}</div>
-        <button class="copy-btn" data-copy="refresh" onclick="copyToken('refresh')">📋 Kopieren</button>
+        <button class="copy-link" data-copy="refresh" onclick="copyToken('refresh')">Copy to clipboard</button>
     </div>
-    <div class="alert alert-warning">⚠️ Der Refresh Token ist <strong>180 Tage</strong> gültig.</div>
+    <div class="notice notice-warning">
+        This token is valid for 180 days. After that you will need to generate a new one.
+    </div>
     <hr class="divider">
+    <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">
+        Use this refresh token as the password together with your regular username
+        when configuring the evcc or Home Assistant integration.
+    </p>
     <div class="actions">
         <form method="POST" action="/test" style="margin:0;">
-            <button type="submit" class="btn btn-blue">🧪 Token testen</button>
+            <button type="submit" class="btn btn-secondary">Verify token</button>
         </form>
         <form method="POST" action="/reset" style="margin:0;">
-            <button type="submit" class="btn btn-outline">🔄 Neuen Token generieren</button>
+            <button type="submit" class="btn btn-danger">Generate new token</button>
         </form>
     </div>
     <hr class="divider">
-    <p style="font-size: 14px; color: #666;">
-        Verwende den <strong>Refresh Token</strong> als Passwort zusammen mit deinem
-        normalen Benutzernamen bei der Einrichtung der evcc oder Home Assistant Integration.
-    </p>
-    <div class="log">{format_log()}</div>
+    <details><summary style="cursor:pointer; font-size:13px; color:var(--text-secondary);">Show log</summary>
+    <div class="log">{format_log()}</div></details>
 </div>""")
 
     elif s == "error":
-        err = html_lib.escape(state.get("error", "Unbekannter Fehler"))
+        err = html_lib.escape(state.get("error", "Unknown error"))
         return render(f"""
 <div class="card">
-    <span class="brand-badge {brand}">{brand.upper()}</span>
-    <div class="alert alert-error">❌ {err}</div>
-    <div class="log">{format_log()}</div>
+    <div class="card-title">Error</div>
+    <div class="notice notice-error">{err}</div>
+    <details open><summary style="cursor:pointer; font-size:13px; color:var(--text-secondary);">Log</summary>
+    <div class="log">{format_log()}</div></details>
     <hr class="divider">
     <form method="POST" action="/reset">
-        <button type="submit" class="btn btn-primary">🔄 Erneut versuchen</button>
+        <button type="submit" class="btn btn-primary">Try again</button>
     </form>
 </div>""")
 
-    return render('<div class="card">Unbekannter Status</div>')
+    return render('<div class="card">Unknown state</div>')
 
 
 @app.route("/start", methods=["POST"])
 def start():
     brand = get_brand()
-    state["status"] = "waiting_login"
-    state["refresh_token"] = None
-    state["access_token"] = None
-    state["error"] = None
-    state["log"] = []
-    t = threading.Thread(target=get_token_thread, args=(brand,), daemon=True)
-    t.start()
-    return render(f"""
+    state.update({"status": "waiting_login", "refresh_token": None,
+                  "access_token": None, "error": None, "test_result": "", "log": []})
+    threading.Thread(target=get_token_thread, args=(brand,), daemon=True).start()
+    return render("""
 <div class="card">
-    <div class="alert alert-info">⚙️ Browser wird gestartet... Seite lädt gleich neu.</div>
+    <div class="notice notice-info">Starting browser... redirecting shortly.</div>
 </div>
-<script>setTimeout(function(){{ location.href = '/'; }}, 2000);</script>""")
+<script>setTimeout(function(){ location.href = '/'; }, 2000);</script>""")
 
 
 @app.route("/reset", methods=["POST"])
 def reset():
-    state["status"] = "idle"
-    state["refresh_token"] = None
-    state["access_token"] = None
-    state["error"] = None
-    state["test_result"] = ""
-    state["log"] = []
-    return render("""
-<div class="card"><div class="alert alert-info">Zurückgesetzt.</div></div>
-<script>setTimeout(function(){ location.href = '/'; }, 1000);</script>""")
+    state.update({"status": "idle", "refresh_token": None, "access_token": None,
+                  "error": None, "test_result": "", "log": []})
+    return flask_redirect("/")
 
 
 @app.route("/novnc")
 def novnc():
-    """Redirect to noVNC client."""
     host = request.host.split(":")[0]
-    return f"""<!DOCTYPE html><html><head>
-<meta http-equiv="refresh" content="0;url=http://{host}:6080/vnc.html?autoconnect=true&resize=scale">
-</head><body>Redirecting to noVNC...</body></html>"""
+    return (f'<!DOCTYPE html><html><head>'
+            f'<meta http-equiv="refresh" content="0;url=http://{host}:6080/vnc.html?autoconnect=true&resize=scale">'
+            f'</head><body></body></html>')
 
 
 @app.route("/test", methods=["POST"])
 def test_token():
-    """Test the access token by calling the API status endpoint."""
     brand = get_brand()
     config = BRAND_CONFIG[brand]
     access_token = state.get("access_token")
-
-    if not access_token:
-        state["test_result"] = "Kein Access Token vorhanden."
-        from flask import redirect as redir
-        return redir("/")
-
-    # Try to refresh the token using the refresh token (proves it works)
-    token_url = f"{config['base_url']}/token"
     refresh_token = state.get("refresh_token")
 
-    try:
-        # Test 1: Use access token to check API status
-        headers = {"Authorization": f"Bearer {access_token}"}
-        if brand == "kia":
-            api_url = "https://prd.eu-ccapi.kia.com:8080/api/v1/spa/notifications"
-        else:
-            api_url = "https://prd.eu-ccapi.hyundai.com:8080/api/v1/spa/notifications"
+    if not access_token:
+        state["test_result"] = "No access token available."
+        return flask_redirect("/")
 
+    token_url = f"{config['base_url']}/token"
+    try:
+        headers = {"Authorization": f"Bearer {access_token}"}
+        api_url = (f"https://prd.eu-ccapi.{brand}.com:8080"
+                   f"/api/v1/spa/notifications")
         response = req_lib.get(api_url, headers=headers, timeout=10)
 
         if response.status_code == 200:
             state["test_result"] = "ok"
         elif response.status_code == 401:
-            # Access token expired, try refresh token
-            data = {
-                "grant_type": "refresh_token",
-                "refresh_token": refresh_token,
-                "client_id": config["client_id"],
-                "client_secret": config["client_secret"],
-            }
-            refresh_resp = req_lib.post(token_url, data=data, timeout=10)
-            if refresh_resp.status_code == 200:
-                new_tokens = refresh_resp.json()
-                state["access_token"] = new_tokens.get("access_token", state["access_token"])
+            data = {"grant_type": "refresh_token", "refresh_token": refresh_token,
+                    "client_id": config["client_id"], "client_secret": config["client_secret"]}
+            rr = req_lib.post(token_url, data=data, timeout=10)
+            if rr.status_code == 200:
+                state["access_token"] = rr.json().get("access_token", access_token)
                 state["test_result"] = "ok"
             else:
-                state["test_result"] = f"Refresh fehlgeschlagen: {refresh_resp.status_code}"
+                state["test_result"] = f"Refresh failed ({rr.status_code})"
         else:
-            state["test_result"] = f"API Antwort: {response.status_code}"
+            state["test_result"] = f"API returned {response.status_code}"
     except Exception as e:
         state["test_result"] = str(e)
 
-    from flask import redirect as redir
-    return redir("/")
+    return flask_redirect("/")
 
 
 @app.route("/api/type", methods=["POST"])
 def api_type():
-    """Type text into the virtual display using xdotool."""
-    from flask import jsonify
-    import subprocess
     data = request.get_json()
     text = data.get("text", "")
     if not text:
         return jsonify({"ok": False, "error": "No text"})
     try:
-        # Use xdotool to type the text character by character
         subprocess.run(
             ["xdotool", "type", "--clearmodifiers", "--delay", "50", text],
-            env={**os.environ, "DISPLAY": ":99"},
-            timeout=10
-        )
+            env={**os.environ, "DISPLAY": ":99"}, timeout=10)
         return jsonify({"ok": True})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)})
@@ -517,11 +494,7 @@ def api_type():
 
 @app.route("/api/status")
 def api_status():
-    from flask import jsonify
-    return jsonify({
-        "status": state["status"],
-        "log": format_log(),
-    })
+    return jsonify({"status": state["status"], "log": format_log()})
 
 
 if __name__ == "__main__":
