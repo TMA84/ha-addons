@@ -26,6 +26,11 @@ RUN pip3 install --no-cache-dir selenium requests flask
 
 # Copy addon files
 WORKDIR /app
+
+# Verify chromium and chromedriver are installed
+RUN ls -la /usr/bin/chromium* /usr/lib/chromium/chromedriver 2>/dev/null || true
+RUN ln -sf /usr/lib/chromium/chromedriver /usr/bin/chromedriver 2>/dev/null || true
+
 COPY web.py /app/
 COPY run.sh /
 RUN chmod a+x /run.sh

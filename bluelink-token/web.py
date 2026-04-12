@@ -157,7 +157,8 @@ def get_token_thread(brand):
             "Chrome/18.0.1025.166 Mobile Safari/535.19_CCS_APP_AOS"
         )
 
-        driver = webdriver.Chrome(options=options)
+        service = webdriver.ChromeService(executable_path="/usr/bin/chromedriver")
+        driver = webdriver.Chrome(service=service, options=options)
 
         log(f"Öffne {brand.title()} Login-Seite...")
         driver.get(config["login_url"])
