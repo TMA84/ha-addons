@@ -1,6 +1,6 @@
 name: "EVCC Influx Aggregator"
 description: "Aggregates EVCC InfluxDB data for Grafana dashboards"
-version: "1.0.0"
+version: "1.0.1"
 slug: "evcc_influx_aggregate"
 arch:
   - aarch64
@@ -28,6 +28,7 @@ options:
   tariff_price_interval: "15m"
   cron_yesterday: "5 0 * * *"
   cron_today: "0 * * * *"
+  run_once: ""
   debug: false
 schema:
   influx_evcc_db: str
@@ -46,4 +47,5 @@ schema:
   tariff_price_interval: str
   cron_yesterday: str
   cron_today: str
+  run_once: "str?"
   debug: bool

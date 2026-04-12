@@ -33,7 +33,22 @@ Aggregiert EVCC InfluxDB-Daten für die Grafana Dashboards von [ha-puzzles/evcc-
 - **tariff_price_interval**: Intervall der Tarifpreis-Updates (Standard: "15m")
 - **cron_yesterday**: Cron-Ausdruck für gestrige Aggregation (Standard: "5 0 * * *")
 - **cron_today**: Cron-Ausdruck für heutige Aggregation (Standard: "0 * * * *")
+- **run_once**: Einmaliger Befehl beim Start (z.B. "--year 2024")
 - **debug**: Debug-Ausgabe aktivieren (Standard: false)
+
+## Einmalige Aggregation starten
+
+Um z.B. ein ganzes Jahr zu aggregieren:
+
+1. Setze `run_once` in der Addon-Konfiguration auf den gewünschten Befehl:
+   - Ganzes Jahr: `--year 2024`
+   - Einzelner Monat: `--month 2024 6`
+   - Einzelner Tag: `--day 2024 7 16`
+   - Datumsbereich: `--from 2023 3 6 --to 2025 2 15`
+2. Starte das Addon neu
+3. Der Befehl wird einmalig ausgeführt (kann je nach Datenmenge lange dauern)
+4. Danach laufen die normalen Cron-Jobs weiter
+5. Setze `run_once` wieder auf leer, damit der Befehl nicht bei jedem Neustart erneut ausgeführt wird
 
 ## Funktionsweise
 
