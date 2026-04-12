@@ -428,29 +428,25 @@ def novnc():
 def test_token():
     brand = get_brand()
     config = BRAND_CONFIG[brand]
-    access_token = state.get("access_token")
     refresh_token = state.get("refresh_token")
-    if not access_token:
-        state["test_result"] = "No access token available."
+    if not refresh_token:
+        state["test_result"] = "No refresh token available."
         return flask_redirect("/")
+    # The most reliable test: use the refresh token to get a new access token
     token_url = f"{config['base_url']}/token"
     try:
-        headers = {"Authorization": f"Bearer {access_token}"}
-        api_url = f"https://prd.eu-ccapi.{brand}.com:8080/api/v1/spa/notifications"
-        response = req_lib.get(api_url, headers=headers, timeout=10)
+        data = {"grant_type": "refresh_token", "refresh_token": refresh_token,
+                "client_id": config["client_id"], "client_secret": config["client_secret"]}
+        response = req_lib.post(token_url, data=data, timeout=10)
         if response.status_code == 200:
-            state["test_result"] = "ok"
-        elif response.status_code == 401:
-            data = {"grant_type": "refresh_token", "refresh_token": refresh_token,
-                    "client_id": config["client_id"], "client_secret": config["client_secret"]}
-            rr = req_lib.post(token_url, data=data, timeout=10)
-            if rr.status_code == 200:
-                state["access_token"] = rr.json().get("access_token", access_token)
+            new_tokens = response.json()
+            if new_tokens.get("access_token"):
+                state["access_token"] = new_tokens["access_token"]
                 state["test_result"] = "ok"
             else:
-                state["test_result"] = f"Refresh failed ({rr.status_code})"
+                state["test_result"] = "No access token in response"
         else:
-            state["test_result"] = f"API returned {response.status_code}"
+            state["test_result"] = f"Token refresh failed ({response.status_code}): {response.text[:150]}"
     except Exception as e:
         state["test_result"] = str(e)
     return flask_redirect("/")
