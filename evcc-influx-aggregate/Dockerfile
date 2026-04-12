@@ -7,10 +7,10 @@ ARG CACHEBUST=1
 RUN apk add --no-cache \
     bash \
     bc \
+    coreutils \
     curl \
     git \
-    tzdata \
-    supercronic
+    tzdata
 
 # Install InfluxDB 1.8 client (multi-arch)
 RUN ARCH=$(uname -m) && \
@@ -25,6 +25,17 @@ RUN ARCH=$(uname -m) && \
     cp /tmp/influxdb-1.8.10-1/usr/bin/influx /usr/local/bin/ && \
     chmod +x /usr/local/bin/influx && \
     rm -rf /tmp/influx*
+
+# Install supercronic (cron for containers, multi-arch)
+RUN ARCH=$(uname -m) && \
+    case "$ARCH" in \
+      aarch64) SC_ARCH="linux-arm64" ;; \
+      x86_64)  SC_ARCH="linux-amd64" ;; \
+      armv7l)  SC_ARCH="linux-arm" ;; \
+      *)       SC_ARCH="linux-amd64" ;; \
+    esac && \
+    wget -q "https://github.com/aptible/supercronic/releases/download/v0.2.33/supercronic-${SC_ARCH}" -O /usr/local/bin/supercronic && \
+    chmod +x /usr/local/bin/supercronic
 
 # Clone the evcc-grafana-dashboards repository
 WORKDIR /app
