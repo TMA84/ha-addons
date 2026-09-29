@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.3.3
+
+- Stützen: erscheinen jetzt beim Slicen (vorher mit „nur kritische Bereiche“ bei normalen Überhängen keine)
+
 ## 9.3.2
 
 - Kamera: Fehler „Kamera nicht verfügbar (Exception)“ behoben (falsche Adresse hinter Ingress)
