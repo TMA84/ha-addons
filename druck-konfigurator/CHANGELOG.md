@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.3.1
+
+- Haftungsausschluss überarbeitet, Dank an das Ursprungsprojekt (wolfb63-del/druck-konfigurator)
+
 ## 9.3.0
 
 - Fertiges Image aus GHCR (amd64/aarch64) – Home Assistant muss nichts mehr selbst bauen
