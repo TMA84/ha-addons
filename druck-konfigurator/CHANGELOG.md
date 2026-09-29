@@ -2,7 +2,7 @@
 
 ## 9.3.3
 
-- Stützen: erscheinen jetzt beim Slicen (vorher mit „nur kritische Bereiche“ bei normalen Überhängen keine)
+- Stützen: „Nur kritische Bereiche“ je Auftrag einstellbar (Werte anpassen) – aus = auch normale Überhänge werden gestützt
 
 ## 9.3.2
 
