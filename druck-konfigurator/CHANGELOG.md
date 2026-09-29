@@ -1,5 +1,10 @@
 # Changelog
 
+## 9.4.0
+
+- Modell hinzufügen: verschiedene Modelle kombiniert und mehrfach drucken
+- Slot wählen auch bei einem einfarbigen Teil (③ Filament-Slots anklicken)
+
 ## 9.3.3
 
 - Stützen: „Nur kritische Bereiche“ je Auftrag einstellbar (Werte anpassen) – aus = auch normale Überhänge werden gestützt
