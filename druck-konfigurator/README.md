@@ -28,4 +28,14 @@ Der Server zählt den Filamentverbrauch mit, solange das Add-on läuft – auch 
 
 - Architekturen: amd64 und aarch64 (z. B. Raspberry Pi 4/5). Das Image ist wegen OrcaSlicer rund 1,5 GB groß.
 - Der Drucker muss aus Home Assistant erreichbar sein (gleiches Netz, private IP-Adresse).
-- Lizenz: siehe Projekt; OrcaSlicer (AGPL-3.0) wird unverändert mitgeliefert.
+- **Haftungsausschluss:** Nutzung auf eigene Verantwortung, ohne Gewährleistung. Das Tool kann den Drucker steuern und
+  Drucke starten – Bett, Druckplatte und Filament prüfst du vor jedem Start selbst. Werte, Kosten und Restmengen sind
+  Startwerte bzw. Schätzungen. Den optionalen Port 8765 nicht ins Internet freigeben (er hat keine Anmeldung).
+  Vollständig: [Haftungsausschluss im Projekt](https://github.com/TMA84/druck-konfigurator#haftungsausschluss).
+- Lizenz: [CC BY-NC 4.0](https://github.com/TMA84/druck-konfigurator/blob/main/LICENSE) (nicht kommerziell);
+  OrcaSlicer (AGPL-3.0) wird unverändert mitgeliefert.
+
+## Dank
+
+Der Druck-Konfigurator basiert auf dem **[Druck-Konfigurator von wolfb63-del](https://github.com/wolfb63-del/druck-konfigurator)** –
+Empfehlungslogik, Datenblatt, 3D-Ansicht und 3MF-Export stammen von dort. Vielen Dank!
