@@ -1,5 +1,11 @@
 # Changelog
 
+## 10.2.0
+
+- **Mehrere ACE-Einheiten:** Kobra S1 bis 2 ACE (8 Slots), andere Anycubic-Drucker bis 4; Slots zählen durch (ACE 2 = Slot 5–8), Sensoren je Slot über alle Einheiten
+- Einzelne Teile aus dem Projekt entfernen (mit Rückgängig)
+- Licht/Trocknen: kein „nicht bestätigt“ mehr, wenn der Drucker den Befehl ausführt
+
 ## 10.1.0
 
 - **PIN-Schutz** für den direkten Port 8765 (Option `access_pin`); die Seitenleiste bleibt durch Home Assistant geschützt
