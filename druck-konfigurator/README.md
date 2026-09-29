@@ -21,8 +21,60 @@ Optional: Port **8765** in den Add-on-Einstellungen freigeben, dann ist das Tool
 
 ## Daten
 
-Spulen und Verbrauch der Filamentverwaltung liegen in `/data` des Add-ons und bleiben bei Updates erhalten.
+Spulen und Verbrauch der Filamentverwaltung sowie die Druckwarteschlange liegen in `/data` des Add-ons und bleiben bei Updates erhalten.
 Der Server zählt den Filamentverbrauch mit, solange das Add-on läuft – auch wenn die Seite geschlossen ist.
+
+## Home Assistant (MQTT)
+
+Mit einem MQTT-Broker (z. B. dem offiziellen **Mosquitto-Add-on**) meldet das Add-on den Stand als Gerät
+**„Druck-Konfigurator <Druckermodell>“** an Home Assistant (MQTT-Discovery). Die Zugangsdaten holt es selbst vom
+Supervisor; ausschalten lässt es sich unter **Konfiguration → Home Assistant (MQTT)** (`mqtt_enabled`).
+Ohne Broker startet das Add-on ganz normal, nur ohne diese Entitäten. Über MQTT wird nichts gesteuert –
+Drucke startest du weiter im Tool.
+
+Die Warteschlange läuft auf dem Server: fertige Platten erkennt das Add-on auch, wenn keine Seite offen ist.
+
+| Entität | Bedeutung |
+|---|---|
+| `sensor.druck_konfigurator_printer_state` | Druckerstatus (`frei`, `druckt`, `pausiert`, `fertig`, `abgebrochen`, `offline` …) |
+| `sensor.druck_konfigurator_progress` | Fortschritt in % |
+| `sensor.druck_konfigurator_remaining_min` | Restzeit des laufenden Drucks (min) |
+| `sensor.druck_konfigurator_finish` | Fertig um (Zeitpunkt) |
+| `sensor.druck_konfigurator_job` | Name des Druckauftrags |
+| `sensor.druck_konfigurator_layer` | Schicht, z. B. `12/200` |
+| `sensor.druck_konfigurator_nozzle_temp` / `_bed_temp` | Düse / Druckbett (°C) |
+| `sensor.druck_konfigurator_queue_state` | Warteschlange als Text, z. B. „Platte 2 fertig – Bett abräumen, danach Platte 3“ |
+| `sensor.druck_konfigurator_queue_remaining_min` | Restliche Druckzeit der Warteschlange (min, ohne Pausen zum Abräumen) |
+| `sensor.druck_konfigurator_plates` | Platten fertig/gesamt, z. B. `2/5` (übersprungene zählen nicht) |
+| `binary_sensor.druck_konfigurator_bed_clear` | **Bett abräumen**: an, sobald eine Platte der Warteschlange fertig ist; aus, wenn die nächste startet oder die Warteschlange endet |
+| `sensor.druck_konfigurator_slot1_remaining` … | Restmenge je ACE-Slot (g) aus der Filamentverwaltung; Attribute `name`, `type`, `colour`, `net_g`, `brand` |
+
+Die Entitäts-IDs gelten ab Home Assistant 2025.10 (`default_entity_id`); ältere Versionen bilden sie aus dem Gerätenamen –
+dann unter **Einstellungen → Geräte** nachsehen.
+
+MQTT-Themen: `druck_konfigurator/state` (JSON, alle 15 s und bei Änderung), `druck_konfigurator/slot/<n>`,
+`druck_konfigurator/availability` (`online`/`offline`, Last Will), Discovery unter `homeassistant/…/druck_konfigurator/…/config`.
+
+Beispiel: Benachrichtigung aufs Handy, wenn das Bett abgeräumt werden muss
+(`notify.mobile_app_mein_handy` durch den Dienst deiner Companion-App ersetzen):
+
+```yaml
+alias: "3D-Druck: Bett abräumen"
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.druck_konfigurator_bed_clear
+    to: "on"
+actions:
+  - action: notify.mobile_app_mein_handy
+    data:
+      title: "Druck fertig – Bett abräumen"
+      message: >-
+        {{ states('sensor.druck_konfigurator_queue_state') }}
+        ({{ states('sensor.druck_konfigurator_plates') }} Platten fertig)
+      data:
+        tag: druck-queue
+mode: single
+```
 
 ## Hinweise
 

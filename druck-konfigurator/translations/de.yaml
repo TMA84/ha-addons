@@ -5,5 +5,11 @@ configuration:
       IP-Adresse des Anycubic Kobra S1 im Heimnetz (am Drucker: Einstellungen → Netzwerk → LAN-Modus einschalten).
       Die Seite verbindet sich damit von selbst, und die Filamentverwaltung zählt den Verbrauch ab dem Start mit.
       Leer lassen, um die Adresse im Tool einzutragen.
+  mqtt_enabled:
+    name: Home Assistant (MQTT)
+    description: >-
+      Druckerstand, Warteschlange, Restmengen der ACE-Slots und „Bett abräumen“ als Entitäten an Home Assistant melden
+      (MQTT-Discovery). Braucht einen MQTT-Broker, z. B. das Mosquitto-Add-on; die Zugangsdaten kommen automatisch vom
+      Supervisor. Ohne Broker bleibt es einfach aus.
 network:
   8765/tcp: Direkter Zugriff ohne Home Assistant (optional)

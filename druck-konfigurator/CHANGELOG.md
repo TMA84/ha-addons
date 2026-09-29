@@ -1,5 +1,13 @@
 # Changelog
 
+## 10.0.0
+
+- **Home Assistant:** Sensoren über MQTT (Fortschritt, Restzeit, Warteschlange, „Bett abräumen“, Restmenge je Slot) – automatisch, wenn das Mosquitto-Add-on läuft (Option `mqtt_enabled`)
+- Warteschlange auf dem Server: „Platte fertig“ auch ohne offene Seite
+- 3D-Fortschritt im Tab Drucker
+- Spulen: Export/Import, Gewicht bei neuer Spule abfragen, Warnschwelle
+- Makerworld-Farben bleiben beim Kombinieren, Anordnen und bei Kopien erhalten
+
 ## 9.5.1
 
 - Slot für alle Teile übernehmen (② und ③)

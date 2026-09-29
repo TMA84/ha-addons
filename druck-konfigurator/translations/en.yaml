@@ -5,5 +5,11 @@ configuration:
       IP address of the Anycubic Kobra S1 on your network (on the printer: Settings → Network → turn on LAN mode).
       The page connects to it automatically and filament tracking starts right away.
       Leave empty to enter the address in the tool.
+  mqtt_enabled:
+    name: Home Assistant (MQTT)
+    description: >-
+      Report printer state, queue, remaining filament per ACE slot and “Clear the bed” to Home Assistant as entities
+      (MQTT discovery). Needs an MQTT broker such as the Mosquitto add-on; credentials come from the Supervisor
+      automatically. Without a broker it simply stays off.
 network:
   8765/tcp: Direct access without Home Assistant (optional)
