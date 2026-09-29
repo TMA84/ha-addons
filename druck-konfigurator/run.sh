@@ -1,6 +1,7 @@
 #!/bin/sh
 # Start des Druck-Konfigurators im Add-on. Optionen aus /data/options.json (Home Assistant):
 #   printer_ip   – IP-Adresse des Kobra S1 (LAN-Modus); die Seite übernimmt sie, die Filamentverwaltung zählt ab dem Start.
+#   access_pin   – PIN für den direkten Zugriff über Port 8765 (leer = kein Schutz); Ingress schützt Home Assistant.
 #   mqtt_enabled – Stand an Home Assistant über MQTT (Discovery). Zugangsdaten zum Broker (z. B. Mosquitto-Add-on)
 #                  holt das Skript vom Supervisor (services: mqtt:want); ohne MQTT-Add-on bleibt MQTT einfach aus.
 # Daten der Filamentverwaltung und der Warteschlange in /data (bleibt bei Updates erhalten).
@@ -10,6 +11,13 @@ MQTT_ENABLED=true
 if [ -f /data/options.json ]; then
   KONFIGURATOR_PRINTER=$(python3 -c "import json; print((json.load(open('/data/options.json')).get('printer_ip') or '').strip())")
   export KONFIGURATOR_PRINTER
+  KONFIGURATOR_PIN=$(python3 -c "import json; print((json.load(open('/data/options.json')).get('access_pin') or '').strip())" || true)
+  if [ -n "$KONFIGURATOR_PIN" ]; then
+    export KONFIGURATOR_PIN
+    echo "Zugriffsschutz: PIN für den direkten Port 8765 aktiv"
+  else
+    unset KONFIGURATOR_PIN
+  fi
   MQTT_ENABLED=$(python3 -c "import json; print('false' if json.load(open('/data/options.json')).get('mqtt_enabled') is False else 'true')" || echo true)
 fi
 

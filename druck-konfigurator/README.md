@@ -19,6 +19,12 @@ gebaut von GitHub Actions) – die Installation lädt nur herunter.
 Optional: Port **8765** in den Add-on-Einstellungen freigeben, dann ist das Tool auch direkt unter
 `http://<Home-Assistant>:8765/` erreichbar (z. B. vom Tablet an der Werkbank).
 
+**Zugriffs-PIN:** Der direkte Port hat ohne PIN keine Anmeldung – jeder im Heimnetz könnte Drucke starten. Unter
+**Konfiguration → Zugriffs-PIN** (`access_pin`, 4–32 Zeichen) eine PIN setzen; dann fragt die Seite auf Port 8765
+einmal danach (Anmeldung bleibt 30 Tage im Browser, nach einem Neustart des Add-ons neu anmelden; nach 5 falschen
+Versuchen 5 Minuten Sperre). Die PIN schützt **nur den direkten Port** – über die Seitenleiste (Ingress) gibt es keine
+PIN-Abfrage, dort schützt wie gehabt die Home-Assistant-Anmeldung. `/api/health` (Watchdog) bleibt ohne PIN erreichbar.
+
 ## Daten
 
 Spulen und Verbrauch der Filamentverwaltung sowie die Druckwarteschlange liegen in `/data` des Add-ons und bleiben bei Updates erhalten.
@@ -82,7 +88,7 @@ mode: single
 - Der Drucker muss aus Home Assistant erreichbar sein (gleiches Netz, private IP-Adresse).
 - **Haftungsausschluss:** Nutzung auf eigene Verantwortung, ohne Gewährleistung. Das Tool kann den Drucker steuern und
   Drucke starten – Bett, Druckplatte und Filament prüfst du vor jedem Start selbst. Werte, Kosten und Restmengen sind
-  Startwerte bzw. Schätzungen. Den optionalen Port 8765 nicht ins Internet freigeben (er hat keine Anmeldung).
+  Startwerte bzw. Schätzungen. Den optionalen Port 8765 nicht ins Internet freigeben (ohne `access_pin` hat er keine Anmeldung, und auch mit PIN läuft er unverschlüsselt über HTTP).
   Vollständig: [Haftungsausschluss im Projekt](https://github.com/TMA84/druck-konfigurator#haftungsausschluss).
 - Lizenz: [CC BY-NC 4.0](https://github.com/TMA84/druck-konfigurator/blob/main/LICENSE) (nicht kommerziell);
   OrcaSlicer (AGPL-3.0) wird unverändert mitgeliefert.

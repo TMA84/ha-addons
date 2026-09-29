@@ -1,5 +1,12 @@
 # Changelog
 
+## 10.1.0
+
+- **PIN-Schutz** für den direkten Port 8765 (Option `access_pin`); die Seitenleiste bleibt durch Home Assistant geschützt
+- Beschriftung: Text erhaben (eigene Farbe) oder vertieft auf Teile
+- Druckhistorie & Statistik, Sensoren „Filament/Kosten/Drucke diesen Monat“
+- Filamentprofil aus einer Spule, Tablet-Ansicht, schneller bei vielen Teilen
+
 ## 10.0.0
 
 - **Home Assistant:** Sensoren über MQTT (Fortschritt, Restzeit, Warteschlange, „Bett abräumen“, Restmenge je Slot) – automatisch, wenn das Mosquitto-Add-on läuft (Option `mqtt_enabled`)

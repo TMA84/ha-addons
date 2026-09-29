@@ -11,5 +11,10 @@ configuration:
       Report printer state, queue, remaining filament per ACE slot and “Clear the bed” to Home Assistant as entities
       (MQTT discovery). Needs an MQTT broker such as the Mosquitto add-on; credentials come from the Supervisor
       automatically. Without a broker it simply stays off.
+  access_pin:
+    name: Access PIN (direct port)
+    description: >-
+      PIN (4–32 characters) for direct access via port 8765 on your network. Leave empty for no protection.
+      The sidebar (ingress) never asks for the PIN – Home Assistant's login protects it.
 network:
   8765/tcp: Direct access without Home Assistant (optional)

@@ -11,5 +11,10 @@ configuration:
       Druckerstand, Warteschlange, Restmengen der ACE-Slots und „Bett abräumen“ als Entitäten an Home Assistant melden
       (MQTT-Discovery). Braucht einen MQTT-Broker, z. B. das Mosquitto-Add-on; die Zugangsdaten kommen automatisch vom
       Supervisor. Ohne Broker bleibt es einfach aus.
+  access_pin:
+    name: Zugriffs-PIN (direkter Port)
+    description: >-
+      PIN (4–32 Zeichen) für den direkten Zugriff über Port 8765 im Heimnetz. Leer lassen = kein Schutz.
+      Über die Seitenleiste (Ingress) fragt das Tool keine PIN ab – dort schützt die Home-Assistant-Anmeldung.
 network:
   8765/tcp: Direkter Zugriff ohne Home Assistant (optional)
