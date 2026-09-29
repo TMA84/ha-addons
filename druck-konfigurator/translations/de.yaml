@@ -1,0 +1,9 @@
+configuration:
+  printer_ip:
+    name: Drucker-IP
+    description: >-
+      IP-Adresse des Anycubic Kobra S1 im Heimnetz (am Drucker: Einstellungen → Netzwerk → LAN-Modus einschalten).
+      Die Seite verbindet sich damit von selbst, und die Filamentverwaltung zählt den Verbrauch ab dem Start mit.
+      Leer lassen, um die Adresse im Tool einzutragen.
+network:
+  8765/tcp: Direkter Zugriff ohne Home Assistant (optional)

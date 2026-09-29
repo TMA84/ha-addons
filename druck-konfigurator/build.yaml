@@ -1,7 +1,6 @@
-# OrcaSlicer gibt es als AppImage für Ubuntu 24.04 (x86_64 und aarch64) – deshalb Ubuntu statt der HA-Alpine-Basis
+# Nur für einen Build ohne fertiges Image (normalerweise lädt Home Assistant ghcr.io/tma84/ha-addon-druck-konfigurator-<arch>)
 build_from:
-  aarch64: "ubuntu:24.04"
-  amd64: "ubuntu:24.04"
+  aarch64: "ghcr.io/tma84/druck-konfigurator:latest"
+  amd64: "ghcr.io/tma84/druck-konfigurator:latest"
 args:
-  DRUCK_REF: main
-  ORCA_VERSION: "2.4.2"
+  DRUCK_VERSION: latest

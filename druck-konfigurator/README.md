@@ -8,10 +8,13 @@ Projekt und Handbuch: https://github.com/TMA84/druck-konfigurator
 
 ## Einrichten
 
-1. Add-on installieren und starten (der erste Build lädt OrcaSlicer und dauert einige Minuten).
-2. **Öffnen** bzw. in der Seitenleiste **Druck-Konfigurator**.
-3. Am Drucker den **LAN-Modus** einschalten (Einstellungen → Netzwerk) und im Tool unter
-   **⚙ Einstellungen → Drucker-Verbindung** die IP-Adresse des Druckers eintragen.
+1. Am Drucker den **LAN-Modus** einschalten (Einstellungen → Netzwerk).
+2. Add-on installieren; unter **Konfiguration** die **Drucker-IP** (`printer_ip`) eintragen und starten.
+   (Alternativ leer lassen und im Tool unter **⚙ Einstellungen → Drucker-Verbindung** eintragen.)
+3. **Öffnen** bzw. in der Seitenleiste **Druck-Konfigurator**.
+
+Das Image kommt fertig aus der GitHub Container Registry (`ghcr.io/tma84/ha-addon-druck-konfigurator-<arch>`,
+gebaut von GitHub Actions) – die Installation lädt nur herunter.
 
 Optional: Port **8765** in den Add-on-Einstellungen freigeben, dann ist das Tool auch direkt unter
 `http://<Home-Assistant>:8765/` erreichbar (z. B. vom Tablet an der Werkbank).

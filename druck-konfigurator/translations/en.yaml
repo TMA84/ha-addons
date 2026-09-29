@@ -1,0 +1,9 @@
+configuration:
+  printer_ip:
+    name: Printer IP
+    description: >-
+      IP address of the Anycubic Kobra S1 on your network (on the printer: Settings → Network → turn on LAN mode).
+      The page connects to it automatically and filament tracking starts right away.
+      Leave empty to enter the address in the tool.
+network:
+  8765/tcp: Direct access without Home Assistant (optional)

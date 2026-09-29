@@ -1,5 +1,11 @@
 # Changelog
 
+## 9.3.0
+
+- Fertiges Image aus GHCR (amd64/aarch64) – Home Assistant muss nichts mehr selbst bauen
+- Option **printer_ip**: Drucker direkt in den Add-on-Einstellungen eintragen; die Seite verbindet sich von selbst,
+  die Filamentverwaltung zählt ab dem Start mit
+
 ## 9.2.0
 
 - Erste Version als Home-Assistant-Add-on (Ingress in der Seitenleiste, optional Port 8765)

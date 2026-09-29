@@ -1,0 +1,80 @@
+name: Build and publish Druck-Konfigurator addon image
+
+# Baut ghcr.io/<owner>/ha-addon-druck-konfigurator-<arch>:<version> auf dem App-Image
+# ghcr.io/<owner>/druck-konfigurator (gebaut im Repo TMA84/druck-konfigurator). Jede Architektur auf eigener Maschine.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - druck-konfigurator/**
+      - .github/workflows/build-druck-konfigurator-ghcr.yml
+  workflow_dispatch:
+    inputs:
+      druck_version:
+        description: 'Version des App-Images ghcr.io/tma84/druck-konfigurator (z. B. 9.3.0 oder latest)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-push:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: aarch64
+            platform: linux/arm64
+            runner: ubuntu-24.04-arm
+          - arch: amd64
+            platform: linux/amd64
+            runner: ubuntu-24.04
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Resolve metadata
+        id: meta
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION=$(grep '^version:' druck-konfigurator/config.yaml | sed -E 's/version:[[:space:]]*"?([^" ]+)"?/\1/')
+          OWNER_LC=$(echo "${GITHUB_REPOSITORY_OWNER}" | tr '[:upper:]' '[:lower:]')
+          # Standard: App-Image mit derselben Version wie das Add-on
+          DRUCK_VERSION="${{ github.event.inputs.druck_version }}"
+          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+          echo "owner_lc=${OWNER_LC}" >> "${GITHUB_OUTPUT}"
+          echo "druck_version=${DRUCK_VERSION:-$VERSION}" >> "${GITHUB_OUTPUT}"
+
+      - name: Build and push ${{ matrix.arch }}
+        uses: docker/build-push-action@v6
+        with:
+          context: ./druck-konfigurator
+          file: ./druck-konfigurator/Dockerfile
+          push: true
+          platforms: ${{ matrix.platform }}
+          build-args: |
+            DRUCK_VERSION=${{ steps.meta.outputs.druck_version }}
+          labels: |
+            io.hass.name=Druck-Konfigurator
+            io.hass.version=${{ steps.meta.outputs.version }}
+            io.hass.type=addon
+            io.hass.arch=${{ matrix.arch }}
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+          tags: |
+            ghcr.io/${{ steps.meta.outputs.owner_lc }}/ha-addon-druck-konfigurator-${{ matrix.arch }}:${{ steps.meta.outputs.version }}
+            ghcr.io/${{ steps.meta.outputs.owner_lc }}/ha-addon-druck-konfigurator-${{ matrix.arch }}:latest
