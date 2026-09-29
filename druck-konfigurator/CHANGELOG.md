@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.3.2
+
+- Kamera: Fehler „Kamera nicht verfügbar (Exception)“ behoben (falsche Adresse hinter Ingress)
+
 ## 9.3.1
 
 - Haftungsausschluss überarbeitet, Dank an das Ursprungsprojekt (wolfb63-del/druck-konfigurator)
