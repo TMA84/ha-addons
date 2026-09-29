@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.5.1
+
+- Slot für alle Teile übernehmen (② und ③)
+
 ## 9.5.0
 
 - Teile platzsparend anordnen: passen mehrere Teile auf eine Platte, landen sie auch dort (dreht bei Bedarf um 90°); auch für Makerworld-Projekte
