@@ -1,0 +1,7 @@
+# OrcaSlicer gibt es als AppImage für Ubuntu 24.04 (x86_64 und aarch64) – deshalb Ubuntu statt der HA-Alpine-Basis
+build_from:
+  aarch64: "ubuntu:24.04"
+  amd64: "ubuntu:24.04"
+args:
+  DRUCK_REF: main
+  ORCA_VERSION: "2.4.2"

@@ -1,0 +1,25 @@
+name: "Druck-Konfigurator"
+description: "3D-Druck-Konfigurator für Anycubic Kobra S1: Druckwerte, 3MF für OrcaSlicer, Kosten, Slice-Vorschau, Drucker-Werkbank und Filamentverwaltung"
+version: "9.2.0"
+slug: "druck_konfigurator"
+url: "https://github.com/TMA84/druck-konfigurator"
+arch:
+  - aarch64
+  - amd64
+startup: application
+boot: auto
+init: false
+# In der Seitenleiste von Home Assistant (Ingress) – ohne eigenen Port, mit der HA-Anmeldung
+ingress: true
+ingress_port: 8765
+panel_icon: mdi:printer-3d
+panel_title: "Druck-Konfigurator"
+# Optional direkt im Heimnetz (z. B. http://homeassistant.local:8765/) – in den Add-on-Einstellungen freigeben
+ports:
+  8765/tcp: null
+ports_description:
+  8765/tcp: "Direkter Zugriff ohne Home Assistant (optional)"
+watchdog: "http://[HOST]:[PORT:8765]/api/health"
+# /data (Spulen und Verbrauch der Filamentverwaltung) bleibt bei Updates erhalten
+options: {}
+schema: {}
