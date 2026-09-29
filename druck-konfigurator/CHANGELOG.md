@@ -1,5 +1,11 @@
 # Changelog
 
+## 10.5.0
+
+- Druckkopf fährt mit den Geschwindigkeiten aus dem G-Code und einem Bewegungsplaner wie Klipper – am echten Druck auf ±5 % genau
+- Mechanik im 3D-Fortschritt: Bett, X-Traverse, Y-Schienen; Kopf in etwa echter Größe
+- Gedruckte Bahnen der aktuellen Schicht werden orange, noch nicht gedruckte bleiben blass
+
 ## 10.4.0
 
 - Druckkopf folgt den G-Code-Bahnen (echte Position, standardmäßig an), fährt flüssig zwischen den Meldungen
