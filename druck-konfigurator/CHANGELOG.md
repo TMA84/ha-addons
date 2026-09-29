@@ -1,5 +1,10 @@
 # Changelog
 
+## 10.3.0
+
+- Druckkopf im 3D-Fortschritt: geschätzt oder echte Position vom Drucker (Schalter „Echte Kopfposition“)
+- Kommende Schichten durchsichtig, ausgeblendet oder voll
+
 ## 10.2.0
 
 - **Mehrere ACE-Einheiten:** Kobra S1 bis 2 ACE (8 Slots), andere Anycubic-Drucker bis 4; Slots zählen durch (ACE 2 = Slot 5–8), Sensoren je Slot über alle Einheiten
