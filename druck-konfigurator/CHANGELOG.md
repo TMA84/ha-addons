@@ -1,5 +1,10 @@
 # Changelog
 
+## 10.4.0
+
+- Druckkopf folgt den G-Code-Bahnen (echte Position, standardmäßig an), fährt flüssig zwischen den Meldungen
+- Bahnen färben sich ein, sobald der Kopf sie abgefahren hat; Fortschritt innerhalb der Schicht in %
+
 ## 10.3.0
 
 - Druckkopf im 3D-Fortschritt: geschätzt oder echte Position vom Drucker (Schalter „Echte Kopfposition“)
