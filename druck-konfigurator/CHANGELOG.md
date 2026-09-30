@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.8.1
+
+- Druckwerte: Farben des Herstellers nur noch, wenn die ACE die Farbe nicht per RFID gelesen hat
+
 ## 10.8.0
 
 - Objekte während des Drucks überspringen (Tab ④ → Druckauftrag → Objekte), z. B. wenn sich ein Teil gelöst hat – für Drucke aus dem Tool
