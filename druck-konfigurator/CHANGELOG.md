@@ -1,5 +1,12 @@
 # Changelog
 
+## 10.6.0
+
+- Slot-Zuordnung wie in OrcaSlicer: Slot-Chips, „Modell → Slot“ für die Filamente des Designers, automatische Zuordnung nach Farbe und Material; Filament folgt dem Slot
+- Bemalung je Dreieck und Farb-Modifikatoren von Makerworld-Modellen werden angezeigt und auf die eigenen Slots umgeschrieben
+- Werkzeugleiste in der 3D-Ansicht, Größe ändern, Drehen/Trennen auch bei Makerworld-3MF, ganze Platte zeigen
+- Druck Objekt für Objekt, Projekt übersteht Neuladen, Modell entfernen, aufgeräumte Druckwerte, Handy-Ansicht
+
 ## 10.5.0
 
 - Druckkopf fährt mit den Geschwindigkeiten aus dem G-Code und einem Bewegungsplaner wie Klipper – am echten Druck auf ±5 % genau
