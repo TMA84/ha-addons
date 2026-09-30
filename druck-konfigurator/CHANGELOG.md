@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.6.1
+
+- Ladebalken beim Slicen im Tab ③ und Kreisel am Reiter, wenn im Hintergrund geslict wird
+
 ## 10.6.0
 
 - Slot-Zuordnung wie in OrcaSlicer: Slot-Chips, „Modell → Slot“ für die Filamente des Designers, automatische Zuordnung nach Farbe und Material; Filament folgt dem Slot
