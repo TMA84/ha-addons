@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.8.2
+
+- Kamerabild auch auf dem iPhone (ab iOS 17.1): neuer Player mpegts.js statt flv.js
+
 ## 10.8.1
 
 - Druckwerte: Farben des Herstellers nur noch, wenn die ACE die Farbe nicht per RFID gelesen hat
