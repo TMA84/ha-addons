@@ -1,5 +1,10 @@
 # Changelog
 
+## 10.8.0
+
+- Objekte während des Drucks überspringen (Tab ④ → Druckauftrag → Objekte), z. B. wenn sich ein Teil gelöst hat – für Drucke aus dem Tool
+- Kamera zeigte oft ein altes Bild: Bild kommt jetzt ohne Verzögerung durch, die Kamera verbindet sich bei Stillstand neu
+
 ## 10.7.1
 
 - STL-Dateien in Meter (z. B. aus Blender oder Onshape) werden auf Millimeter umgerechnet – vorher waren sie winzig und ließen sich nicht slicen
