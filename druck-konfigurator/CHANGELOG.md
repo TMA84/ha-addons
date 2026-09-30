@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.8.3
+
+- Kamera startet von selbst, sobald sie im Tab ④ zu sehen ist; in der 3D-Ansicht läuft kein Kamerastrom im Hintergrund
+
 ## 10.8.2
 
 - Kamerabild auch auf dem iPhone (ab iOS 17.1): neuer Player mpegts.js statt flv.js
