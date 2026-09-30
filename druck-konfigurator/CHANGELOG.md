@@ -1,5 +1,13 @@
 # Changelog
 
+## 10.7.0
+
+- Bemalen wie in OrcaSlicer: Farbe, Stützen (erzwingen/verhindern) und Naht je Fläche – Kreis, Kugel, Dreieck, Füllen mit Vorschau, Höhenbereich, Lücken füllen, Radierer; auch auf Makerworld-Modellen
+- Filamente von Anycubic und SUNLU mit den Druckwerten der Hersteller und ihren Farben; Farbe anklicken trägt sie für den Slot ein
+- Rückgängig / Wiederholen (Strg/⌘+Z) für das ganze Projekt
+- Beschriftung auch auf Objekten des Designers (Makerworld-3MF); gewählte Bohrlöcher bleiben bei Größe und Drehung erhalten
+- Handbuch-Bilder erneuert
+
 ## 10.6.1
 
 - Ladebalken beim Slicen im Tab ③ und Kreisel am Reiter, wenn im Hintergrund geslict wird
