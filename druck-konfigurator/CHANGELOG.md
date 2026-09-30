@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.7.1
+
+- STL-Dateien in Meter (z. B. aus Blender oder Onshape) werden auf Millimeter umgerechnet – vorher waren sie winzig und ließen sich nicht slicen
+
 ## 10.7.0
 
 - Bemalen wie in OrcaSlicer: Farbe, Stützen (erzwingen/verhindern) und Naht je Fläche – Kreis, Kugel, Dreieck, Füllen mit Vorschau, Höhenbereich, Lücken füllen, Radierer; auch auf Makerworld-Modellen
