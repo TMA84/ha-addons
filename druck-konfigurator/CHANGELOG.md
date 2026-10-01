@@ -1,5 +1,11 @@
 # Changelog
 
+## 10.9.3
+
+- Werkbank: Z-Knöpfe als Bett ↑ / Bett ↓
+- Senden: Hinweis, wenn der Drucker ohne Auftrag „beschäftigt“ meldet (Display prüfen), mit „Erneut abfragen“
+- Senden: „Filament aus der ACE übernehmen und neu slicen“ bei falschem Material
+
 ## 10.9.2
 
 - SUNLU-Farben mit den echten Farbcodes von sunlu.com, fehlende Farben ergänzt
