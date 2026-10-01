@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.9.5
+
+- Behoben: Objektliste im Druck sprang beim Scrollen nach wenigen Sekunden zurück
+
 ## 10.9.4
 
 - Objekte überspringen: Objekt im 3D-Fortschritt blau hervorheben, Rückfrage direkt in der Liste
