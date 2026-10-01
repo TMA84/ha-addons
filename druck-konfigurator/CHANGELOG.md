@@ -1,5 +1,13 @@
 # Changelog
 
+## 10.9.0
+
+- Anzahl für ein ganzes Modell (z. B. 20 Sätze RFID-Halter mit einer Eingabe), Kopien als eine Zeile
+- Platten: Abstand zwischen Teilen einstellbar (3–15 mm), Teile als kompakter Block in der Mitte, Kopien je Platte als eine Zeile
+- Modell und Druckwerte übersichtlicher: Werkzeuge als Reiter, Druckwerte in Gruppen, Spülmenge bei den Druckwerten
+- Druck: eigene, ruhigere Restzeit; Objekte direkt in der 3D-Ansicht überspringen, übersprungene Bahnen dunkel
+- STL in Zoll erkennen und umrechnen; Historie zeigt übersprungene Objekte
+
 ## 10.8.3
 
 - Kamera startet von selbst, sobald sie im Tab ④ zu sehen ist; in der 3D-Ansicht läuft kein Kamerastrom im Hintergrund
