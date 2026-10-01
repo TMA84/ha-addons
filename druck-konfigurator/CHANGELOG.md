@@ -1,5 +1,10 @@
 # Changelog
 
+## 10.9.1
+
+- Umschalter „Farben | Grenzwinkel“ unter dem Modell (bleibt gemerkt)
+- Grenzwinkel bei einfachen Teilen wieder sichtbar
+
 ## 10.9.0
 
 - Anzahl für ein ganzes Modell (z. B. 20 Sätze RFID-Halter mit einer Eingabe), Kopien als eine Zeile
