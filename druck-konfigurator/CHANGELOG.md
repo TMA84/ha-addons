@@ -1,5 +1,10 @@
 # Changelog
 
+## 10.9.4
+
+- Objekte überspringen: Objekt im 3D-Fortschritt blau hervorheben, Rückfrage direkt in der Liste
+- Behoben: nach einem Neustart des Druckers blieb er im Tool „busy“ – Verbindung baut sich jetzt neu auf, kein alter Stand mehr
+
 ## 10.9.3
 
 - Werkbank: Z-Knöpfe als Bett ↑ / Bett ↓
