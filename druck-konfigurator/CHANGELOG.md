@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.9.2
+
+- SUNLU-Farben mit den echten Farbcodes von sunlu.com, fehlende Farben ergänzt
+
 ## 10.9.1
 
 - Umschalter „Farben | Grenzwinkel“ unter dem Modell (bleibt gemerkt)
