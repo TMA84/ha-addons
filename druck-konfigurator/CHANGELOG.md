@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.9.6
+
+- Nur 3D-Fortschritt zum Einbetten: `/api/hassio_ingress/<Kennung>/?ansicht=3d` als Webseiten-Karte im Dashboard
+
 ## 10.9.5
 
 - Behoben: Objektliste im Druck sprang beim Scrollen nach wenigen Sekunden zurück
