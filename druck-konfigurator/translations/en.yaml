@@ -11,6 +11,11 @@ configuration:
       Report printer state, queue, remaining filament per ACE slot and “Clear the bed” to Home Assistant as entities
       (MQTT discovery). Needs an MQTT broker such as the Mosquitto add-on; credentials come from the Supervisor
       automatically. Without a broker it simply stays off.
+  mqtt_control:
+    name: Control from Home Assistant
+    description: >-
+      Buttons "Pause print" and "Resume print" as entities (e.g. for automations or the dashboard). Home Assistant then
+      controls the printer – that's why it is off by default. Cancelling is never possible from Home Assistant.
   access_pin:
     name: Access PIN (direct port)
     description: >-

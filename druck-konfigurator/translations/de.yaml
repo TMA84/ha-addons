@@ -11,6 +11,11 @@ configuration:
       Druckerstand, Warteschlange, Restmengen der ACE-Slots und „Bett abräumen“ als Entitäten an Home Assistant melden
       (MQTT-Discovery). Braucht einen MQTT-Broker, z. B. das Mosquitto-Add-on; die Zugangsdaten kommen automatisch vom
       Supervisor. Ohne Broker bleibt es einfach aus.
+  mqtt_control:
+    name: Steuern aus Home Assistant
+    description: >-
+      Knöpfe „Druck pausieren“ und „Druck fortsetzen“ als Entitäten (z. B. für Automationen oder das Dashboard).
+      Damit steuert Home Assistant den Drucker – deshalb standardmäßig aus. Abbrechen geht nie über Home Assistant.
   access_pin:
     name: Zugriffs-PIN (direkter Port)
     description: >-

@@ -35,8 +35,9 @@ Der Server zählt den Filamentverbrauch mit, solange das Add-on läuft – auch 
 Mit einem MQTT-Broker (z. B. dem offiziellen **Mosquitto-Add-on**) meldet das Add-on den Stand als Gerät
 **„Druck-Konfigurator <Druckermodell>“** an Home Assistant (MQTT-Discovery). Die Zugangsdaten holt es selbst vom
 Supervisor; ausschalten lässt es sich unter **Konfiguration → Home Assistant (MQTT)** (`mqtt_enabled`).
-Ohne Broker startet das Add-on ganz normal, nur ohne diese Entitäten. Über MQTT wird nichts gesteuert –
-Drucke startest du weiter im Tool.
+Ohne Broker startet das Add-on ganz normal, nur ohne diese Entitäten. Über MQTT wird standardmäßig nichts gesteuert –
+Drucke startest du weiter im Tool. Nur mit der Option **Steuern aus Home Assistant** (`mqtt_control`) gibt es die Knöpfe
+„Druck pausieren“ und „Druck fortsetzen“; Abbrechen geht nie über Home Assistant.
 
 Die Warteschlange läuft auf dem Server: fertige Platten erkennt das Add-on auch, wenn keine Seite offen ist.
 
@@ -55,6 +56,8 @@ Die Warteschlange läuft auf dem Server: fertige Platten erkennt das Add-on auch
 | `binary_sensor.druck_konfigurator_bed_clear` | **Bett abräumen**: an, sobald eine Platte der Warteschlange fertig ist; aus, wenn die nächste startet oder die Warteschlange endet |
 | `sensor.druck_konfigurator_slot1_remaining` … | Restmenge je ACE-Slot (g) aus der Filamentverwaltung; Attribute `name`, `type`, `colour`, `net_g`, `brand` |
 | `camera.druck_konfigurator_progress` | **3D-Fortschritt**: Bild des laufenden Drucks (schräg von oben, in den Farben der ACE-Slots), neu bei jeder Schicht – nur für Drucke aus dem Tool; ohne Anmeldung am Add-on nutzbar (Dashboard, Handy-App, Bild in Benachrichtigungen) |
+| `binary_sensor.druck_konfigurator_filament_low` | **Filament knapp**: Spule unter der Warnschwelle oder die wartenden Platten brauchen mehr als im Slot ist (Grund im Attribut `filament_note`) |
+| `button.druck_konfigurator_pause` / `…_resume` | **Druck pausieren / fortsetzen** – nur mit der Option **Steuern aus Home Assistant** (Standard aus); Abbrechen geht nie über Home Assistant |
 
 Die Entitäts-IDs gelten ab Home Assistant 2025.10 (`default_entity_id`); ältere Versionen bilden sie aus dem Gerätenamen –
 dann unter **Einstellungen → Geräte** nachsehen.

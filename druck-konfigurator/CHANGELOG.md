@@ -1,5 +1,13 @@
 # Changelog
 
+## 10.11.0
+
+- Seite lädt schneller: Dateien bleiben im Browser-Cache, gzip – erneutes Öffnen 5 KB statt 2,1 MB
+- Neuer Sensor „Filament knapp“ (`binary_sensor.druck_konfigurator_filament_low`)
+- Neue Option **Steuern aus Home Assistant** (`mqtt_control`, Standard aus): Knöpfe „Druck pausieren“ / „Druck fortsetzen“
+- Druckzeiten mit Vorbereitung (Bett vermessen, Aufheizen)
+- Weniger Rauschen im Add-on-Log (Routine-Abfragen nicht mehr protokolliert)
+
 ## 10.10.0
 
 - Neue Kamera-Entität „3D-Fortschritt“ (`camera.druck_konfigurator_progress`): Bild des Drucks je Schicht – für Dashboard, Handy-App und Benachrichtigungen mit Bild
