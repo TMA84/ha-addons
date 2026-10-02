@@ -1,5 +1,10 @@
 # Changelog
 
+## 10.11.2
+
+- Behoben: Drucker zeigte das Modell nach dem Hochladen nicht an – das Tool setzt jetzt selbst ein Vorschaubild in den G-Code
+- Behoben: 3MF aus Bambu Studio mit Objekten auf „nicht drucken“ ließ sich nicht slicen
+
 ## 10.11.1
 
 - Jedes Objekt lässt sich überspringen, auch das letzte noch laufende (mit deutlicher Rückfrage)
