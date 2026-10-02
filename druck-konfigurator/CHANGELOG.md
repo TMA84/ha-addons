@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.11.1
+
+- Jedes Objekt lässt sich überspringen, auch das letzte noch laufende (mit deutlicher Rückfrage)
+
 ## 10.11.0
 
 - Seite lädt schneller: Dateien bleiben im Browser-Cache, gzip – erneutes Öffnen 5 KB statt 2,1 MB
