@@ -1,5 +1,14 @@
 # Changelog
 
+## 10.10.0
+
+- Neue Kamera-Entität „3D-Fortschritt“ (`camera.druck_konfigurator_progress`): Bild des Drucks je Schicht – für Dashboard, Handy-App und Benachrichtigungen mit Bild
+- Sätze zusammenhalten: jeder Satz eines Modells aus mehreren Teilen auf einer Platte
+- Falsches Filament (Druckwerte ↔ Slot) wird schon vor dem Slicen gemeldet
+- Restzeit rechnet Bettvermessung und Aufheizen mit; Druckhistorie endet bei „fertig“ statt erst beim nächsten Druck
+- Behoben: Seite lud manchmal unvollständig („… is not defined“) – der Server wies Verbindungen ab
+- Modell-Ansicht aufgeräumt
+
 ## 10.9.6
 
 - Nur 3D-Fortschritt zum Einbetten: `/api/hassio_ingress/<Kennung>/?ansicht=3d` als Webseiten-Karte im Dashboard

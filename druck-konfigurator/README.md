@@ -54,11 +54,12 @@ Die Warteschlange läuft auf dem Server: fertige Platten erkennt das Add-on auch
 | `sensor.druck_konfigurator_plates` | Platten fertig/gesamt, z. B. `2/5` (übersprungene zählen nicht) |
 | `binary_sensor.druck_konfigurator_bed_clear` | **Bett abräumen**: an, sobald eine Platte der Warteschlange fertig ist; aus, wenn die nächste startet oder die Warteschlange endet |
 | `sensor.druck_konfigurator_slot1_remaining` … | Restmenge je ACE-Slot (g) aus der Filamentverwaltung; Attribute `name`, `type`, `colour`, `net_g`, `brand` |
+| `camera.druck_konfigurator_progress` | **3D-Fortschritt**: Bild des laufenden Drucks (schräg von oben, in den Farben der ACE-Slots), neu bei jeder Schicht – nur für Drucke aus dem Tool; ohne Anmeldung am Add-on nutzbar (Dashboard, Handy-App, Bild in Benachrichtigungen) |
 
 Die Entitäts-IDs gelten ab Home Assistant 2025.10 (`default_entity_id`); ältere Versionen bilden sie aus dem Gerätenamen –
 dann unter **Einstellungen → Geräte** nachsehen.
 
-MQTT-Themen: `druck_konfigurator/state` (JSON, alle 15 s und bei Änderung), `druck_konfigurator/slot/<n>`,
+MQTT-Themen: `druck_konfigurator/state` (JSON, alle 15 s und bei Änderung), `druck_konfigurator/slot/<n>`, `druck_konfigurator/progress_image` (PNG),
 `druck_konfigurator/availability` (`online`/`offline`, Last Will), Discovery unter `homeassistant/…/druck_konfigurator/…/config`.
 
 Beispiel: Benachrichtigung aufs Handy, wenn das Bett abgeräumt werden muss
@@ -79,6 +80,7 @@ actions:
         ({{ states('sensor.druck_konfigurator_plates') }} Platten fertig)
       data:
         tag: druck-queue
+        image: /api/camera_proxy/camera.druck_konfigurator_progress   # Bild des Drucks
 mode: single
 ```
 
