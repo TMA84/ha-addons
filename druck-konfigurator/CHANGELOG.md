@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.12.2
+
+- Behoben: 3D-Fortschritt zeigte beim Bett vermessen das Modell als fertig
+
 ## 10.12.1
 
 - Behoben: „An Drucker senden“ öffnete sich in 10.12.0 nicht
