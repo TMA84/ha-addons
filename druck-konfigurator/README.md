@@ -57,6 +57,7 @@ Die Warteschlange läuft auf dem Server: fertige Platten erkennt das Add-on auch
 | `sensor.druck_konfigurator_slot1_remaining` … | Restmenge je ACE-Slot (g) aus der Filamentverwaltung; Attribute `name`, `type`, `colour`, `net_g`, `brand` |
 | `camera.druck_konfigurator_progress` | **3D-Fortschritt**: Bild des laufenden Drucks (schräg von oben, in den Farben der ACE-Slots), neu bei jeder Schicht – nur für Drucke aus dem Tool; ohne Anmeldung am Add-on nutzbar (Dashboard, Handy-App, Bild in Benachrichtigungen) |
 | `binary_sensor.druck_konfigurator_filament_low` | **Filament knapp**: Spule unter der Warnschwelle oder die wartenden Platten brauchen mehr als im Slot ist (Grund im Attribut `filament_note`) |
+| `sensor.druck_konfigurator_schedule_start` / `…_schedule_state` | **Geplanter Druck**: Startzeit und Zustand (geplant, trocknet, gestartet, nicht gestartet, abgesagt; Grund im Attribut `schedule_note`) |
 | `button.druck_konfigurator_pause` / `…_resume` | **Druck pausieren / fortsetzen** – nur mit der Option **Steuern aus Home Assistant** (Standard aus); Abbrechen geht nie über Home Assistant |
 
 Die Entitäts-IDs gelten ab Home Assistant 2025.10 (`default_entity_id`); ältere Versionen bilden sie aus dem Gerätenamen –

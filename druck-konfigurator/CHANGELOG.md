@@ -1,5 +1,11 @@
 # Changelog
 
+## 10.12.0
+
+- Druck zeitlich planen (Sendedialog → „Später starten“), optional vorher trocknen; der Server startet zur Zeit nach erneuter Prüfung
+- Neue Sensoren „Geplanter Start“ (`sensor.druck_konfigurator_schedule_start`) und „Geplanter Druck“ (`…_schedule_state`)
+- Tempo und Rückzug je Auftrag einstellbar (erste Schicht, Travel, Beschleunigung, Rückzug)
+
 ## 10.11.2
 
 - Behoben: Drucker zeigte das Modell nach dem Hochladen nicht an – das Tool setzt jetzt selbst ein Vorschaubild in den G-Code
