@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.12.1
+
+- Behoben: „An Drucker senden“ öffnete sich in 10.12.0 nicht
+
 ## 10.12.0
 
 - Druck zeitlich planen (Sendedialog → „Später starten“), optional vorher trocknen; der Server startet zur Zeit nach erneuter Prüfung
