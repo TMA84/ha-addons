@@ -1,5 +1,10 @@
 # Changelog
 
+## 10.14.0
+
+- Kobra-S1-Vorgaben je Filament: Hilfs-/Gehäuselüfter, bei ABS/ASA Bett ≥ 100 °C, 5 mm Brim und 10 min Vorwärmen
+- Werkbank: geplanter Druck als volle Zeile, Druckauftrag zeigt „Bett heizt vor – Druck startet um …“
+
 ## 10.13.0
 
 - Bett vorwärmen vor dem Druck (sofort oder vor geplantem Start); Heizung aus bei Absage oder Fehlstart
