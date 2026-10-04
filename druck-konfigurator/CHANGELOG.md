@@ -1,5 +1,10 @@
 # Changelog
 
+## 10.15.0
+
+- Alle Werte, die das Tool in den Druck schreibt, sind je Auftrag anpassbar – immer mit Vorschlag und Warnung bei starker Abweichung
+- Behoben: bei ABS/ASA löste sich der Brim vom Teil (Brim jetzt ohne Spalt, am kompensierten Umriss)
+
 ## 10.14.0
 
 - Kobra-S1-Vorgaben je Filament: Hilfs-/Gehäuselüfter, bei ABS/ASA Bett ≥ 100 °C, 5 mm Brim und 10 min Vorwärmen
