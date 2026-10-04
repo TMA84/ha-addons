@@ -1,6 +1,6 @@
 name: "Druck-Konfigurator"
 description: "3D-Druck-Konfigurator für Anycubic Kobra S1: Druckwerte, 3MF für OrcaSlicer, Kosten, Slice-Vorschau, Drucker-Werkbank und Filamentverwaltung"
-version: "10.15.0"
+version: "10.16.0"
 slug: "druck_konfigurator"
 url: "https://github.com/TMA84/druck-konfigurator"
 # Fertiges Image aus GHCR (gebaut von .github/workflows/build-druck-konfigurator-ghcr.yml) – kein Bauen auf dem HA-Gerät

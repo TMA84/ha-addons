@@ -1,5 +1,10 @@
 # Changelog
 
+## 10.16.0
+
+- Angepasste Werte als Standard je Drucker und Filament merken – gespeichert im Add-on, gelten in jedem Browser
+- Behoben: bei mehreren Teilen gingen angepasste Slot- und Plattenwerte (Temperaturen, Lüfter, erste Schicht …) am zweiten Teil verloren
+
 ## 10.15.0
 
 - Alle Werte, die das Tool in den Druck schreibt, sind je Auftrag anpassbar – immer mit Vorschlag und Warnung bei starker Abweichung
