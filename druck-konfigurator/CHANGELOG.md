@@ -1,5 +1,12 @@
 # Changelog
 
+## 10.13.0
+
+- Bett vorwärmen vor dem Druck (sofort oder vor geplantem Start); Heizung aus bei Absage oder Fehlstart
+- Hilfs- und Gehäuselüfter je Auftrag einstellbar (Kobra S1)
+- Behoben: „Werte für diesen Auftrag“ rundete Kommastellen weg (z. B. Rückzug 1,3 → 1 mm)
+- „Geplanter Druck“ in Home Assistant kennt den Zustand „heizt vor“
+
 ## 10.12.2
 
 - Behoben: 3D-Fortschritt zeigte beim Bett vermessen das Modell als fertig
