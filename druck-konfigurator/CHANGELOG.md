@@ -1,5 +1,10 @@
 # Changelog
 
+## 10.18.0
+
+- Druckwerte: neue Karte „Weitere Orca-Einstellungen“ (Stützen-Typ, Elefantenfuß, Wandgenerator, Bügeln, Brim-Art …), Kachel anklicken öffnet den Dialog
+- Weniger doppelte Hinweise; Stützen-Typ „Normal“ wird korrekt benannt
+
 ## 10.17.0
 
 - Rund 30 weitere Orca-Einstellungen je Auftrag: Stützen-Typ und -Stil, Elefantenfuß-Kompensation, Arachne, Bügeln, Brim-Art, Raft …
