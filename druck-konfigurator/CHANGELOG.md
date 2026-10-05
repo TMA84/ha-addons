@@ -1,5 +1,11 @@
 # Changelog
 
+## 10.18.1
+
+- Brim lässt Löcher und Schriften frei (gesetzte Mausohren am Außenumriss statt Rundum-Brim um Inseln)
+- Innerer Brim nur noch in großen Löchern, eigene Brim-Breite innen
+- Brim-Art nur noch einmal (direkt unter Brim)
+
 ## 10.18.0
 
 - Druckwerte: neue Karte „Weitere Orca-Einstellungen“ (Stützen-Typ, Elefantenfuß, Wandgenerator, Bügeln, Brim-Art …), Kachel anklicken öffnet den Dialog
