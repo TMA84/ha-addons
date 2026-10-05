@@ -1,5 +1,10 @@
 # Changelog
 
+## 10.17.0
+
+- Rund 30 weitere Orca-Einstellungen je Auftrag: Stützen-Typ und -Stil, Elefantenfuß-Kompensation, Arachne, Bügeln, Brim-Art, Raft …
+- Behoben: bei geplanten Drucken (z. B. mit Vorwärmen) fehlte der 3D-Fortschritt
+
 ## 10.16.0
 
 - Angepasste Werte als Standard je Drucker und Filament merken – gespeichert im Add-on, gelten in jedem Browser
