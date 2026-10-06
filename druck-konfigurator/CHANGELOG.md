@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.19.0
+
+- Brim innen als eigene Auswahl (aus / 2 / 3 / 5 mm): nur große Löcher, kleine Löcher und Schriften bleiben frei; auch ohne äußeren Brim
+
 ## 10.18.2
 
 - Behoben: je nach Teilhöhe kein Brim (nur mit Raft) – Mausohren lagen durch Rundung minimal über dem Bett
