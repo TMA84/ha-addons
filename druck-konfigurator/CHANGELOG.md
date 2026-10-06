@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.19.1
+
+- Behoben: Brim fehlte an langen geraden Kanten und neben Schlitzen – dichte Ohrenkette entlang des Umrisses, kleinere Ohren neben Löchern
+
 ## 10.19.0
 
 - Brim innen als eigene Auswahl (aus / 2 / 3 / 5 mm): nur große Löcher, kleine Löcher und Schriften bleiben frei; auch ohne äußeren Brim
