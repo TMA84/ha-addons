@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.18.2
+
+- Behoben: je nach Teilhöhe kein Brim (nur mit Raft) – Mausohren lagen durch Rundung minimal über dem Bett
+
 ## 10.18.1
 
 - Brim lässt Löcher und Schriften frei (gesetzte Mausohren am Außenumriss statt Rundum-Brim um Inseln)
