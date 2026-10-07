@@ -1,5 +1,10 @@
 # Changelog
 
+## 10.24.0
+
+- 3D-Fortschritt als beleuchtete Raupen mit Druckplatte, Hintergrund passend zu hell/dunkel
+- Links „Verbindung …“ und „Rohdaten“ in Petrol statt Orange
+
 ## 10.23.0
 
 - Druckwerte ruhiger: Kennzahlen oben, darunter je Thema eine Liste „Bezeichnung … Wert“
