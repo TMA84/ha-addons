@@ -1,5 +1,11 @@
 # Changelog
 
+## 10.26.0
+
+- Neuer Name: Druckwerkstatt (Seitenleiste und Add-on-Name; Kennung, Daten und MQTT-Entitäten bleiben)
+- 3D-Fortschritt: Schienen und Laufwagen richtig verbunden, Petrol-Streifen am Druckkopf entfernt
+- Handbuch, README und Bilder aktualisiert
+
 ## 10.25.0
 
 - Druckwerte als Werte-Tafel: Reiter + Tabelle Einstellung | Wert | Vorschlag, direkt bearbeitbar (Dialog entfällt)
