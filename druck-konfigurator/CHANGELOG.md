@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.21.0
+
+- Form innen für den Brim: nur große Löcher, alle Löcher mit freier Mitte, nur Lochecken, Orca innen ringsum
+
 ## 10.20.0
 
 - Brim-Abschnitt: außen und innen getrennt an/aus, Form außen, Abstand zum Teil
