@@ -1,5 +1,11 @@
 # Changelog
 
+## 10.22.0
+
+- Neues Farbschema Graphit + Petrol (hell und dunkel)
+- Druckwerte: alle Werte als Kacheln nach Thema, nichts eingeklappt
+- Werte anpassen: Reiter nach Thema mit Zähler und Suche über alle Reiter
+
 ## 10.21.0
 
 - Form innen für den Brim: nur große Löcher, alle Löcher mit freier Mitte, nur Lochecken, Orca innen ringsum
