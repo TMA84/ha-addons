@@ -1,6 +1,6 @@
-# Druck-Konfigurator (Home-Assistant-Add-on)
+# Druckwerkstatt (Home-Assistant-Add-on, früher Druck-Konfigurator)
 
-3D-Druck-Konfigurator für den **Anycubic Kobra S1** mit ACE: Druckwerte vorschlagen und direkt in einer Werte-Tafel
+Druckwerkstatt für den **Anycubic Kobra S1** mit ACE: Druckwerte vorschlagen und direkt in einer Werte-Tafel
 anpassen, 3MF für OrcaSlicer speichern, Kosten mit exaktem Slicen (OrcaSlicer im Add-on), Slice-Vorschau, direkt
 drucken, Druck planen (mit Trocknen und Vorwärmen), mehrere Platten mit Warteschlange, Drucker-Werkbank (Kamera,
 Temperaturen, ACE, 3D-Fortschritt mit Druckkopf) und Filamentverwaltung mit errechneter Restmenge und Druckhistorie.
@@ -12,7 +12,7 @@ Projekt und Handbuch: https://github.com/TMA84/druck-konfigurator
 1. Am Drucker den **LAN-Modus** einschalten (Einstellungen → Netzwerk).
 2. Add-on installieren; unter **Konfiguration** die **Drucker-IP** (`printer_ip`) eintragen und starten.
    (Alternativ leer lassen und im Tool unter **⚙ Einstellungen → Drucker-Verbindung** eintragen.)
-3. **Öffnen** bzw. in der Seitenleiste **Druck-Konfigurator**.
+3. **Öffnen** bzw. in der Seitenleiste **Druckwerkstatt**.
 
 Das Image kommt fertig aus der GitHub Container Registry (`ghcr.io/tma84/ha-addon-druck-konfigurator-<arch>`,
 gebaut von GitHub Actions) – die Installation lädt nur herunter.
@@ -102,5 +102,5 @@ mode: single
 
 ## Dank
 
-Der Druck-Konfigurator basiert auf dem **[Druck-Konfigurator von wolfb63-del](https://github.com/wolfb63-del/druck-konfigurator)** –
+Die Druckwerkstatt basiert auf dem **[Druck-Konfigurator von wolfb63-del](https://github.com/wolfb63-del/druck-konfigurator)** –
 Empfehlungslogik, Datenblatt, 3D-Ansicht und 3MF-Export stammen von dort. Vielen Dank!

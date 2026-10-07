@@ -1,4 +1,4 @@
-name: "Druck-Konfigurator"
+name: "Druckwerkstatt"
 description: "3D-Druck-Konfigurator für Anycubic Kobra S1: Druckwerte, 3MF für OrcaSlicer, Kosten, Slice-Vorschau, Drucker-Werkbank und Filamentverwaltung"
 version: "10.25.0"
 slug: "druck_konfigurator"
@@ -15,7 +15,7 @@ init: false
 ingress: true
 ingress_port: 8765
 panel_icon: mdi:printer-3d
-panel_title: "Druck-Konfigurator"
+panel_title: "Druckwerkstatt"
 # Optional direkt im Heimnetz (z. B. http://homeassistant.local:8765/) – in den Add-on-Einstellungen freigeben
 ports:
   8765/tcp: null
