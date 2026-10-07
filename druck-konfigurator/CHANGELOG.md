@@ -1,5 +1,11 @@
 # Changelog
 
+## 10.23.0
+
+- Druckwerte ruhiger: Kennzahlen oben, darunter je Thema eine Liste „Bezeichnung … Wert“
+- Abschnitt „Einstellungen in OrcaSlicer-Reihenfolge“ entfernt
+- Behoben: Warteschlange – nächste Platte ließ sich nicht starten (Slice-Auftrag wird jetzt dauerhaft aufgehoben)
+
 ## 10.22.0
 
 - Neues Farbschema Graphit + Petrol (hell und dunkel)
