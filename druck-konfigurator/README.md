@@ -1,8 +1,9 @@
 # Druck-Konfigurator (Home-Assistant-Add-on)
 
-3D-Druck-Konfigurator für den **Anycubic Kobra S1** mit ACE: Druckwerte vorschlagen, 3MF für OrcaSlicer speichern,
-Kosten mit exaktem Slicen (OrcaSlicer im Add-on), Slice-Vorschau, mehrere Platten mit Warteschlange,
-Drucker-Werkbank (Kamera, Temperaturen, ACE) und Filamentverwaltung mit errechneter Restmenge.
+3D-Druck-Konfigurator für den **Anycubic Kobra S1** mit ACE: Druckwerte vorschlagen und direkt in einer Werte-Tafel
+anpassen, 3MF für OrcaSlicer speichern, Kosten mit exaktem Slicen (OrcaSlicer im Add-on), Slice-Vorschau, direkt
+drucken, Druck planen (mit Trocknen und Vorwärmen), mehrere Platten mit Warteschlange, Drucker-Werkbank (Kamera,
+Temperaturen, ACE, 3D-Fortschritt mit Druckkopf) und Filamentverwaltung mit errechneter Restmenge und Druckhistorie.
 
 Projekt und Handbuch: https://github.com/TMA84/druck-konfigurator
 
@@ -27,7 +28,7 @@ PIN-Abfrage, dort schützt wie gehabt die Home-Assistant-Anmeldung. `/api/health
 
 ## Daten
 
-Spulen und Verbrauch der Filamentverwaltung sowie die Druckwarteschlange liegen in `/data` des Add-ons und bleiben bei Updates erhalten.
+Spulen und Verbrauch der Filamentverwaltung, Druckhistorie, die Druckwarteschlange (samt ihren geslicten Platten), geplante Drucke und deine eigenen Standardwerte liegen in `/data` des Add-ons und bleiben bei Updates erhalten.
 Der Server zählt den Filamentverbrauch mit, solange das Add-on läuft – auch wenn die Seite geschlossen ist.
 
 ## Home Assistant (MQTT)
