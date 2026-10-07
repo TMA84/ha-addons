@@ -1,5 +1,10 @@
 # Changelog
 
+## 10.20.0
+
+- Brim-Abschnitt: außen und innen getrennt an/aus, Form außen, Abstand zum Teil
+- Zeile „In Orca“ zeigt, welche Orca-Einstellungen für das Teil geschrieben werden
+
 ## 10.19.1
 
 - Behoben: Brim fehlte an langen geraden Kanten und neben Schlitzen – dichte Ohrenkette entlang des Umrisses, kleinere Ohren neben Löchern
