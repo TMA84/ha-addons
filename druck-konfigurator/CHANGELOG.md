@@ -1,5 +1,12 @@
 # Changelog
 
+## 10.25.0
+
+- Druckwerte als Werte-Tafel: Reiter + Tabelle Einstellung | Wert | Vorschlag, direkt bearbeitbar (Dialog entfällt)
+- 3D-Fortschritt: Druckkopf und Schienen neu gestaltet
+- Knopf „Neue Spule eingelegt“ für eine neue Spule gleicher Sorte und Farbe
+- Fortschrittsbalken in Petrol statt Orange
+
 ## 10.24.0
 
 - 3D-Fortschritt als beleuchtete Raupen mit Druckplatte, Hintergrund passend zu hell/dunkel
