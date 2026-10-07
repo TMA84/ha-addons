@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.27.0
+
+- 3D-Fortschritt als Nachbildung des Kobra S1: weißer Kopf mit orangem Streifen, Kupferstangen, blaue Motoren, Rahmen mit Z-Spindeln, PEI-Platte
+
 ## 10.26.0
 
 - Neuer Name: Druckwerkstatt (Seitenleiste und Add-on-Name; Kennung, Daten und MQTT-Entitäten bleiben)
