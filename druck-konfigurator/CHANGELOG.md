@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.35.2
+
+- 3D-Fortschritt: Ansaugung des Seitenlüfters aus dem Bauraum
+
 ## 10.35.1
 
 - 3D-Fortschritt: Seitenlüfter tiefer an der Wand, Kanal hoch zur Düse auf Kopfhöhe
