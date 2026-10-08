@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.34.1
+
+- 3D-Fortschritt: Abluft des Gehäuselüfters sichtbar durchs Gitter nach draußen
+
 ## 10.34.0
 
 - 3D-Fortschritt: Lüfter mit Luftstrom und drehenden Rädern (Bauteillüfter am Kopf, Hotend-Lüfter, Seitenlüfter rechts mit flacher Düse, Gehäuselüfter hinten) nach den gemeldeten Werten; Stangen und Riemen nach Foto des Kobra S1
