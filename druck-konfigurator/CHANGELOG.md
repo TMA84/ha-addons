@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.38.1
+
+- 3D-Fortschritt: Eckrollen sitzen in Gehäusen
+
 ## 10.38.0
 
 - 3D-Fortschritt: XY-Riemenlauf wie beim Kobra S1 (Omega-Umschlingung am Motor, Umkehrrolle vorn, einzelner Strang gegenüber), Motoren oben auf dem Rahmen, Endblöcke der Y-Stangen und Lagerböcke der Z-Spindeln am Rahmen
