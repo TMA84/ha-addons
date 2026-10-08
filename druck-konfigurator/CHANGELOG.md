@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.36.1
+
+- Home Assistant: Licht zeigt An/Aus statt „Licht erkannt“
+
 ## 10.36.0
 
 - Mehr Werte in Home Assistant: Zieltemperaturen, drei Lüfter (%), Druckgeschwindigkeit, Druckdauer bisher, Filament dieses Drucks, Licht, ACE-Temperatur und Trocknen
