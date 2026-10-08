@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.39.6
+
+- 3D-Fortschritt: frontale Startansicht, Zusammenführung von unten, Schlauch am Stück bis zum Kopf, ACE-Einzug vor den Rollen
+
 ## 10.39.5
 
 - 3D-Fortschritt: Zoom auf alles auch beim ersten Laden in Home Assistant
