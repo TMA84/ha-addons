@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.36.4
+
+- 3D-Fortschritt: Z-Spindeln mit echtem Gewinde, drehen mit der Höhe; detaillierte Riemenrollen und GT2-Motorritzel; Eckwagen an den Y-Schienen mit den Umlenkrollen darin
+
 ## 10.36.2
 
 - 3D-Fortschritt: Z-Spindeln, seitliche Riemen und Motoren kollidieren nicht mehr mit dem Druckkopf; Seitendüse auf Höhe der Druckkopf-Düse
