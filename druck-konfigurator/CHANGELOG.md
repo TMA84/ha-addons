@@ -1,5 +1,13 @@
 # Changelog
 
+## 10.27.3
+
+- Warteschlange wird sofort angelegt (Platten im Hintergrund gesichert), mit Rückmeldung am Knopf
+- „Änderungen für alle Teile“ standardmäßig an
+- Behoben: weitere Orca-Einstellungen (z. B. Stützen-Typ) wirkten nicht im Objekt
+- Stützen: „Stützen bis Neigung (zur Waagerechten)“ verständlich beschriftet, neu „Kleine Überhänge weglassen“
+- 3D-Fortschritt: Druckkopf leicht durchsichtig
+
 ## 10.27.2
 
 - Behoben: schräge Überhänge über dem Grenzwinkel bekamen keine Stützen – „Nur kritische Bereiche“ ist als Vorschlag jetzt aus
