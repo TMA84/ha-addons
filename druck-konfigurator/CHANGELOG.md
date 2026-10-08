@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.37.0
+
+- 3D-Fortschritt: Z-Antrieb unten im Gehäuse – Motor und Zahnriemen über die Ritzel der drei Spindeln, läuft mit der Höhe mit
+
 ## 10.36.7
 
 - 3D-Fortschritt: Riemen läuft im Bogen um die Rollen (statt 90°-Ecken), Umlenkrollen mit Zähnen
