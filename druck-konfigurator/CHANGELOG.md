@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.34.4
+
+- 3D-Fortschritt: Schleppkette als waagerechter Bogen über links, Filamentschlauch hängt links an der Kette (vorher überschnitten sie sich)
+
 ## 10.34.2
 
 - 3D-Fortschritt: Gehäuselüfter mit sichtbarem Rad und Gitter, Abluft als Kegel zum Lüfter und Strahl nach draußen
