@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.36.7
+
+- 3D-Fortschritt: Riemen läuft im Bogen um die Rollen (statt 90°-Ecken), Umlenkrollen mit Zähnen
+
 ## 10.36.6
 
 - 3D-Fortschritt: Z-Spindeln laufen in jeder Höhe durch die Messingmuttern, ohne den Druckkopf zu berühren
