@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.35.0
+
+- Pausengrund in der Werkbank und als Sensor „Pausengrund“; neues Ereignis „Druck-Ereignis“ (pausiert mit Grund, fortgesetzt, fertig, abgebrochen) für Handy-Benachrichtigungen – Beispiel im Handbuch
+
 ## 10.34.4
 
 - 3D-Fortschritt: Schleppkette als waagerechter Bogen über links, Filamentschlauch hängt links an der Kette (vorher überschnitten sie sich)
