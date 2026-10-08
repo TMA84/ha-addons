@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.27.2
+
+- Behoben: schräge Überhänge über dem Grenzwinkel bekamen keine Stützen – „Nur kritische Bereiche“ ist als Vorschlag jetzt aus
+
 ## 10.27.1
 
 - 3D-Fortschritt: Stangen silbern, die zwei X-Stangen übereinander, drei Z-Spindeln (hinten Mitte, vorne links/rechts) – wie am Kobra S1
