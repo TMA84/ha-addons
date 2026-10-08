@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.27.1
+
+- 3D-Fortschritt: Stangen silbern, die zwei X-Stangen übereinander, drei Z-Spindeln (hinten Mitte, vorne links/rechts) – wie am Kobra S1
+
 ## 10.27.0
 
 - 3D-Fortschritt als Nachbildung des Kobra S1: weißer Kopf mit orangem Streifen, Kupferstangen, blaue Motoren, Rahmen mit Z-Spindeln, PEI-Platte
