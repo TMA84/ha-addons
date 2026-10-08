@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.30.0
+
+- Höchstwerte je Drucker: Geschwindigkeit und Beschleunigung aus dem Orca-Profil (Kobra S1 600 mm/s, 20 000 mm/s²) werden nie überschritten – auch nicht durch Anpassungen; eigene Höchstwerte im Reiter Tempo
+
 ## 10.29.0
 
 - Anordnen nach echter Grundfläche: Rahmen, Winkel und Dreiecke werden ineinander gelegt (auch 180° gedreht) statt je eine eigene Platte – z. B. 5 statt 9 Platten; Draufsicht zeigt die Umrisse
