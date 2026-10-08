@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.39.4
+
+- 3D-Fortschritt: ACE-Einzug von unten, Schlauch von der Zusammenführung zum Kopf, Gehäuse und ACE standardmäßig an, Hauben besser sichtbar, Zoom auf alles beim Laden
+
 ## 10.39.3
 
 - 3D-Fortschritt: Restmengen in Gramm vorn auf der ACE-Front
