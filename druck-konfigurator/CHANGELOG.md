@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.39.5
+
+- 3D-Fortschritt: Zoom auf alles auch beim ersten Laden in Home Assistant
+
 ## 10.39.4
 
 - 3D-Fortschritt: ACE-Einzug von unten, Schlauch von der Zusammenführung zum Kopf, Gehäuse und ACE standardmäßig an, Hauben besser sichtbar, Zoom auf alles beim Laden
