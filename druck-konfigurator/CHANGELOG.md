@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.39.11
+
+- 3D-Fortschritt: ACE-Front mit heller Leiste und orangen Einlässen vor den Spulen
+
 ## 10.39.10
 
 - 3D-Fortschritt: Sammler von hinten gesehen links, gleichmäßige Schlauchbögen vom ACE, ACE-Einzug vorn oben über eine Führung je Slot
