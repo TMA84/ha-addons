@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.39.8
+
+- 3D-Fortschritt: Zusammenführung weiter links in der oberen Hälfte, Schlauch im 90°-Bogen durch die Rückwand zur Kette, kein Flimmern an der ACE-Haube
+
 ## 10.39.6
 
 - 3D-Fortschritt: frontale Startansicht, Zusammenführung von unten, Schlauch am Stück bis zum Kopf, ACE-Einzug vor den Rollen
