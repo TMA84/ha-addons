@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.34.2
+
+- 3D-Fortschritt: Gehäuselüfter mit sichtbarem Rad und Gitter, Abluft als Kegel zum Lüfter und Strahl nach draußen
+
 ## 10.34.1
 
 - 3D-Fortschritt: Abluft des Gehäuselüfters sichtbar durchs Gitter nach draußen
