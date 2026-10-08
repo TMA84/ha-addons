@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.33.0
+
+- 3D-Fortschritt: gedruckte Bahnen sofort in Filamentfarbe, Riemen laufen physikalisch richtig, Proportionen wie beim Kobra S1 (Gehäuse, Motoren, Stangen)
+
 ## 10.32.1
 
 - 3D-Fortschritt: Motoren auf der Höhe ihres Riemens (rechts oben, links unten wie im Kobra S1)
