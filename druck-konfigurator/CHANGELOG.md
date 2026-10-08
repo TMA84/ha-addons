@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.38.2
+
+- 3D-Fortschritt: XY-Motoren unter den Riemen, Seitendüse näher an der Wand (keine Kollision mit dem Kopf)
+
 ## 10.38.1
 
 - 3D-Fortschritt: Eckrollen sitzen in Gehäusen
