@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.33.3
+
+- 3D-Fortschritt: Druckkopf höher (Riemen enden im Kopf), orangener Ring von allen Seiten sichtbar, Filament bis zur Düsenspitze, Z-Spindeln am Druckbett mit Haltern
+
 ## 10.33.0
 
 - 3D-Fortschritt: gedruckte Bahnen sofort in Filamentfarbe, Riemen laufen physikalisch richtig, Proportionen wie beim Kobra S1 (Gehäuse, Motoren, Stangen)
