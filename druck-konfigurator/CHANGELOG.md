@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.35.1
+
+- 3D-Fortschritt: Seitenlüfter tiefer an der Wand, Kanal hoch zur Düse auf Kopfhöhe
+
 ## 10.35.0
 
 - Pausengrund in der Werkbank und als Sensor „Pausengrund“; neues Ereignis „Druck-Ereignis“ (pausiert mit Grund, fortgesetzt, fertig, abgebrochen) für Handy-Benachrichtigungen – Beispiel im Handbuch
