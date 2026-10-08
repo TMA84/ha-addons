@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.39.2
+
+- 3D-Fortschritt: ACE neben dem Drucker mit klarer Haube; Restmenge an den Spulen (Wickeldicke und Gramm, rot unter 200 g)
+
 ## 10.39.0
 
 - 3D-Fortschritt: Gehäuse (Glastür, Glasdeckel) und ACE-Einheiten mit Spulen in Slotfarbe und Schläuchen zuschaltbar (Schalter unten links)
