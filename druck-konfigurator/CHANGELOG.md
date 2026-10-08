@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.36.0
+
+- Mehr Werte in Home Assistant: Zieltemperaturen, drei Lüfter (%), Druckgeschwindigkeit, Druckdauer bisher, Filament dieses Drucks, Licht, ACE-Temperatur und Trocknen
+
 ## 10.35.2
 
 - 3D-Fortschritt: Ansaugung des Seitenlüfters aus dem Bauraum
