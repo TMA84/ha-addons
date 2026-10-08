@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.39.10
+
+- 3D-Fortschritt: Sammler von hinten gesehen links, gleichmäßige Schlauchbögen vom ACE, ACE-Einzug vorn oben über eine Führung je Slot
+
 ## 10.39.8
 
 - 3D-Fortschritt: Zusammenführung weiter links in der oberen Hälfte, Schlauch im 90°-Bogen durch die Rückwand zur Kette, kein Flimmern an der ACE-Haube
