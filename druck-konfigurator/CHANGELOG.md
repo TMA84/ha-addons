@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.36.2
+
+- 3D-Fortschritt: Z-Spindeln, seitliche Riemen und Motoren kollidieren nicht mehr mit dem Druckkopf; Seitendüse auf Höhe der Druckkopf-Düse
+
 ## 10.36.1
 
 - Home Assistant: Licht zeigt An/Aus statt „Licht erkannt“
