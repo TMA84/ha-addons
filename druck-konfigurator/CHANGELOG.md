@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.32.0
+
+- 3D-Fortschritt: laufende Riemen (CoreXY bzw. Bettschubser), Schleppkette und Filamentschlauch in der Farbe der aktuellen Bahn
+
 ## 10.31.1
 
 - Höchstwerte ohne eigene Zeile: Tempo und Beschleunigung gehen nie über die Herstellerangabe; eine höhere Eingabe wird darauf gesetzt, das Feld sagt es
