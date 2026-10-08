@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.34.0
+
+- 3D-Fortschritt: Lüfter mit Luftstrom und drehenden Rädern (Bauteillüfter am Kopf, Hotend-Lüfter, Seitenlüfter rechts mit flacher Düse, Gehäuselüfter hinten) nach den gemeldeten Werten; Stangen und Riemen nach Foto des Kobra S1
+
 ## 10.33.3
 
 - 3D-Fortschritt: Druckkopf höher (Riemen enden im Kopf), orangener Ring von allen Seiten sichtbar, Filament bis zur Düsenspitze, Z-Spindeln am Druckbett mit Haltern
