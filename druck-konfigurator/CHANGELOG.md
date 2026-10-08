@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.39.14
+
+- 3D-Fortschritt: Display am Drucker mit Fortschritt in Prozent, Schicht und Restzeit
+
 ## 10.39.13
 
 - 3D-Fortschritt: Filament oben vom Wickel im Bogen senkrecht in den ACE-Einlass, 3D-Ansicht auch ohne Druckauftrag
