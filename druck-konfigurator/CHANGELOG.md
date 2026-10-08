@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.32.1
+
+- 3D-Fortschritt: Motoren auf der Höhe ihres Riemens (rechts oben, links unten wie im Kobra S1)
+
 ## 10.32.0
 
 - 3D-Fortschritt: laufende Riemen (CoreXY bzw. Bettschubser), Schleppkette und Filamentschlauch in der Farbe der aktuellen Bahn
