@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.39.0
+
+- 3D-Fortschritt: Gehäuse (Glastür, Glasdeckel) und ACE-Einheiten mit Spulen in Slotfarbe und Schläuchen zuschaltbar (Schalter unten links)
+
 ## 10.38.2
 
 - 3D-Fortschritt: XY-Motoren unter den Riemen, Seitendüse näher an der Wand (keine Kollision mit dem Kopf)
