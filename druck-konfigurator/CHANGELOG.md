@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.39.13
+
+- 3D-Fortschritt: Filament oben vom Wickel im Bogen senkrecht in den ACE-Einlass, 3D-Ansicht auch ohne Druckauftrag
+
 ## 10.39.12
 
 - 3D-Fortschritt: Filament senkrecht von oben in den ACE-Einlass, weite Schlauchbögen ohne Knick am Sammler
