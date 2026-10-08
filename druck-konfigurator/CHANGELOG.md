@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.36.5
+
+- 3D-Fortschritt: Riemen liegt außen an den Rollen an (statt mittig hindurch), Eckwagen umfasst die X-Stangen
+
 ## 10.36.4
 
 - 3D-Fortschritt: Z-Spindeln mit echtem Gewinde, drehen mit der Höhe; detaillierte Riemenrollen und GT2-Motorritzel; Eckwagen an den Y-Schienen mit den Umlenkrollen darin
