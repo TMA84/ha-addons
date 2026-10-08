@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.38.0
+
+- 3D-Fortschritt: XY-Riemenlauf wie beim Kobra S1 (Omega-Umschlingung am Motor, Umkehrrolle vorn, einzelner Strang gegenüber), Motoren oben auf dem Rahmen, Endblöcke der Y-Stangen und Lagerböcke der Z-Spindeln am Rahmen
+
 ## 10.37.2
 
 - 3D-Fortschritt: Z-Motor mit abgerundeten Kanten, kein schwarzer Balken mehr am Seitenlüfter (Düsenöffnung waagerecht), hellerer Hintergrund im dunklen Design
