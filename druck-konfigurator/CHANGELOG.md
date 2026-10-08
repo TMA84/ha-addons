@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.39.3
+
+- 3D-Fortschritt: Restmengen in Gramm vorn auf der ACE-Front
+
 ## 10.39.2
 
 - 3D-Fortschritt: ACE neben dem Drucker mit klarer Haube; Restmenge an den Spulen (Wickeldicke und Gramm, rot unter 200 g)
