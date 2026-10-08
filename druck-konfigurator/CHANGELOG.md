@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.29.0
+
+- Anordnen nach echter Grundfläche: Rahmen, Winkel und Dreiecke werden ineinander gelegt (auch 180° gedreht) statt je eine eigene Platte – z. B. 5 statt 9 Platten; Draufsicht zeigt die Umrisse
+
 ## 10.28.0
 
 - Weitere Anycubic mit LAN-Modus (experimentell): Kobra S1 Max, Kobra 3 / Combo / Max, Kobra X – Drucken, Werkbank, ACE, Warteschlange; 3D-Fortschritt je Bauart (CoreXY oder Bettschubser); Senden sperrt bei falschem Modell
