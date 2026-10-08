@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.37.2
+
+- 3D-Fortschritt: Z-Motor mit abgerundeten Kanten, kein schwarzer Balken mehr am Seitenlüfter (Düsenöffnung waagerecht), hellerer Hintergrund im dunklen Design
+
 ## 10.37.0
 
 - 3D-Fortschritt: Z-Antrieb unten im Gehäuse – Motor und Zahnriemen über die Ritzel der drei Spindeln, läuft mit der Höhe mit
