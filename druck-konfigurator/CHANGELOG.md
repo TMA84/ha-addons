@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.31.1
+
+- Höchstwerte ohne eigene Zeile: Tempo und Beschleunigung gehen nie über die Herstellerangabe; eine höhere Eingabe wird darauf gesetzt, das Feld sagt es
+
 ## 10.31.0
 
 - Anordnen: Abstand zählt ab dem Brim, Berechnung im Hintergrund (Seite bleibt bedienbar), schräg in 45°-Schritten, wenn es eine Platte spart
