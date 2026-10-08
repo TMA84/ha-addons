@@ -1,5 +1,10 @@
 # Changelog
 
+## 10.28.0
+
+- Weitere Anycubic mit LAN-Modus (experimentell): Kobra S1 Max, Kobra 3 / Combo / Max, Kobra X – Drucken, Werkbank, ACE, Warteschlange; 3D-Fortschritt je Bauart (CoreXY oder Bettschubser); Senden sperrt bei falschem Modell
+- Behoben: „Slice-Auftrag nicht (mehr) vorhanden“ nach Add-on-Neustart – Aufträge liegen jetzt in /data, fehlt einer, wird neu geslict
+
 ## 10.27.3
 
 - Warteschlange wird sofort angelegt (Platten im Hintergrund gesichert), mit Rückmeldung am Knopf
