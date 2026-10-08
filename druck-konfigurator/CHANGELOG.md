@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.36.6
+
+- 3D-Fortschritt: Z-Spindeln laufen in jeder Höhe durch die Messingmuttern, ohne den Druckkopf zu berühren
+
 ## 10.36.5
 
 - 3D-Fortschritt: Riemen liegt außen an den Rollen an (statt mittig hindurch), Eckwagen umfasst die X-Stangen
