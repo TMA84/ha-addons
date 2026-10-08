@@ -1,5 +1,11 @@
 # Changelog
 
+## 10.31.0
+
+- Anordnen: Abstand zählt ab dem Brim, Berechnung im Hintergrund (Seite bleibt bedienbar), schräg in 45°-Schritten, wenn es eine Platte spart
+- Warteschlange: Hinweis, wenn das Projekt jetzt weniger Platten braucht, mit „Warteschlange neu anlegen“
+- Eingabefehler am Formular statt Browser-Popup; eigenes Hotend-Maximum (Volumenstrom) je Drucker
+
 ## 10.30.0
 
 - Höchstwerte je Drucker: Geschwindigkeit und Beschleunigung aus dem Orca-Profil (Kobra S1 600 mm/s, 20 000 mm/s²) werden nie überschritten – auch nicht durch Anpassungen; eigene Höchstwerte im Reiter Tempo
