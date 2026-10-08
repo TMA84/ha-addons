@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.39.12
+
+- 3D-Fortschritt: Filament senkrecht von oben in den ACE-Einlass, weite Schlauchbögen ohne Knick am Sammler
+
 ## 10.39.11
 
 - 3D-Fortschritt: ACE-Front mit heller Leiste und orangen Einlässen vor den Spulen
