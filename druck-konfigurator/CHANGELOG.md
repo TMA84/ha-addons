@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.40.2
+
+- Dashboard-Karte Druckwerkstatt 3D füllt die ganze Kachel (Handy, Panel-Ansicht)
+
 ## 10.40.1
 
 - Dashboard-Karte custom:druckwerkstatt-card (3D-Fortschritt ohne Admin-Rechte), legt das Add-on unter /local/druckwerkstatt/ ab (homeassistant_config)
