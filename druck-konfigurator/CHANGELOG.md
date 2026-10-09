@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.41.1
+
+- 3D-Fortschritt: ACE in Bewegung (aktive Spule dreht, Einlass leuchtet, Trocknen sichtbar) und Filamentfluss als wandernde Leuchtstreifen vom Spulenwickel bis zum Drucker (enthält 10.41.0)
+
 ## 10.40.4
 
 - Dashboard-Karte Druckwerkstatt 3D: CSS-Zoom der Oberfläche (z. B. global-mod) für die 3D-Ansicht aufheben, füllt die Kachel auf dem iPhone
