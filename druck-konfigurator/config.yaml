@@ -19,6 +19,10 @@ panel_title: "Druckwerkstatt"
 # Für alle Benutzer: ohne Admin-Rechte nur der 3D-Fortschritt (die Rechte fragt das Add-on über homeassistant_api ab)
 panel_admin: false
 homeassistant_api: true
+# nur für die Dashboard-Karte: legt www/druckwerkstatt/druckwerkstatt-card.js im HA-Konfigurationsordner ab
+map:
+  - type: homeassistant_config
+    read_only: false
 # Optional direkt im Heimnetz (z. B. http://homeassistant.local:8765/) – in den Add-on-Einstellungen freigeben
 ports:
   8765/tcp: null

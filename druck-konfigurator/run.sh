@@ -49,6 +49,15 @@ elif [ "$MQTT_ENABLED" != "true" ]; then
   echo "MQTT: in den Add-on-Einstellungen ausgeschaltet"
 fi
 
+# Dashboard-Karte „Druckwerkstatt 3D“ (custom:druckwerkstatt-card) nach /local/druckwerkstatt/ – Fehler verhindern den Start nie
+if [ -d /homeassistant ] && [ -f /app/ha/druckwerkstatt-card.js ]; then
+  if mkdir -p /homeassistant/www/druckwerkstatt 2>/dev/null && cp /app/ha/druckwerkstatt-card.js /homeassistant/www/druckwerkstatt/druckwerkstatt-card.js 2>/dev/null; then
+    echo "Dashboard-Karte: /local/druckwerkstatt/druckwerkstatt-card.js"
+  else
+    echo "Dashboard-Karte: konnte nicht nach /homeassistant/www kopiert werden"
+  fi
+fi
+
 echo "Druck-Konfigurator startet (Port 8765, Ingress)${KONFIGURATOR_PRINTER:+ – Drucker $KONFIGURATOR_PRINTER}"
 cd /app
 exec python tools/serve.py
