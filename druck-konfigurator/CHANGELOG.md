@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.40.1
+
+- Dashboard-Karte custom:druckwerkstatt-card (3D-Fortschritt ohne Admin-Rechte), legt das Add-on unter /local/druckwerkstatt/ ab (homeassistant_config)
+
 ## 10.40.0
 
 - Panel für alle Benutzer: ohne Admin-Rechte nur der 3D-Fortschritt (panel_admin: false, homeassistant_api: true)
