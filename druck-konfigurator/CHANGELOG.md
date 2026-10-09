@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.40.4
+
+- Dashboard-Karte Druckwerkstatt 3D: CSS-Zoom der Oberfläche (z. B. global-mod) für die 3D-Ansicht aufheben, füllt die Kachel auf dem iPhone
+
 ## 10.40.3
 
 - Dashboard-Karte Druckwerkstatt 3D: 3D-Ansicht füllt die Kachel auch auf dem iPhone
