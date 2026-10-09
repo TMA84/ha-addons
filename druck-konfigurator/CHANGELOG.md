@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.42.5
+
+- Werkbank: Lichtschalter springt nicht mehr zurück, Schiebeschalter unter den Lüftern; 3D-Fortschritt: echte Kopfposition immer an, Statuszeile entfernt (enthält 10.42.2–10.42.4)
+
 ## 10.42.1
 
 - 3D-Fortschritt: Schichtzeile überdeckt in schmaler Ansicht nicht mehr die Häkchen
