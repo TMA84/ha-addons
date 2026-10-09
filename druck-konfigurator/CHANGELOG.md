@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.42.0
+
+- 3D-Fortschritt: Hitze, Gehäuselicht, Farbwechsel und Pause/Fehler/Fertig sichtbar
+
 ## 10.41.2
 
 - 3D-Fortschritt: Filamentfluss bis in den Druckkopf
