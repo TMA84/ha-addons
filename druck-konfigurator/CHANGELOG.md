@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.42.1
+
+- 3D-Fortschritt: Schichtzeile überdeckt in schmaler Ansicht nicht mehr die Häkchen
+
 ## 10.42.0
 
 - 3D-Fortschritt: Hitze, Gehäuselicht, Farbwechsel und Pause/Fehler/Fertig sichtbar
