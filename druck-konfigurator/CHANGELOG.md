@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.39.15
+
+- Druck senden: veraltete Upload-Adresse nach Neustart des Druckers wird frisch geholt
+
 ## 10.39.14
 
 - 3D-Fortschritt: Display am Drucker mit Fortschritt in Prozent, Schicht und Restzeit
