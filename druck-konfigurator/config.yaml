@@ -16,6 +16,9 @@ ingress: true
 ingress_port: 8765
 panel_icon: mdi:printer-3d
 panel_title: "Druckwerkstatt"
+# Für alle Benutzer: ohne Admin-Rechte nur der 3D-Fortschritt (die Rechte fragt das Add-on über homeassistant_api ab)
+panel_admin: false
+homeassistant_api: true
 # Optional direkt im Heimnetz (z. B. http://homeassistant.local:8765/) – in den Add-on-Einstellungen freigeben
 ports:
   8765/tcp: null
