@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.40.0
+
+- Panel für alle Benutzer: ohne Admin-Rechte nur der 3D-Fortschritt (panel_admin: false, homeassistant_api: true)
+
 ## 10.39.15
 
 - Druck senden: veraltete Upload-Adresse nach Neustart des Druckers wird frisch geholt
