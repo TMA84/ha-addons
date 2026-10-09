@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.40.3
+
+- Dashboard-Karte Druckwerkstatt 3D: 3D-Ansicht füllt die Kachel auch auf dem iPhone
+
 ## 10.40.2
 
 - Dashboard-Karte Druckwerkstatt 3D füllt die ganze Kachel (Handy, Panel-Ansicht)
