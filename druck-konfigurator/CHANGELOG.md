@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.41.2
+
+- 3D-Fortschritt: Filamentfluss bis in den Druckkopf
+
 ## 10.41.1
 
 - 3D-Fortschritt: ACE in Bewegung (aktive Spule dreht, Einlass leuchtet, Trocknen sichtbar) und Filamentfluss als wandernde Leuchtstreifen vom Spulenwickel bis zum Drucker (enthält 10.41.0)
