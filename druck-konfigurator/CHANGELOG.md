@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.42.6
+
+- Licht bleibt aus, auch wenn der Drucker es nach dem Ausschalten oder für die Kamera wieder einschaltet (#1)
+
 ## 10.42.5
 
 - Werkbank: Lichtschalter springt nicht mehr zurück, Schiebeschalter unter den Lüftern; 3D-Fortschritt: echte Kopfposition immer an, Statuszeile entfernt (enthält 10.42.2–10.42.4)
