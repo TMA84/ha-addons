@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.42.7
+
+- Bemalte 3MF: Farben des Designers direkt in der Teilekarte umstellen, mit Flächenanteil
+
 ## 10.42.6
 
 - Licht bleibt aus, auch wenn der Drucker es nach dem Ausschalten oder für die Kamera wieder einschaltet (#1)
