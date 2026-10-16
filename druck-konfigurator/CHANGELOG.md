@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.42.9
+
+- 3D-Fortschritt: Lüfter drehen weiter, auch wenn der Kopf zwischen zwei Meldungen steht
+
 ## 10.42.8
 
 - Licht nach dem Kamerastart sofort wieder aus (#1)
