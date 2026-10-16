@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.42.8
+
+- Licht nach dem Kamerastart sofort wieder aus (#1)
+
 ## 10.42.7
 
 - Bemalte 3MF: Farben des Designers direkt in der Teilekarte umstellen, mit Flächenanteil
