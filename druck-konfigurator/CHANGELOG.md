@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.43.0
+
+- OBJ öffnen und fertigen G-Code drucken (Werkzeug → ACE-Slot frei wählbar)
+
 ## 10.42.9
 
 - 3D-Fortschritt: Lüfter drehen weiter, auch wenn der Kopf zwischen zwei Meldungen steht
