@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.45.2
+
+- Kein erneutes „Druck fertig“ in Home Assistant nach einem Update der App
+
 ## 10.45.1
 
 - Intern: 3D-Ansicht und 3MF-Export in kleinere Dateien aufgeteilt
