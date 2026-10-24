@@ -21,5 +21,11 @@ configuration:
     description: >-
       PIN (4–32 Zeichen) für den direkten Zugriff über Port 8765 im Heimnetz. Leer lassen = kein Schutz.
       Über die Seitenleiste (Ingress) fragt das Tool keine PIN ab – dort schützt die Home-Assistant-Anmeldung.
+  allowed_hosts:
+    name: Weitere Servernamen (direkter Port)
+    description: >-
+      Nur nötig, wenn du den direkten Port 8765 ohne PIN über einen eigenen Namen aufrufst, z. B. hinter einem
+      Reverse-Proxy (drucker.example.de). Mit Komma getrennt. IP-Adressen, Namen ohne Punkt und Heimnetz-Namen
+      (.local, .lan, .fritz.box, .home.arpa, .internal) gehen immer; die Seitenleiste (Ingress) ist nicht betroffen.
 network:
   8765/tcp: Direkter Zugriff ohne Home Assistant (optional)

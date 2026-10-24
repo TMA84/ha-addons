@@ -21,5 +21,11 @@ configuration:
     description: >-
       PIN (4–32 characters) for direct access via port 8765 on your network. Leave empty for no protection.
       The sidebar (ingress) never asks for the PIN – Home Assistant's login protects it.
+  allowed_hosts:
+    name: Additional host names (direct port)
+    description: >-
+      Only needed if you open the direct port 8765 without a PIN through your own host name, e.g. behind a reverse
+      proxy (printer.example.com). Comma-separated. IP addresses, names without a dot and home-network names
+      (.local, .lan, .fritz.box, .home.arpa, .internal) always work; the sidebar (ingress) is not affected.
 network:
   8765/tcp: Direct access without Home Assistant (optional)

@@ -2,6 +2,7 @@
 # Start des Druck-Konfigurators im Add-on. Optionen aus /data/options.json (Home Assistant):
 #   printer_ip   – IP-Adresse des Kobra S1 (LAN-Modus); die Seite übernimmt sie, die Filamentverwaltung zählt ab dem Start.
 #   access_pin   – PIN für den direkten Zugriff über Port 8765 (leer = kein Schutz); Ingress schützt Home Assistant.
+#   allowed_hosts – weitere Servernamen für den direkten Port ohne PIN (KONFIGURATOR_ALLOWED_HOSTS, mit Komma getrennt).
 #   mqtt_control – Knöpfe „Druck pausieren/fortsetzen“ in Home Assistant (Standard aus; nie Abbrechen).
 #   mqtt_enabled – Stand an Home Assistant über MQTT (Discovery). Zugangsdaten zum Broker (z. B. Mosquitto-Add-on)
 #                  holt das Skript vom Supervisor (services: mqtt:want); ohne MQTT-Add-on bleibt MQTT einfach aus.
@@ -18,6 +19,13 @@ if [ -f /data/options.json ]; then
     echo "Zugriffsschutz: PIN für den direkten Port 8765 aktiv"
   else
     unset KONFIGURATOR_PIN
+  fi
+  KONFIGURATOR_ALLOWED_HOSTS=$(python3 -c "import json; print((json.load(open('/data/options.json')).get('allowed_hosts') or '').strip())" || true)
+  if [ -n "$KONFIGURATOR_ALLOWED_HOSTS" ]; then
+    export KONFIGURATOR_ALLOWED_HOSTS
+    echo "Zusätzliche Servernamen: $KONFIGURATOR_ALLOWED_HOSTS"
+  else
+    unset KONFIGURATOR_ALLOWED_HOSTS
   fi
   MQTT_ENABLED=$(python3 -c "import json; print('false' if json.load(open('/data/options.json')).get('mqtt_enabled') is False else 'true')" || echo true)
   MQTT_CONTROL=$(python3 -c "import json; print('true' if json.load(open('/data/options.json')).get('mqtt_control') is True else 'false')" || echo false)

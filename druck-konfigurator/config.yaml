@@ -36,6 +36,7 @@ options:
   mqtt_enabled: true
   mqtt_control: false
   access_pin: ""
+  allowed_hosts: ""
 schema:
   printer_ip: "str?"
   mqtt_enabled: bool
@@ -43,3 +44,5 @@ schema:
   mqtt_control: bool?
   # PIN für den optionalen direkten Port 8765 (Ingress bleibt durch die HA-Anmeldung geschützt)
   access_pin: "password?"
+  # weitere Servernamen für den direkten Port ohne PIN (z. B. hinter einem Reverse-Proxy), mit Komma getrennt
+  allowed_hosts: "str?"
