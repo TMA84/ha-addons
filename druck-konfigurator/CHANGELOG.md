@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.45.0
+
+- „Später starten“ für G-Code, großer Import im Hintergrund, Uploads direkt auf die Platte, Option „Weitere Servernamen“, Code-Prüfung in der CI
+
 ## 10.44.2
 
 - Kein erneutes „Druck fertig“ in Home Assistant nach Neustart der App
