@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.46.0
+
+- Sicherung & Umzug, Druckzeit lernt aus der Historie, Wartungszähler, Kostenrechnung ohne Einfrieren
+
 ## 10.45.2
 
 - Kein erneutes „Druck fertig“ in Home Assistant nach einem Update der App
