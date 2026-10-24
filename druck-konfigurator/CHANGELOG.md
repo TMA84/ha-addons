@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.45.1
+
+- Intern: 3D-Ansicht und 3MF-Export in kleinere Dateien aufgeteilt
+
 ## 10.45.0
 
 - „Später starten“ für G-Code, großer Import im Hintergrund, Uploads direkt auf die Platte, Option „Weitere Servernamen“, Code-Prüfung in der CI
