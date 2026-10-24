@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.46.1
+
+- Licht bleibt aus beim Neuladen der Kamera
+
 ## 10.46.0
 
 - Sicherung & Umzug, Druckzeit lernt aus der Historie, Wartungszähler, Kostenrechnung ohne Einfrieren
