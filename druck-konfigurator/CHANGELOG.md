@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.44.0
+
+- Code-Review: Druck-Sicherheit (Neuverbinden, Doppelstart, geplanter Druck), Server-Härtung, robuste Oberfläche, schnellere 3D-Ansichten
+
 ## 10.43.0
 
 - OBJ öffnen und fertigen G-Code drucken (Werkzeug → ACE-Slot frei wählbar)
