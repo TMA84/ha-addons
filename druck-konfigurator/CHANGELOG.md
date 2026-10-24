@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.44.1
+
+- Warteschlange wird nach der letzten Platte automatisch geleert
+
 ## 10.44.0
 
 - Code-Review: Druck-Sicherheit (Neuverbinden, Doppelstart, geplanter Druck), Server-Härtung, robuste Oberfläche, schnellere 3D-Ansichten
