@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.44.2
+
+- Kein erneutes „Druck fertig“ in Home Assistant nach Neustart der App
+
 ## 10.44.1
 
 - Warteschlange wird nach der letzten Platte automatisch geleert
