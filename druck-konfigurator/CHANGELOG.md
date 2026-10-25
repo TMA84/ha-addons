@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.47.0
+
+- Neue Werkbank-Karte „Nivellierung“ (Bed Mesh in 3D, mit Rinkhals)
+
 ## 10.46.4
 
 - Kamera wird nach dem Druck gestoppt, wenn niemand zusieht
