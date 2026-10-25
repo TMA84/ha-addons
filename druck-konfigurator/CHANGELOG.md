@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.46.3
+
+- Druckhistorie: richtige Dauer, auch wenn der Drucker nach dem Druck ausgeschaltet wird
+
 ## 10.46.2
 
 - 3D-Ansicht zeigt die Farbe des echten ACE-Slots
