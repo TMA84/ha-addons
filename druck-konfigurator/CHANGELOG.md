@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.46.4
+
+- Kamera wird nach dem Druck gestoppt, wenn niemand zusieht
+
 ## 10.46.3
 
 - Druckhistorie: richtige Dauer, auch wenn der Drucker nach dem Druck ausgeschaltet wird
