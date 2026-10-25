@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.47.1
+
+- Kamera mit Rinkhals: 720p MJPEG, Licht bleibt unberührt
+
 ## 10.47.0
 
 - Neue Werkbank-Karte „Nivellierung“ (Bed Mesh in 3D, mit Rinkhals)
