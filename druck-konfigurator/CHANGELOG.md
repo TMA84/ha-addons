@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.46.2
+
+- 3D-Ansicht zeigt die Farbe des echten ACE-Slots
+
 ## 10.46.1
 
 - Licht bleibt aus beim Neuladen der Kamera
