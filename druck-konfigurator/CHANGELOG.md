@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.47.2
+
+- Rinkhals-Kamera geht jetzt auch in Home Assistant (Einzelbilder statt multipart, das HA komprimierte)
+
 ## 10.47.1
 
 - Kamera mit Rinkhals: 720p MJPEG, Licht bleibt unberührt
