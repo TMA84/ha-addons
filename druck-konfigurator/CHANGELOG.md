@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.47.6
+
+- Neuer Druck zeigt in der Vorbereitung 0 % statt 100 %; „Neue Platte“ nimmt die Kopien mit
+
 ## 10.47.4
 
 - Kamera flackert in Home Assistant nicht mehr (Leinwand statt wechselndem Bild)
