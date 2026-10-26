@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.47.3
+
+- Pausengrund bei Verstopfung verständlich statt chinesischer Firmware-Meldung
+
 ## 10.47.2
 
 - Rinkhals-Kamera geht jetzt auch in Home Assistant (Einzelbilder statt multipart, das HA komprimierte)
