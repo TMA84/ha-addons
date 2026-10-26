@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.47.4
+
+- Kamera flackert in Home Assistant nicht mehr (Leinwand statt wechselndem Bild)
+
 ## 10.47.3
 
 - Pausengrund bei Verstopfung verständlich statt chinesischer Firmware-Meldung
