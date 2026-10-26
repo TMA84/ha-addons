@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.48.0
+
+- 3D-Fortschritt: neuer Schalter „Kopf folgen“ – nah an der Düse, fährt mit dem Druckkopf mit
+
 ## 10.47.6
 
 - Neuer Druck zeigt in der Vorbereitung 0 % statt 100 %; „Neue Platte“ nimmt die Kopien mit
