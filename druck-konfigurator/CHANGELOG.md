@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.49.0
+
+- Druckwerte je Platte: Schichthöhe, Temperaturen, Tempo … für jede Platte eigen
+
 ## 10.48.0
 
 - 3D-Fortschritt: neuer Schalter „Kopf folgen“ – nah an der Düse, fährt mit dem Druckkopf mit
