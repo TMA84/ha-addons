@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.51.0
+
+- Nivellierung: Jetzt vermessen
+
 ## 10.50.1
 
 - Schrauben-Schätzung am inneren Quadrat
