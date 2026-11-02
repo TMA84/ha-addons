@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.52.0
+
+- PID-Abgleich des Heizbetts, Netz nach Jetzt vermessen korrekt
+
 ## 10.51.0
 
 - Nivellierung: Jetzt vermessen
