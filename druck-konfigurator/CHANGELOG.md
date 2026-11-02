@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.52.1
+
+- PID-Abgleich entfernt (Firmware liefert kein Ergebnis)
+
 ## 10.52.0
 
 - PID-Abgleich des Heizbetts, Netz nach Jetzt vermessen korrekt
