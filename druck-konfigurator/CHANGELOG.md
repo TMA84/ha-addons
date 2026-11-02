@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.50.0
+
+- Nivellierung mit früheren Messungen vergleichen, Schrauben-Schätzung je Ecke
+
 ## 10.49.0
 
 - Druckwerte je Platte: Schichthöhe, Temperaturen, Tempo … für jede Platte eigen
