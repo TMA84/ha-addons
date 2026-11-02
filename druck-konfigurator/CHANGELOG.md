@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.53.2
+
+- 3D-Fortschritt: Zurückziehen und Laden beim Farbwechsel folgen dem echten Ablauf der ACE
+
 ## 10.53.1
 
 - Farbwechsel der ACE in Werkbank, 3D-Display und Home Assistant anzeigen (ab dem ersten Moment); ACE-Kacheln verschwinden beim Wechsel nicht mehr
