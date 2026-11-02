@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.50.1
+
+- Schrauben-Schätzung am inneren Quadrat
+
 ## 10.50.0
 
 - Nivellierung mit früheren Messungen vergleichen, Schrauben-Schätzung je Ecke
