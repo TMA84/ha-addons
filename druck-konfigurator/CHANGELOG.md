@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.53.1
+
+- Farbwechsel der ACE in Werkbank, 3D-Display und Home Assistant anzeigen (ab dem ersten Moment); ACE-Kacheln verschwinden beim Wechsel nicht mehr
+
 ## 10.52.1
 
 - PID-Abgleich entfernt (Firmware liefert kein Ergebnis)
