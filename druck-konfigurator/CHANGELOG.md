@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.54.1
+
+- Behoben: Große Modelle ließen sich über Home Assistant nicht slicen (Upload jetzt in Teilen)
+
 ## 10.54.0
 
 - Neu: Modell erstellen (Schild, Anhänger, QR-Schild, Lithophane, Logo aus Bild) und Teil schneiden
