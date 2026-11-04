@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.54.0
+
+- Neu: Modell erstellen (Schild, Anhänger, QR-Schild, Lithophane, Logo aus Bild) und Teil schneiden
+
 ## 10.53.2
 
 - 3D-Fortschritt: Zurückziehen und Laden beim Farbwechsel folgen dem echten Ablauf der ACE
