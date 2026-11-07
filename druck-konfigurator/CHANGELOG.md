@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.56.0
+
+- Druckbett wählbar: Alu-Bett 8 mm mit +5 °C und Vorwärmen
+
 ## 10.55.1
 
 - Überhangwinkel steuert jetzt die Stützen in Orca (größer = weniger)
