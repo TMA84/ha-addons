@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.57.0
+
+- Jetzt vermessen: Alu-Bett 10 min durchwärmen
+
 ## 10.56.0
 
 - Druckbett wählbar: Alu-Bett 8 mm mit +5 °C und Vorwärmen
