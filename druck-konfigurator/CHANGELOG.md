@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.57.1
+
+- 3D-Ansicht: Schlauch nach Farbwechsel wieder in der richtigen Farbe
+
 ## 10.57.0
 
 - Jetzt vermessen: Alu-Bett 10 min durchwärmen
