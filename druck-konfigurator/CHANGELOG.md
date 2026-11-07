@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.55.0
+
+- Nivellierung: Bezugsschraube wählbar (automatisch oder feste Ecke)
+
 ## 10.54.1
 
 - Behoben: Große Modelle ließen sich über Home Assistant nicht slicen (Upload jetzt in Teilen)
