@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.55.1
+
+- Überhangwinkel steuert jetzt die Stützen in Orca (größer = weniger)
+
 ## 10.55.0
 
 - Nivellierung: Bezugsschraube wählbar (automatisch oder feste Ecke)
