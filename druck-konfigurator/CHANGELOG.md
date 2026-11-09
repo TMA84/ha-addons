@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.58.0
+
+- Werkbank: Druckkopf-Grafik (Fluss, Speed, Farbwechsel, Laufzeit) – auch als HA-Karte mit ansicht: kopf
+
 ## 10.57.1
 
 - 3D-Ansicht: Schlauch nach Farbwechsel wieder in der richtigen Farbe
