@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.58.1
+
+- Druckkopf-Grafik in den Farben der Werkbank (hell/dunkel)
+
 ## 10.58.0
 
 - Werkbank: Druckkopf-Grafik (Fluss, Speed, Farbwechsel, Laufzeit) – auch als HA-Karte mit ansicht: kopf
