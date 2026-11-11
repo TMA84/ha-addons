@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.58.2
+
+- Geplanter Druck: Vorwärmen wird geprüft und bei Ablehnung wiederholt
+
 ## 10.58.1
 
 - Druckkopf-Grafik in den Farben der Werkbank (hell/dunkel)
