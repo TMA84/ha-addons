@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.60.0
+
+- Orca-Filamentprofil-Werte je Slot, Lüfter-Schwellen im Datenblatt
+
 ## 10.59.0
 
 - Druckkopf-Grafik: Druckzeit der Düse, darunter Gesamtzeit
