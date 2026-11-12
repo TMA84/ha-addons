@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.59.0
+
+- Druckkopf-Grafik: Druckzeit der Düse, darunter Gesamtzeit
+
 ## 10.58.2
 
 - Geplanter Druck: Vorwärmen wird geprüft und bei Ablehnung wiederholt
